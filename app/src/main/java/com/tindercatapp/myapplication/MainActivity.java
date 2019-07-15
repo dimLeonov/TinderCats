@@ -22,9 +22,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
-
+        //add the view via xml or programmatically
         al = new ArrayList<>();
         al.add("php");
         al.add("c");
@@ -36,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
         al.add("javascript");
 
         arrayAdapter = new ArrayAdapter<>(this, R.layout.item, R.id.helloText, al );
+
 
         SwipeFlingAdapterView flingContainer = (SwipeFlingAdapterView) findViewById(R.id.frame);
 
@@ -54,12 +53,12 @@ public class MainActivity extends AppCompatActivity {
                 //Do something on the left!
                 //You also have access to the original object.
                 //If you want to use it just cast it (String) dataObject
-                Toast.makeText(MainActivity.this,"left",Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "Left", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onRightCardExit(Object dataObject) {
-                Toast.makeText(MainActivity.this,"right",Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "Right", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -73,7 +72,6 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onScroll(float scrollProgressPercent) {
-
             }
         });
 
@@ -82,11 +80,9 @@ public class MainActivity extends AppCompatActivity {
         flingContainer.setOnItemClickListener(new SwipeFlingAdapterView.OnItemClickListener() {
             @Override
             public void onItemClicked(int itemPosition, Object dataObject) {
-                Toast.makeText(MainActivity.this,"click",Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "Item Clicked", Toast.LENGTH_SHORT).show();
             }
         });
 
     }
-
-
 }

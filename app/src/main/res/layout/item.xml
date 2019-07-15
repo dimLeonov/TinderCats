@@ -7,13 +7,13 @@
 
     <TextView
         android:id="@+id/helloText"
-        android:textSize="40sp"
-        android:textColor="@android:color/white"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:background="#E339"
         android:gravity="center"
-        tools:text="hello"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:textColor="@android:color/white"
+        android:textSize="40sp"
+        tools:text="hello" />
 
     <View
         android:id="@+id/item_swipe_left_indicator"

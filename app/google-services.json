@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "831360162595",
+    "firebase_url": "https://tindercats-749f9.firebaseio.com",
+    "project_id": "tindercats-749f9",
+    "storage_bucket": "tindercats-749f9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:831360162595:android:de57b858fb0faf5d",
+        "android_client_info": {
+          "package_name": "com.tindercatapp.myapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "831360162595-iktl5md3c20eah7locpsn8jfvmk3iufu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.tindercatapp.myapplication",
+            "certificate_hash": "c066b76412ef8ed9142259482db91320d9d4f80e"
+          }
+        },
+        {
+          "client_id": "831360162595-feu7n54brqc4p9nttamdas58tl85um40.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCsNGuTRQyIZf-i5C7z7NtLOhtuBBSqs9k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "831360162595-feu7n54brqc4p9nttamdas58tl85um40.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
