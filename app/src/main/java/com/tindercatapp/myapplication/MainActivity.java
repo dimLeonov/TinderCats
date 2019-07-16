@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //add the view via xml or programmatically
-        //new cooment
+
         mAuth = FirebaseAuth.getInstance();
 
         checkUserSex();
@@ -45,8 +45,8 @@ public class MainActivity extends AppCompatActivity {
         al = new ArrayList<>();
 
 
-        arrayAdapter = new ArrayAdapter<>(this, R.layout.item, R.id.helloText, al );
-
+        //arrayAdapter = new ArrayAdapter<>(this, R.layout.item, R.id.helloText, al );
+//
 
         SwipeFlingAdapterView flingContainer = (SwipeFlingAdapterView) findViewById(R.id.frame);
 
