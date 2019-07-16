@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //add the view via xml or programmatically
-
+        //new cooment
         mAuth = FirebaseAuth.getInstance();
 
         checkUserSex();
