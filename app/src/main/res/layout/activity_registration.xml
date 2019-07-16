@@ -4,15 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RegistrationActivity"
+    tools:context="com.tindercatapp.myapplication.RegistrationActivity"
     android:orientation="vertical">
-
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="name"
         android:id="@+id/name"/>
-    
     <RadioGroup
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -20,30 +18,25 @@
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Boy"/>
-
+            android:text="Male" />
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Girl"/>
+            android:text="Female" />
     </RadioGroup>
-
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="email"
         android:id="@+id/email"/>
-
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="password"
         android:id="@+id/password"/>
-    
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Register"
         android:id="@+id/register"/>
-
 </LinearLayout>
