@@ -130,8 +130,8 @@ public class MainActivity extends AppCompatActivity {
 
         });
 
-        DatabaseReference oppositeSexDb = FirebaseDatabase.getInstance().getReference().child("Cats").child(oppositeUserSex);
-        maleDb.addChildEventListener(new ChildEventListener() {
+        DatabaseReference femaleDb = FirebaseDatabase.getInstance().getReference().child("Cats").child("Female");
+        femaleDb.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded( DataSnapshot dataSnapshot,  String s) {
                if (dataSnapshot.getKey().equals(user.getUid())){
@@ -146,15 +146,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onChildChanged( DataSnapshot dataSnapshot, String s) {
             }
-
             @Override
             public void onChildRemoved( DataSnapshot dataSnapshot) {
             }
-
             @Override
             public void onChildMoved( DataSnapshot dataSnapshot,  String s) {
             }
-
             @Override
             public void onCancelled( DatabaseError databaseError) {
             }
@@ -164,6 +161,37 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void getOppositeSexUser(){
+        DatabaseReference oppositeSexDb = FirebaseDatabase.getInstance().getReference().child("Cats").child("oppositeUserSex");
+        oppositeSexDb.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                if (dataSnapshot.exists()) {
+                    al.add(dataSnapshot.child("name").getValue().toString());
+                    arrayAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+
+
+        });
+
+
 
     }
 
