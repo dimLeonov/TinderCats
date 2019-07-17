@@ -189,6 +189,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    public void navProfilePage(View view){
+        Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
+        startActivity(intent);
+        return;
+    }
+
     public void logoutUser(View view) {
         mAuth.signOut();
         Intent intent = new Intent(MainActivity.this, ChooseLoginRegistrationActivity.class);
@@ -197,11 +203,10 @@ public class MainActivity extends AppCompatActivity {
         return;
     }
 
-    //Added Amal
-    public void goToMacthes(View view){
+
+    public void navMatchesPage(View view){
         Intent intent = new Intent(MainActivity.this, MatchesActivity.class);
         startActivity(intent);
         return;
     }
-
 }

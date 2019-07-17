@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -27,7 +28,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
     private Button mRegister;
     private EditText mEmail, mPassword, mName;
-
+    private TextView mLogin;
     private RadioGroup mRadioGroup;
 
     private FirebaseAuth mAuth;
@@ -54,6 +55,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
 
         mRegister = (Button) findViewById(R.id.register);
+        mLogin = findViewById(R.id.login);
 
         mEmail = (EditText) findViewById(R.id.email);
         mPassword = (EditText) findViewById(R.id.password);
@@ -92,6 +94,17 @@ public class RegistrationActivity extends AppCompatActivity {
                 });
             }
         });
+
+        mLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(RegistrationActivity.this, LoginActivity.class);
+                startActivity(intent);
+                finish();
+                return;
+            }
+        });
+
     }
 
     @Override
