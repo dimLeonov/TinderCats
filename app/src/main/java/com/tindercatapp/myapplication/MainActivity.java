@@ -20,6 +20,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.lorentzos.flingswipe.SwipeFlingAdapterView;
+import com.tindercatapp.myapplication.Matches.MatchesActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -193,4 +194,12 @@ public class MainActivity extends AppCompatActivity {
         finish();
         return;
     }
+
+    //Added Amal
+    public void goToMacthes(View view){
+        Intent intent = new Intent(MainActivity.this, MatchesActivity.class);
+        startActivity(intent);
+        return;
+    }
+
 }
