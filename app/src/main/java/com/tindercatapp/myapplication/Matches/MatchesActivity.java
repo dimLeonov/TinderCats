@@ -1,6 +1,8 @@
 package com.tindercatapp.myapplication.Matches;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,6 +14,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.tindercatapp.myapplication.MainActivity;
+import com.tindercatapp.myapplication.ProfileActivity;
 import com.tindercatapp.myapplication.R;
 
 import java.util.ArrayList;
@@ -70,6 +74,19 @@ public class MatchesActivity extends AppCompatActivity {
 
         */
     }
+
+    public void navMainPage (View view){
+        Intent intent = new Intent(MatchesActivity.this, MainActivity.class);
+        startActivity(intent);
+        return;
+    }
+
+    public void navProfilePage (View view){
+        Intent intent = new Intent(MatchesActivity.this, ProfileActivity.class);
+        startActivity(intent);
+        return;
+    }
+
 
     private void FetchMatchInformation(String key){
       //  DatabaseReference userDb = FirebaseDatabase.getInstance().getReference().child("Users").child(key);

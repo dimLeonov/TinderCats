@@ -7,24 +7,65 @@
     android:layout_height="match_parent"
     android:orientation="horizontal">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="10">
 
-    <androidx.core.widget.NestedScrollView
+
+        <LinearLayout
+            style="?android:buttonBarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+
+            <Button
+                android:onClick="navProfilePage"
+                style="?android:buttonBarButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="My Profile"
+                />
+
+            <Button
+                android:onClick="navMainPage"
+                style="?android:buttonBarButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Swipe" />
+
+            <Button
+
+                style="?android:buttonBarButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Matches"
+                android:textColor="@color/grey"/>
+
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="@dimen/_10dp"
+            android:background="@android:color/darker_gray"/>
+
+<androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-<androidx.recyclerview.widget.RecyclerView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/recyclerView"
-    android:scrollbars="vertical">
-
-
-</androidx.recyclerview.widget.RecyclerView>
-
-
-
-    </androidx.core.widget.NestedScrollView>
-
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/recyclerView"
+        android:scrollbars="vertical">
+    </androidx.recyclerview.widget.RecyclerView>
+</androidx.core.widget.NestedScrollView>
+    </LinearLayout>
 
   <!--
 
@@ -41,13 +82,7 @@
         </android.support.v7.wideget.RecyclerView>
     </android.support.v4.wideget.NestedScrollView>
 
-    -->
 
-
-
-
-
-    <!--
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -72,7 +107,4 @@
         android:layout_margin="@dimen/fab_margin"
         app:srcCompat="@android:drawable/ic_dialog_email" />
 -->
-
-
-
 </LinearLayout>
