@@ -20,9 +20,13 @@
         <activity android:name=".RegistrationActivity" />
         <activity android:name=".LoginActivity"></activity>
 
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+
+        <activity android:name=".Matches.MatchesActivity"></activity>
+
     </application>
 
 </manifest>
