@@ -1,36 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/constraint"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
+    android:background="@color/white"
     android:orientation="vertical">
 
-    <LinearLayout android:orientation="horizontal" android:layout_height="wrap_content" android:layout_width="match_parent">
-
-        <Button android:layout_height="wrap_content" android:layout_width="wrap_content" android:onClick="a" android:text="SignOut"/>
-
-        <Button android:layout_height="wrap_content" android:layout_width="wrap_content" android:onClick="goToMacthes" android:text="Matches"/>
-
-        <Button android:layout_height="wrap_content" android:layout_width="wrap_content" android:onClick="a" android:text="Settings" android:layout_weight="1"/>
+    <LinearLayout
+        style="?android:buttonBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
         <Button
-            android:id="@+id/button"
-            android:layout_width="wrap_content"
+            android:onClick="navProfilePage"
+            style="?android:buttonBarButtonStyle"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="My Profile" />
+
+        <Button
             android:onClick="logoutUser"
-            android:text="SignOut" />
+            style="?android:buttonBarButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Sign out" />
+
+        <Button
+            android:onClick="navMatchesPage"
+            style="?android:buttonBarButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Matches" />
+
     </LinearLayout>
+    <FrameLayout
+        android:id="@+id/card_frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="70dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <!-- top navigation -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/rounded_corner_layout"
+                android:orientation="vertical">
+
+                <com.lorentzos.flingswipe.SwipeFlingAdapterView
+                    android:id="@+id/frame"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@color/white"
+                    app:rotation_degrees="15.5"
+                    tools:context=".MyActivity" />
+
+            </LinearLayout>
+
+                <LinearLayout
+                    style="?android:buttonBarStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
 
-    <com.lorentzos.flingswipe.SwipeFlingAdapterView
-        android:id="@+id/frame"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="#ffeee9e2"
-        app:rotation_degrees="15.5"
-        tools:context=".MyActivity" />
 
-</LinearLayout>
+                    <Button
+                        android:id="@+id/cat"
+                        style="?android:buttonBarButtonStyle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="View this profile" />
+
+                </LinearLayout>
+
+
+        </LinearLayout>
+    </FrameLayout>
+
+</RelativeLayout>

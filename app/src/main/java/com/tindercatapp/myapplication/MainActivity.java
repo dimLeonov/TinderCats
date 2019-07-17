@@ -196,7 +196,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //Added Amal
-    public void goToMacthes(View view){
+    public void navMatchesPage(View view){
+        Intent intent = new Intent(MainActivity.this, MatchesActivity.class);
+        startActivity(intent);
+        return;
+    }
+
+    public void navProfilePage(View view){
         Intent intent = new Intent(MainActivity.this, MatchesActivity.class);
         startActivity(intent);
         return;
