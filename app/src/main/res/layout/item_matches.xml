@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#94C0BCBC"
+    android:orientation="horizontal"
+    android:padding="20sp">
+
+    <ImageView
+        android:id="@+id/MatchImage"
+        android:layout_width="100sp"
+        android:layout_height="100sp"
+        android:src="@mipmap/ic_launcher" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:paddingLeft="20sp">
+
+        <TextView
+            android:id="@+id/MatchName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="20sp"
+            android:text="Matches Name"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/Matchid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="MatchesID" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

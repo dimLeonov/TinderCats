@@ -1,18 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/constraint"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:orientation="vertical">
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="logoutUser"
-        android:text="SignOut" />
+    <LinearLayout android:orientation="horizontal" android:layout_height="wrap_content" android:layout_width="match_parent">
+
+        <Button android:layout_height="wrap_content" android:layout_width="wrap_content" android:onClick="a" android:text="SignOut"/>
+
+        <Button android:layout_height="wrap_content" android:layout_width="wrap_content" android:onClick="goToMacthes" android:text="Matches"/>
+
+        <Button android:layout_height="wrap_content" android:layout_width="wrap_content" android:onClick="a" android:text="Settings" android:layout_weight="1"/>
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="logoutUser"
+            android:text="SignOut" />
+    </LinearLayout>
+
 
     <com.lorentzos.flingswipe.SwipeFlingAdapterView
         android:id="@+id/frame"
@@ -22,4 +33,4 @@
         app:rotation_degrees="15.5"
         tools:context=".MyActivity" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
