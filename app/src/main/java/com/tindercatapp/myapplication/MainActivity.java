@@ -34,7 +34,9 @@ public class MainActivity extends AppCompatActivity {
 
     private String currentUid;
 
+
     private DatabaseReference usersDb;
+
 
     ListView listView;
     List<cards> rowItems;
