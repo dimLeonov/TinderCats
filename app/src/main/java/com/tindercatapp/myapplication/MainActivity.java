@@ -25,26 +25,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-
-    private cards cards_data[];
+    private cards cards[];
     private arrayAdapter arrayAdapter;
     private int i;
 
     private FirebaseAuth mAuth;
-    private String currentUid;
-    private DatabaseReference userDb;
 
+    private String currentUid;
+
+    private DatabaseReference usersDb;
 
     ListView listView;
     List<cards> rowItems;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //add the view via xml or programmatically
 
-        userDb = FirebaseDatabase.getInstance().getReference().child("Users");
+        usersDb = FirebaseDatabase.getInstance().getReference().child("Cats");
 
         mAuth = FirebaseAuth.getInstance();
         currentUid = mAuth.getCurrentUser().getUid();
@@ -52,8 +50,10 @@ public class MainActivity extends AppCompatActivity {
         checkUserSex();
 
 
-        arrayAdapter = new arrayAdapter(this, R.layout.item,rowItems );
 
+        rowItems = new ArrayList<cards>();
+
+        arrayAdapter = new arrayAdapter(this, R.layout.item, rowItems );
 
         SwipeFlingAdapterView flingContainer = (SwipeFlingAdapterView) findViewById(R.id.frame);
 
@@ -82,7 +82,6 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onAdapterAboutToEmpty(int itemsInAdapter) {
-
             }
 
             @Override
@@ -99,10 +98,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-
-
     }
+
     private String userSex;
     private String oppositeUserSex;
     public void checkUserSex(){
@@ -111,104 +108,85 @@ public class MainActivity extends AppCompatActivity {
         DatabaseReference maleDb = FirebaseDatabase.getInstance().getReference().child("Cats").child("Male");
         maleDb.addChildEventListener(new ChildEventListener() {
             @Override
-            public void onChildAdded( DataSnapshot dataSnapshot,  String s) {
-                if(dataSnapshot.getKey().equals(user.getUid())){
-                    userSex ="Male";
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                if (dataSnapshot.getKey().equals(user.getUid())){
+                    userSex = "Male";
                     oppositeUserSex = "Female";
-                    userDb = userDb.child(oppositeUserSex);
-                    getOppositeSexUser();
+                    getOppositeSexUsers();
                 }
             }
-
             @Override
-            public void onChildChanged( DataSnapshot dataSnapshot,  String s) {
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+            }
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
             }
 
             @Override
-            public void onChildRemoved( DataSnapshot dataSnapshot) {
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
             }
-
             @Override
-            public void onChildMoved( DataSnapshot dataSnapshot,  String s) {
+            public void onCancelled(DatabaseError databaseError) {
             }
-
-            @Override
-            public void onCancelled( DatabaseError databaseError) {
-            }
-
         });
 
         DatabaseReference femaleDb = FirebaseDatabase.getInstance().getReference().child("Cats").child("Female");
         femaleDb.addChildEventListener(new ChildEventListener() {
             @Override
-            public void onChildAdded( DataSnapshot dataSnapshot,  String s) {
-               if (dataSnapshot.getKey().equals(user.getUid())){
-                   userSex = "Female";
-                   oppositeUserSex = "Male";
-                   userDb = userDb.child(oppositeUserSex);
-                   getOppositeSexUser();
-               }
-
-
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                if (dataSnapshot.getKey().equals(user.getUid())){
+                    userSex = "Female";
+                    oppositeUserSex = "Male";
+                    getOppositeSexUsers();
+                }
+            }
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+            }
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
             }
 
             @Override
-            public void onChildChanged( DataSnapshot dataSnapshot, String s) {
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
             }
             @Override
-            public void onChildRemoved( DataSnapshot dataSnapshot) {
+            public void onCancelled(DatabaseError databaseError) {
             }
-            @Override
-            public void onChildMoved( DataSnapshot dataSnapshot,  String s) {
-            }
-            @Override
-            public void onCancelled( DatabaseError databaseError) {
-            }
-
         });
     }
 
-
-    public void getOppositeSexUser(){
-        DatabaseReference oppositeSexDb = FirebaseDatabase.getInstance().getReference().child("Cats").child("oppositeUserSex");
+    public void getOppositeSexUsers(){
+        DatabaseReference oppositeSexDb = FirebaseDatabase.getInstance().getReference().child("Cats").child(oppositeUserSex);
         oppositeSexDb.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                if (dataSnapshot.exists()) {
+                if (dataSnapshot.exists()){
                     //rowItems.add(dataSnapshot.child("name").getValue().toString());
-                    cards item = new cards(dataSnapshot.getKey(), dataSnapshot.child("name").getValue().toString());
+                    cards item = new cards(dataSnapshot.getKey(), dataSnapshot.child("name").toString());
                     rowItems.add(item);
                     arrayAdapter.notifyDataSetChanged();
                 }
             }
-
             @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+            }
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
             }
 
             @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
             }
-
             @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+            public void onCancelled(DatabaseError databaseError) {
             }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-
-
         });
-
-
 
     }
 
 
-
-    public void logoutUser(View view){
+    public void logoutUser(View view) {
         mAuth.signOut();
         Intent intent = new Intent(MainActivity.this, ChooseLoginRegistrationActivity.class);
         startActivity(intent);
