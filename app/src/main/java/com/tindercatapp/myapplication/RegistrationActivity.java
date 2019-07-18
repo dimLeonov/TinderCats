@@ -10,7 +10,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -28,7 +27,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
     private Button mRegister;
     private EditText mEmail, mPassword, mName;
-    private TextView mLogin;
+
     private RadioGroup mRadioGroup;
 
     private FirebaseAuth mAuth;
@@ -55,7 +54,6 @@ public class RegistrationActivity extends AppCompatActivity {
 
 
         mRegister = (Button) findViewById(R.id.register);
-        mLogin = findViewById(R.id.login);
 
         mEmail = (EditText) findViewById(R.id.email);
         mPassword = (EditText) findViewById(R.id.password);
@@ -84,27 +82,25 @@ public class RegistrationActivity extends AppCompatActivity {
                             Toast.makeText(RegistrationActivity.this, "sign up error", Toast.LENGTH_SHORT).show();
                         }else{
                             String userId = mAuth.getCurrentUser().getUid();
-                            DatabaseReference currentUserDb = FirebaseDatabase.getInstance().getReference().child("Users").child(radioButton.getText().toString()).child(userId);
+
+                            //Added by Amal
+                            DatabaseReference currentUserDb = FirebaseDatabase.getInstance().getReference().child("Cats").child(userId);
                             Map userInfo = new HashMap<>();
                             userInfo.put("name", name);
+                            userInfo.put("sex", radioButton.getText().toString());
                             userInfo.put("profileImageUrl", "default");
                             currentUserDb.updateChildren(userInfo);
+
+
+                            //currentUserDb.setValue(name);
+                            // DatabaseReference currentUserDb = FirebaseDatabase.getInstance().getReference().child("Cats").child(radioButton.getText().toString()).child(userId).child("name");
+                            //DatabaseReference currentUserDb = FirebaseDatabase.getInstance().getReference().child("Cats").child(radioButton.getText().toString()).child(userId).child("name");
+                            //currentUserDb.setValue(name);
                         }
                     }
                 });
             }
         });
-
-        mLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(RegistrationActivity.this, LoginActivity.class);
-                startActivity(intent);
-                finish();
-                return;
-            }
-        });
-
     }
 
     @Override
