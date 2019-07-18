@@ -24,6 +24,7 @@
         <activity android:name=".EditProfileActivity" />
         <activity android:name=".RegistrationActivity" />
         <activity android:name=".LoginActivity" />
+        <activity android:name=".BioActivity" />
 
         <meta-data
             android:name="preloaded_fonts"

@@ -103,12 +103,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
         // Optionally add an OnItemClickListener
-        flingContainer.setOnItemClickListener(new SwipeFlingAdapterView.OnItemClickListener() {
+            flingContainer.setOnItemClickListener(new SwipeFlingAdapterView.OnItemClickListener() {
             @Override
             public void onItemClicked(int itemPosition, Object dataObject) {
-                Toast.makeText(MainActivity.this, "Item Clicked", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(MainActivity.this, BioActivity.class);
+                startActivity(intent);
+
+
             }
         });
 
@@ -310,6 +312,10 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
+    public void navBioPage (View view){
+        Intent intent = new Intent(MainActivity.this, BioActivity.class);
+        startActivity(intent);
+        return;
+    }
 
 }
