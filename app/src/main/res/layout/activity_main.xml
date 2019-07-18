@@ -31,7 +31,7 @@
             android:text="Sign out" />
 
         <Button
-            android:onClick="navMatchesPage"
+            android:onClick="goToMatches"
             style="?android:buttonBarButtonStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -96,4 +96,11 @@
         </LinearLayout>
     </FrameLayout>
 
+    <!--<com.lorentzos.flingswipe.SwipeFlingAdapterView
+        android:id="@+id/frame"
+        android:background="@android:color/white"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:rotation_degrees="15.5"
+        tools:context=".MyActivity"/>-->
 </RelativeLayout>

@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -34,13 +35,13 @@ public class MatchesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_matches);
 
-        //currentUserID= FirebaseAuth.getInstance().getCurrentUser().getUid();
-        currentUserID="Fm1";
+        currentUserID= FirebaseAuth.getInstance().getCurrentUser().getUid();
+       // currentUserID="Fm1";
 
         mRecyclerView = (RecyclerView)findViewById(R.id.recyclerView);
         mRecyclerView.setNestedScrollingEnabled(false);
         mRecyclerView.setHasFixedSize(true);
-        mMatchesLayoutManager= new LinearLayoutManager(MatchesActivity.this);
+        mMatchesLayoutManager = new LinearLayoutManager(MatchesActivity.this);
         mRecyclerView.setLayoutManager(mMatchesLayoutManager);
 
         mMatchesAdapter = new MatchesAdapter(getDataSetMatches(), MatchesActivity.this);

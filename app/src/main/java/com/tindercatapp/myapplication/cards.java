@@ -3,24 +3,31 @@ package com.tindercatapp.myapplication;
 public class cards {
     private String userId;
     private String name;
-    public cards(String userId, String name){
+    private String profileImageUrl;
+    public cards (String userId, String name, String profileImageUrl){
         this.userId = userId;
         this.name = name;
+        this.profileImageUrl = profileImageUrl;
     }
 
     public String getUserId(){
         return userId;
     }
-    public void setUserId(String userId){
+    public void setUserID(String userID){
         this.userId = userId;
     }
 
     public String getName(){
-        return userId;
+        return name;
     }
     public void setName(String name){
         this.name = name;
     }
 
-
+    public String getProfileImageUrl(){
+        return profileImageUrl;
+    }
+    public void setProfileImageUrl(String profileImageUrl){
+        this.profileImageUrl = profileImageUrl;
+    }
 }

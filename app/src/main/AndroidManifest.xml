@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.tindercatapp.myapplication">
 
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,6 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".Chat.ChatActivity"></activity>
         <activity android:name=".MainActivity" />
         <activity android:name=".ChooseLoginRegistrationActivity">
             <intent-filter>
@@ -20,15 +23,13 @@
         <activity android:name=".ProfileActivity" />
         <activity android:name=".EditProfileActivity" />
         <activity android:name=".RegistrationActivity" />
-        <activity android:name=".LoginActivity"></activity>
-
+        <activity android:name=".LoginActivity" />
 
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
-        <activity android:name=".Matches.MatchesActivity"></activity>
-
+        <activity android:name=".Matches.MatchesActivity" />
     </application>
 
 </manifest>

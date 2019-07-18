@@ -4,15 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_gravity="center"
-    android:layout_width="250dp"
-    android:layout_height="170dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:paddingLeft="40sp"
     android:paddingRight="40sp"
     android:paddingTop="20sp"
     android:paddingBottom="20sp"
-    android:clipToPadding="false"
-    android:orientation="horizontal"
-    android:outlineProvider="bounds">
+    android:outlineProvider="bounds"
+    android:clipToPadding="false">
 
     <androidx.cardview.widget.CardView
         android:layout_width="wrap_content"
@@ -22,28 +21,30 @@
         android:elevation="2dp"
         android:id="@+id/cardView">
 
-        <FrameLayout
-            android:layout_width="250dp"
-            android:layout_height="170dp">
+        <LinearLayout
+            android:layout_width="300dp"
+            android:layout_height="350dp"
+            android:layout_gravity="center"
+            android:orientation="vertical">
 
             <ImageView
+                android:id="@+id/image"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/image"/>
-            
+                android:layout_height="300dp"
+                android:scaleType="centerCrop" />
+
             <TextView
                 android:id="@+id/name"
-                android:layout_width="152dp"
-                android:layout_height="126dp"
-                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center|left"
+                android:paddingLeft="20sp"
                 android:textColor="@android:color/black"
-                android:textSize="40sp"
+                android:textSize="30sp"
                 tools:text="hello" />
 
-
-        </FrameLayout>
+        </LinearLayout>
     </androidx.cardview.widget.CardView>
-
 
 
 </LinearLayout>
