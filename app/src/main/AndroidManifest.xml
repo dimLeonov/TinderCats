@@ -21,10 +21,12 @@
             </intent-filter>
         </activity>
         <activity android:name=".ProfileActivity" />
-        <activity android:name=".EditProfileActivity" />
+        <activity android:name=".EditProfileActivity_old" />
         <activity android:name=".RegistrationActivity" />
         <activity android:name=".LoginActivity" />
-
+        <activity android:name=".BioActivity" />
+        <activity android:name=".EditProfileActivity"></activity>
+        <activity android:name=".SettingsActivity"></activity>
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

@@ -1,17 +1,15 @@
 package com.tindercatapp.myapplication;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
-
+import android.media.MediaPlayer; // added by Natalia 17.7
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -34,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
 
     private String currentUid;
-
+    private MediaPlayer catHissSound, catMeowSound;  // added by Natalia 17.7
     private DatabaseReference usersDb;
 
     ListView listView;
@@ -44,14 +42,17 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // added by Natalia
+        //String userSex=getIntent().getExtras().getString("userSex");
+        catMeowSound=MediaPlayer.create(this,R.raw.cat_meow); // added by Natalia 17.7
+        catHissSound=MediaPlayer.create(this,R.raw.cat_hissing);
+
         usersDb = FirebaseDatabase.getInstance().getReference().child("Cats");
 
         mAuth = FirebaseAuth.getInstance();
         currentUid = mAuth.getCurrentUser().getUid();
 
         checkUserSex();
-
-
 
         rowItems = new ArrayList<cards>();
 
@@ -80,7 +81,8 @@ public class MainActivity extends AppCompatActivity {
                 cards obj = (cards) dataObject;
                 String userId = obj.getUserId();
                 usersDb.child(userId).child("connections").child("nope").child(currentUid).setValue(true);
-                Toast.makeText(MainActivity.this, "Miss", Toast.LENGTH_SHORT).show();
+                catHissSound.start(); // added by Natalia 17.7
+                Toast.makeText(MainActivity.this, "Nope", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -91,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
                 String userId = obj.getUserId();
                 usersDb.child(userId).child("connections").child("yeps").child(currentUid).setValue(true);
                 isConnectionMatch(userId);
+                catMeowSound.start(); // added by Natalia 17.7
                 Toast.makeText(MainActivity.this, "Like", Toast.LENGTH_SHORT).show();
             }
 
@@ -103,12 +106,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
         // Optionally add an OnItemClickListener
-        flingContainer.setOnItemClickListener(new SwipeFlingAdapterView.OnItemClickListener() {
+            flingContainer.setOnItemClickListener(new SwipeFlingAdapterView.OnItemClickListener() {
             @Override
             public void onItemClicked(int itemPosition, Object dataObject) {
-                Toast.makeText(MainActivity.this, "Item Clicked", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(MainActivity.this, BioActivity.class);
+                startActivity(intent);
+
+
             }
         });
 
@@ -310,6 +315,10 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
+    public void navBioPage (View view){
+        Intent intent = new Intent(MainActivity.this, BioActivity.class);
+        startActivity(intent);
+        return;
+    }
 
 }

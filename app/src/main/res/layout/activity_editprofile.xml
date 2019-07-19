@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
-
+    tools:context=".EditProfileActivity"
+    android:orientation="vertical"
+    android:padding="20sp">
     <LinearLayout
         style="?android:buttonBarStyle"
         android:layout_width="match_parent"
@@ -23,114 +25,36 @@
 
     </LinearLayout>
 
-    <LinearLayout
+
+    <ImageView
+        android:layout_width="100sp"
+        android:layout_height="100sp"
+        android:id="@+id/profileImage"
+        android:src="@mipmap/ic_launcher"
+        />
+    <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:orientation="vertical"
-        android:layout_marginTop="100dp"
-        android:paddingLeft="25dp"
-        android:paddingTop="55dp"
-        android:paddingRight="25dp">
+        android:id="@+id/name"
+        android:background="@null"
+        android:hint="Name:"
+        android:layout_marginBottom="20sp"
+        android:inputType="phone"
+        />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/phone"
+        android:background="@null"
+        android:hint="Phone:"
+        android:layout_marginBottom="20sp"
+        android:inputType="phone"
+        />
+    <Button
+        android:onClick="saveProfileEdit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="confirm"
+        />
 
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="top"
-            android:orientation="vertical">
-
-            <TextView
-
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="25dp"
-                android:gravity="center"
-                android:text="Edit your profile info:"
-                android:textColor="@color/transparentPink"
-                android:textSize="20dp" />
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_horizontal"
-                android:orientation="horizontal">
-            <ImageButton
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_marginTop="0dp"
-                android:layout_marginBottom="25dp"
-                android:layout_marginRight="25dp"
-                android:onClick="changePic"
-                android:src="@drawable/tempcat" />
-
-            <Button
-                android:onClick="changePic"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
-                android:layout_marginBottom="25dp"
-                android:background="@drawable/white_rounded_button"
-                android:padding="12dp"
-                android:text="Change profile pic"
-                android:textColor="@color/white"
-                android:textStyle="bold" />
-            </LinearLayout>
-
-            <EditText
-                android:id="@+id/setname"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/edit_text_focused_bg"
-                android:hint="Name"
-                android:inputType="textPersonName"
-                android:padding="15dp" />
-
-            <EditText
-                android:id="@+id/setbio"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/edit_text_focused_bg"
-                android:hint="Bio...."
-                android:inputType="textMultiLine"
-                android:padding="15dp" />
-
-
-            <EditText
-                android:id="@+id/setpw"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/edit_text_focused_bg"
-                android:hint="Job title"
-                android:inputType="text"
-                android:padding="15dp" />
-
-            <EditText
-                android:id="@+id/setage"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/edit_text_focused_bg"
-                android:hint="Age"
-                android:inputType="number"
-                android:padding="15dp" />
-
-
-            <Button
-                android:id="@+id/login"
-                android:onClick="saveProfileEdit"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
-                android:layout_marginBottom="25dp"
-                android:background="@drawable/white_rounded_button"
-                android:padding="12dp"
-                android:text="SAVE CHANGES"
-                android:textColor="@color/white"
-                android:textStyle="bold" />
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-</RelativeLayout>
+</LinearLayout>

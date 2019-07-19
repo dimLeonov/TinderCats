@@ -70,14 +70,13 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/register"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="25dp"
                     android:gravity="center"
                     android:text="No account yet? Create one"
                     android:textColor="@color/transparentPink"
-                    android:onClick="register"
+                    android:onClick="navRegisterPage"
                     android:clickable="true"
                     android:textSize="16dp" />
 

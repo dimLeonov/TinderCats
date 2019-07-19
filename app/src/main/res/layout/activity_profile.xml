@@ -72,7 +72,7 @@
                     android:layout_width="151dp"
                     android:layout_height="161dp"
                     android:layout_marginTop="59dp"
-                    android:onClick="editProfilePage"
+                    android:onClick="navBioPage"
                     android:src="@drawable/tempcat" />
 
             <!--TODO use username string from DB instead of placeholder-->

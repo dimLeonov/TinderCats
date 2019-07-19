@@ -102,14 +102,13 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/login"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="25dp"
                     android:gravity="center"
                     android:text="Already a member? Log in"
                     android:textColor="@color/transparentPink"
-                    android:onClick="login"
+                    android:onClick="navLoginPage"
                     android:clickable="true"
                     android:textSize="16dp" />
 

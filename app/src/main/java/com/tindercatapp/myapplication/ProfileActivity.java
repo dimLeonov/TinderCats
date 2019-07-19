@@ -32,9 +32,17 @@ public class ProfileActivity extends AppCompatActivity {
         return;
     }
 
+    public void navBioPage (View view){
+
+        Intent intent = new Intent(ProfileActivity.this, BioActivity.class);
+        startActivity(intent);
+        return;
+    }
+
     public void navSettingsPage (View view){
 
-        Toast.makeText(ProfileActivity.this, "I don't work yet :(", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(ProfileActivity.this, SettingsActivity.class);
+        startActivity(intent);
         return;
     }
 
