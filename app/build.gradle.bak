@@ -45,6 +45,8 @@ dependencies {
     // Added 18.7
     implementation 'com.google.firebase:firebase-storage:18.1.0'
     implementation 'com.google.firebase:firebase-storage:18.1.0'
-    //removed glide v4 implementation since we have 3.7 and it works.
+    implementation 'com.github.bumptech.glide:glide:4.0.0'
+
 }
+
 apply plugin: 'com.google.gms.google-services'

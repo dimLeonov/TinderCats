@@ -33,20 +33,21 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/register"
             style="?android:buttonBarButtonStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Sign Up" />
+            android:text="Sign Up"
+            android:onClick="navRegisterPage"
+            />
 
         <Button
-            android:id="@+id/login"
             style="?android:buttonBarButtonStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Log in" />
+            android:text="Log in"
+            android:onClick="navLoginPage"/>
 
     </LinearLayout>
 </LinearLayout>
