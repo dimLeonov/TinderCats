@@ -51,6 +51,8 @@ public class RegistrationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
 
+        System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<REGISTRATION ACTIVITY CREATED >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+
         mAuth = FirebaseAuth.getInstance();
         firebaseAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -64,6 +66,7 @@ public class RegistrationActivity extends AppCompatActivity {
                 }
             }
         };
+
 
 
         mRegister = findViewById(R.id.register);
@@ -152,7 +155,7 @@ public class RegistrationActivity extends AppCompatActivity {
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 firebaseAuthWithGoogle(account);
             } catch (ApiException e) {
-                // Google Sign In failed, update UI appropriately
+                System.out.println("GOOGLE SIGN IN FAILURE. LINE 160");
                 Log.w("TAG", "Google sign in failed", e);
                 // TODO implement UI update
             }
@@ -161,7 +164,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount account) {
         Log.d("TAG", "firebaseAuthWithGoogle:" + account.getId());
-
+        System.out.println("FirebaseAuth with GOOGLE SHOULD BE SUCCESSFUL. LINE 167");
         AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
