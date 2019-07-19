@@ -112,6 +112,12 @@
                     android:clickable="true"
                     android:textSize="16dp" />
 
+                <com.google.android.gms.common.SignInButton
+                    android:id="@+id/sign_in_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="25dip"/>
+
             </LinearLayout>
 
         </LinearLayout>
