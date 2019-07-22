@@ -12,31 +12,32 @@ import com.tindercatapp.myapplication.Matches.MatchesActivity;
 
 public class ProfileActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
+    String currentUserID;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         mAuth = FirebaseAuth.getInstance();
+        currentUserID= FirebaseAuth.getInstance().getCurrentUser().getUid();
     }
 
     public void navMainPage (View view){
         Intent intent = new Intent(ProfileActivity.this, MainActivity.class);
         startActivity(intent);
-        return;
     }
 
     public void editProfilePage (View view){
-
         Intent intent = new Intent(ProfileActivity.this, EditProfileActivity.class);
         startActivity(intent);
-        return;
     }
 
     public void navBioPage (View view){
 
         Intent intent = new Intent(ProfileActivity.this, BioActivity.class);
+        intent.putExtra("UID", currentUserID);
+        intent.putExtra("source", "profile");
         startActivity(intent);
-        return;
+        finish();
     }
 
     public void navSettingsPage (View view){

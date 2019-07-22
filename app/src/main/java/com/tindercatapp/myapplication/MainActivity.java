@@ -22,7 +22,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.lorentzos.flingswipe.SwipeFlingAdapterView;
 import com.tindercatapp.myapplication.Matches.MatchesActivity;
 import com.tindercatapp.myapplication.Utils.PulsatorLayout;
-
+import com.tindercatapp.myapplication.arrayAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
         //String userSex=getIntent().getExtras().getString("userSex");
         catMeowSound = MediaPlayer.create(this, R.raw.cat_meow); // added by Natalia 17.7
         catHissSound = MediaPlayer.create(this, R.raw.cat_hissing);
+
 
         //Added by Amal
         cardFrame = findViewById(R.id.card_frame);
@@ -155,8 +156,14 @@ public class MainActivity extends AppCompatActivity {
                         catMeowSound.setVolume(0,0);
                     }
 
-
+                    //TODO iterate i++ and set card user ID fusing arrayAdapter.getItem(i) and use setcarduserid
                     //Toast.makeText(MainActivity.this, "Like", Toast.LENGTH_SHORT).show();
+                    //arrayAdapter.getItem(0);
+                    //String UserID = arrayAdapter.getItem(0).getUserId();
+                    //arrayAdapter.setCardUserID(UserID);
+                    //Toast.makeText(MainActivity.this, "UID:"+arrayAdapter.getCardUserID(), Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(MainActivity.this,UserID , Toast.LENGTH_SHORT).show();
+
 
                    /// checkRowItem();
                 }
@@ -177,9 +184,12 @@ public class MainActivity extends AppCompatActivity {
             flingContainer.setOnItemClickListener(new SwipeFlingAdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClicked(int itemPosition, Object dataObject) {
-                    Intent intent = new Intent(MainActivity.this, BioActivity.class);
-                    startActivity(intent);
 
+                    Intent intent = new Intent(MainActivity.this, BioActivity.class);
+                    intent.putExtra("source", "main");
+                    intent.putExtra("UID", arrayAdapter.getCardUserID());
+                    startActivity(intent);
+                    finish();
 
                 }
             });
@@ -366,14 +376,12 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
         startActivity(intent);
         finish();
-        return;
     }
 
     //Added Amal
     public void goToMatches(View view){
         Intent intent = new Intent(MainActivity.this, MatchesActivity.class);
         startActivity(intent);
-        return;
     }
 
     //Added Amal
@@ -412,8 +420,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void navBioPage (View view){
         Intent intent = new Intent(MainActivity.this, BioActivity.class);
+        intent.putExtra("source", "main");
+        //intent.putExtra("UID", arrayAdapter.getName());
+        intent.putExtra("UID", arrayAdapter.getCardUserID());
         startActivity(intent);
-        return;
+        finish();
     }
 
     //Added by Amal

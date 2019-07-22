@@ -21,7 +21,8 @@ public class cards {
     public String getUserId(){
         return userId;
     }
-    public void setUserID(String userID){
+
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 
@@ -38,10 +39,6 @@ public class cards {
 
     public void setProfileImageUrl(String profileImageUrl){
         this.profileImageUrl = profileImageUrl;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
     }
 
     public int getAge() {
