@@ -17,7 +17,7 @@ import java.util.List;
 public class arrayAdapter extends ArrayAdapter<cards> {
 
     Context context;
-
+    String CardUserID;
     public arrayAdapter(Context context, int resourceId, List<cards> items){
         super(context, resourceId, items);
     }
@@ -50,8 +50,17 @@ public class arrayAdapter extends ArrayAdapter<cards> {
                 break;
         }
 
-
+        setCardUserID(card_item.getUserId());
         return convertView;
 
     }
+    public void setCardUserID(String CardUserID){
+        this.CardUserID = CardUserID;
+    }
+
+    public String getCardUserID(){
+        return CardUserID;
+    }
+
+
 }

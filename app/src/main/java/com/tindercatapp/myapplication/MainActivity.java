@@ -22,7 +22,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.lorentzos.flingswipe.SwipeFlingAdapterView;
 import com.tindercatapp.myapplication.Matches.MatchesActivity;
 import com.tindercatapp.myapplication.Utils.PulsatorLayout;
-
+import com.tindercatapp.myapplication.arrayAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,10 +53,6 @@ public class MainActivity extends AppCompatActivity {
         //String userSex=getIntent().getExtras().getString("userSex");
         catMeowSound = MediaPlayer.create(this, R.raw.cat_meow); // added by Natalia 17.7
         catHissSound = MediaPlayer.create(this, R.raw.cat_hissing);
-
-
-
-
 
 
         //Added by Amal
@@ -128,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
                     isConnectionMatch(userId);
                     catMeowSound.start(); // added by Natalia 17.7
                     //Toast.makeText(MainActivity.this, "Like", Toast.LENGTH_SHORT).show();
-
+                    Toast.makeText(MainActivity.this, "UID:"+arrayAdapter.getCardUserID(), Toast.LENGTH_SHORT).show();
                    /// checkRowItem();
                 }
 
@@ -337,14 +333,12 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
         startActivity(intent);
         finish();
-        return;
     }
 
     //Added Amal
     public void goToMatches(View view){
         Intent intent = new Intent(MainActivity.this, MatchesActivity.class);
         startActivity(intent);
-        return;
     }
 
     //Added Amal
@@ -383,8 +377,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void navBioPage (View view){
         Intent intent = new Intent(MainActivity.this, BioActivity.class);
+        intent.putExtra("source", "main");
+        intent.putExtra("UID", arrayAdapter.getCardUserID());
         startActivity(intent);
-        return;
+        finish();
     }
 
     //Added by Amal
