@@ -39,10 +39,9 @@ public class arrayAdapter extends ArrayAdapter<cards> {
 
         switch(card_item.getProfileImageUrl()){
             case "default":
-
                 //image.setImageResource(R.drawable.ic_launcher_web);
                 Glide.clear(image);
-                Glide.with(convertView.getContext()).load(R.drawable.ic_launcher_web).into(image);
+                Glide.with(convertView.getContext()).load(R.drawable.logo_green_400).into(image);
                 break;
             default:
                 Glide.clear(image);
