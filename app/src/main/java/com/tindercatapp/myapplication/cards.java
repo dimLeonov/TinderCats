@@ -1,11 +1,14 @@
 package com.tindercatapp.myapplication;
 
+import com.tindercatapp.myapplication.Utils.Settings;
+
 public class cards {
     private String userId;
     private String name;
     private String profileImageUrl;
     private int age;
     private String location;
+    private Settings settings;
 
     public cards (String userId, String name, String profileImageUrl,int age, String location){
         this.userId = userId;
@@ -55,6 +58,14 @@ public class cards {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public Settings getSettings() {
+        return settings;
+    }
+
+    public void setSettings(Settings settings) {
+        this.settings = settings;
     }
 
     @Override

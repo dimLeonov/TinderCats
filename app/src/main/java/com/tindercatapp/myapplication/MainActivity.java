@@ -44,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
     ListView listView;
     List<cards> rowItems;
 
+    static boolean isSoundMute;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,11 +55,6 @@ public class MainActivity extends AppCompatActivity {
         //String userSex=getIntent().getExtras().getString("userSex");
         catMeowSound = MediaPlayer.create(this, R.raw.cat_meow); // added by Natalia 17.7
         catHissSound = MediaPlayer.create(this, R.raw.cat_hissing);
-
-
-
-
-
 
         //Added by Amal
         cardFrame = findViewById(R.id.card_frame);
@@ -71,6 +68,24 @@ public class MainActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         currentUid = mAuth.getCurrentUser().getUid();
+
+        DatabaseReference userDb = FirebaseDatabase.getInstance().getReference().child("Cats").child(currentUid);
+
+        userDb.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    if (dataSnapshot.child("settings").child("mute").getValue() != null) {
+                        isSoundMute = Boolean.parseBoolean(dataSnapshot.child("settings").child("mute").getValue().toString());
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
         rowItems = new ArrayList<cards>();
 
@@ -110,7 +125,14 @@ public class MainActivity extends AppCompatActivity {
                     cards obj = (cards) dataObject;
                     String userId = obj.getUserId();
                     usersDb.child(userId).child("connections").child("nope").child(currentUid).setValue(true);
-                    catHissSound.start(); // added by Natalia 17.7
+
+                    if(!isSoundMute){
+                        catHissSound.start(); // added by Natalia 17.7
+                    }else{
+                        catHissSound.setVolume(0,0);
+                    }
+
+
                     //Toast.makeText(MainActivity.this, "Nope", Toast.LENGTH_SHORT).show();
 
                    /// checkRowItem();
@@ -126,7 +148,14 @@ public class MainActivity extends AppCompatActivity {
                     String userId = obj.getUserId();
                     usersDb.child(userId).child("connections").child("yeps").child(currentUid).setValue(true);
                     isConnectionMatch(userId);
-                    catMeowSound.start(); // added by Natalia 17.7
+
+                    if(!isSoundMute){
+                        catMeowSound.start(); // added by Natalia 17.7
+                    }else{
+                        catMeowSound.setVolume(0,0);
+                    }
+
+
                     //Toast.makeText(MainActivity.this, "Like", Toast.LENGTH_SHORT).show();
 
                    /// checkRowItem();

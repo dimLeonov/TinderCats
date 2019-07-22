@@ -142,7 +142,7 @@
                     android:layout_width="160dp"
                     android:layout_height="160dp"
                     android:layout_centerInParent="true"
-                    android:src="@drawable/ic_launcher_web"
+                    android:src="@drawable/no_cats"
                     app:civ_border_color="@color/transparentPink"
                     app:civ_border_width="1dp" />
 
@@ -153,12 +153,4 @@
         </RelativeLayout>
     </FrameLayout>
 
-
-    <!--<com.lorentzos.flingswipe.SwipeFlingAdapterView
-        android:id="@+id/frame"
-        android:background="@android:color/white"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:rotation_degrees="15.5"
-        tools:context=".MyActivity"/>-->
 </RelativeLayout>

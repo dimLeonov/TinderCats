@@ -92,6 +92,7 @@ public class MatchesActivity extends AppCompatActivity {
     private void FetchMatchInformation(String key){
       //  DatabaseReference userDb = FirebaseDatabase.getInstance().getReference().child("Users").child(key);
         DatabaseReference userDb = FirebaseDatabase.getInstance().getReference().child("Cats").child(key);
+
         userDb.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

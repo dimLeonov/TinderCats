@@ -46,6 +46,7 @@ public class RegistrationActivity extends AppCompatActivity {
     private GoogleSignInClient mGoogleSignInClient;
     private com.google.android.gms.common.SignInButton mSignInButton;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -109,7 +110,9 @@ public class RegistrationActivity extends AppCompatActivity {
                             userInfo.put("profileImageUrl", "default");
                             userInfo.put("age", "0");
                             userInfo.put("location", "");
+
                             currentUserDb.updateChildren(userInfo);
+                            currentUserDb.child("settings").child("mute").setValue(false);
 
 
                             //currentUserDb.setValue(name);
