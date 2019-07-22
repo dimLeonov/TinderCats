@@ -43,7 +43,7 @@ public class SettingsActivity extends AppCompatActivity {
                 if (dataSnapshot.exists()) {
                     if (dataSnapshot.child("settings").child("mute").getValue() != null) {
                         isSoundMute = Boolean.parseBoolean(dataSnapshot.child("settings").child("mute").getValue().toString());
-                        sounds_switch.setChecked(isSoundMute);s
+                        sounds_switch.setChecked(isSoundMute);
                     }
                 }
             }
@@ -55,9 +55,6 @@ public class SettingsActivity extends AppCompatActivity {
         });
 
         //sounds_switch.setChecked(isSoundMute);
-
-
-
        // M;ainActivity.catMeowSound.setVolume(0,0) for mute
 
         sounds_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

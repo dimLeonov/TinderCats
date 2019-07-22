@@ -34,7 +34,6 @@ public class BioActivity extends AppCompatActivity {
         //gets all user info from firebase DB for current UID
         Toast.makeText(BioActivity.this, "UID:"+currentUserID, Toast.LENGTH_SHORT).show();
         FetchUserInformation(currentUserID);
-
     }
 
 
@@ -156,6 +155,11 @@ public class BioActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
-
+    @Override
+    public void onBackPressed(){
+        Intent intent = new Intent(BioActivity.this, MainActivity.class);
+        startActivity(intent);
+        finish();
+    }
 
 }
