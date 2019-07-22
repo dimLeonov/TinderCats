@@ -5,40 +5,91 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_gravity="center"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:outlineProvider="bounds"
-    android:clipToPadding="false">
+    android:clipToPadding="false"
+    android:paddingLeft="10sp"
+    android:paddingRight="10sp"
+    android:paddingBottom="10sp">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_gravity="center"
-        app:cardCornerRadius="4dp"
-        android:elevation="2dp"
+        app:cardCornerRadius="6dp"
+        android:elevation="4dp"
         android:id="@+id/cardView">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="350dp"
-            android:layout_gravity="center"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="0dp"
+            android:background="@color/white"
             android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/image"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:scaleType="centerCrop" />
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"/>
+
+                <TextView
+                    android:id="@+id/item_swipe_left_indicator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:alpha="0"
+                    android:background="@drawable/like_border"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="5dp"
+                    android:paddingRight="10dp"
+                    android:paddingBottom="5dp"
+                    android:text="LIKE"
+                    android:textColor="@color/likegreen"
+                    android:textSize="35sp" />
+
+                <TextView
+                    android:id="@+id/item_swipe_right_indicator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_margin="10dp"
+                    android:alpha="0"
+                    android:background="@drawable/dislike_border"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="5dp"
+                    android:paddingRight="10dp"
+                    android:paddingBottom="5dp"
+                    android:text="NOPE"
+                    android:textColor="@color/dislikered"
+                    android:textSize="35sp" />
+
+            </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
 
             <TextView
                 android:id="@+id/name"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center|left"
-                android:paddingLeft="20sp"
-                android:textColor="@android:color/black"
+                android:background="@color/bg_screen1"
+                android:gravity="left"
+                android:paddingLeft="10sp"
+                android:paddingBottom="5sp"
+                android:textColor="@android:color/white"
                 android:textSize="30sp"
                 tools:text="Name" />
 
+
+        </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 

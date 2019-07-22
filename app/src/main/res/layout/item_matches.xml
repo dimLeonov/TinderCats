@@ -2,14 +2,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#94C0BCBC"
+    android:layout_marginTop="10dp"
     android:orientation="horizontal"
-    android:padding="20sp">
+    android:padding="20sp"
+    android:background="@drawable/match_item_border">
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/MatchImage"
         android:layout_width="100sp"
         android:layout_height="100sp"
+        android:layout_gravity="center_vertical"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
         android:src="@mipmap/ic_launcher" />
 
     <LinearLayout
@@ -24,7 +28,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="20sp"
-            android:text="Matches Name"
+            android:text="MatchesName"
+            android:textSize="20sp"
             android:textStyle="bold" />
 
         <TextView

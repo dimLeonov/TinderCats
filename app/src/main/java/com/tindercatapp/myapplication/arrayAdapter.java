@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.content.res.Resources;
+
 
 import com.bumptech.glide.Glide;
 
@@ -29,10 +31,18 @@ public class arrayAdapter extends ArrayAdapter<cards> {
         TextView name = (TextView) convertView.findViewById(R.id.name);
         ImageView image = (ImageView) convertView.findViewById(R.id.image);
 
-        name.setText(card_item.getName());
+
+        //name.setText(card_item.getName());
+        //
+        name.setText(card_item.toString());
+
+
         switch(card_item.getProfileImageUrl()){
             case "default":
-                Glide.with(convertView.getContext()).load(R.mipmap.ic_launcher).into(image);
+
+                //image.setImageResource(R.drawable.ic_launcher_web);
+                Glide.clear(image);
+                Glide.with(convertView.getContext()).load(R.drawable.ic_launcher_web).into(image);
                 break;
             default:
                 Glide.clear(image);

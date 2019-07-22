@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 import android.media.MediaPlayer; // added by Natalia 17.7
@@ -20,6 +21,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.lorentzos.flingswipe.SwipeFlingAdapterView;
 import com.tindercatapp.myapplication.Matches.MatchesActivity;
+import com.tindercatapp.myapplication.Utils.PulsatorLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,11 +34,16 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
 
     private String currentUid;
-    private MediaPlayer catHissSound, catMeowSound;  // added by Natalia 17.7
+    static MediaPlayer catHissSound, catMeowSound;  // added by Natalia 17.7
     private DatabaseReference usersDb;
+
+    FrameLayout cardFrame, moreFrame;
+
+    SwipeFlingAdapterView flingContainer;
 
     ListView listView;
     List<cards> rowItems;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,80 +51,112 @@ public class MainActivity extends AppCompatActivity {
 
         // added by Natalia
         //String userSex=getIntent().getExtras().getString("userSex");
-        catMeowSound=MediaPlayer.create(this,R.raw.cat_meow); // added by Natalia 17.7
-        catHissSound=MediaPlayer.create(this,R.raw.cat_hissing);
+        catMeowSound = MediaPlayer.create(this, R.raw.cat_meow); // added by Natalia 17.7
+        catHissSound = MediaPlayer.create(this, R.raw.cat_hissing);
+
+
+
+
+
+
+        //Added by Amal
+        cardFrame = findViewById(R.id.card_frame);
+        moreFrame = findViewById(R.id.more_frame);
+
+        // start pulsator
+        PulsatorLayout mPulsator = findViewById(R.id.pulsator);
+        mPulsator.start();
 
         usersDb = FirebaseDatabase.getInstance().getReference().child("Cats");
 
         mAuth = FirebaseAuth.getInstance();
         currentUid = mAuth.getCurrentUser().getUid();
 
-        checkUserSex();
-
         rowItems = new ArrayList<cards>();
 
-        arrayAdapter = new arrayAdapter(this, R.layout.item, rowItems );
+        checkUserSex();
 
-        SwipeFlingAdapterView flingContainer = (SwipeFlingAdapterView) findViewById(R.id.frame);
+        arrayAdapter = new arrayAdapter(this, R.layout.item, rowItems);
 
+        flingContainer  = (SwipeFlingAdapterView) findViewById(R.id.frame);
         flingContainer.setAdapter(arrayAdapter);
-        flingContainer.setFlingListener(new SwipeFlingAdapterView.onFlingListener() {
-            @Override
-            public void removeFirstObjectInAdapter() {
-                // this is the simplest way to delete an object from the Adapter (/AdapterView)
-                Log.d("LIST", "removed object!");
-                rowItems.remove(0);
-                arrayAdapter.notifyDataSetChanged();
-            }
 
-            @Override
-            public void onLeftCardExit(Object dataObject) {
-                //Do something on the left!
-                //You also have access to the original object.
-                //If you want to use it just cast it (String) dataObject
-
-                //Added by Amal
-
-                cards obj = (cards) dataObject;
-                String userId = obj.getUserId();
-                usersDb.child(userId).child("connections").child("nope").child(currentUid).setValue(true);
-                catHissSound.start(); // added by Natalia 17.7
-                Toast.makeText(MainActivity.this, "Nope", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onRightCardExit(Object dataObject) {
-
-                //Added by Amal
-                cards obj = (cards) dataObject;
-                String userId = obj.getUserId();
-                usersDb.child(userId).child("connections").child("yeps").child(currentUid).setValue(true);
-                isConnectionMatch(userId);
-                catMeowSound.start(); // added by Natalia 17.7
-                Toast.makeText(MainActivity.this, "Like", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onAdapterAboutToEmpty(int itemsInAdapter) {
-            }
-
-            @Override
-            public void onScroll(float scrollProgressPercent) {
-            }
-        });
-
-        // Optionally add an OnItemClickListener
-            flingContainer.setOnItemClickListener(new SwipeFlingAdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClicked(int itemPosition, Object dataObject) {
-                Intent intent = new Intent(MainActivity.this, BioActivity.class);
-                startActivity(intent);
-
-
-            }
-        });
-
+        checkRowItem();
+        updateSwipeCard();
     }
+
+        private void  updateSwipeCard(){
+
+            flingContainer.setFlingListener(new SwipeFlingAdapterView.onFlingListener() {
+
+                @Override
+                public void removeFirstObjectInAdapter() {
+                    // this is the simplest way to delete an object from the Adapter (/AdapterView)
+                    Log.d("LIST", "removed object!");
+                    rowItems.remove(0);
+                    arrayAdapter.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onLeftCardExit(Object dataObject) {
+                    //Do something on the left!
+                    //You also have access to the original object.
+                    //If you want to use it just cast it (String) dataObject
+
+                    //Added by Amal
+
+                    checkRowItem();
+
+                    cards obj = (cards) dataObject;
+                    String userId = obj.getUserId();
+                    usersDb.child(userId).child("connections").child("nope").child(currentUid).setValue(true);
+                    catHissSound.start(); // added by Natalia 17.7
+                    //Toast.makeText(MainActivity.this, "Nope", Toast.LENGTH_SHORT).show();
+
+                   /// checkRowItem();
+                }
+
+                @Override
+                public void onRightCardExit(Object dataObject) {
+
+                    checkRowItem();
+
+                    //Added by Amal
+                    cards obj = (cards) dataObject;
+                    String userId = obj.getUserId();
+                    usersDb.child(userId).child("connections").child("yeps").child(currentUid).setValue(true);
+                    isConnectionMatch(userId);
+                    catMeowSound.start(); // added by Natalia 17.7
+                    //Toast.makeText(MainActivity.this, "Like", Toast.LENGTH_SHORT).show();
+
+                   /// checkRowItem();
+                }
+
+                @Override
+                public void onAdapterAboutToEmpty(int itemsInAdapter) {
+                }
+
+                @Override
+                public void onScroll(float scrollProgressPercent) {
+                    View view = flingContainer.getSelectedView();
+                    view.findViewById(R.id.item_swipe_right_indicator).setAlpha(scrollProgressPercent < 0 ? -scrollProgressPercent : 0);
+                    view.findViewById(R.id.item_swipe_left_indicator).setAlpha(scrollProgressPercent > 0 ? scrollProgressPercent : 0);
+                }
+            });
+
+// Optionally add an OnItemClickListener
+            flingContainer.setOnItemClickListener(new SwipeFlingAdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClicked(int itemPosition, Object dataObject) {
+                    Intent intent = new Intent(MainActivity.this, BioActivity.class);
+                    startActivity(intent);
+
+
+                }
+            });
+
+        }
+
 
     /*
     private String userSex;
@@ -247,12 +286,32 @@ public class MainActivity extends AppCompatActivity {
                 if (dataSnapshot.child("sex").getValue() != null) {
                     if (dataSnapshot.exists() && !dataSnapshot.child("connections").child("nope").hasChild(currentUid) && !dataSnapshot.child("connections").child("yeps").hasChild(currentUid) && dataSnapshot.child("sex").getValue().toString().equals(oppositeUserSex)) {
                         String profileImageUrl = "default";
+                        int age =0;
+                        String location="";
+
                         if (!dataSnapshot.child("profileImageUrl").getValue().equals("default")) {
                             profileImageUrl = dataSnapshot.child("profileImageUrl").getValue().toString();
                         }
-                        cards item = new cards(dataSnapshot.getKey(), dataSnapshot.child("name").getValue().toString(), profileImageUrl);
+
+                        if(dataSnapshot.hasChild("location")){
+                            if(dataSnapshot.child("location").getValue()!=null){
+                            location=dataSnapshot.child("location").getValue().toString();
+                            if(location.length()>2) {
+                                location = location.toUpperCase().charAt(0) + location.substring(1, location.length());
+                            }
+                        }}
+
+
+                        if(dataSnapshot.hasChild("age")){
+                            if(dataSnapshot.child("age").getValue()!=null){
+                                age = Integer.valueOf(dataSnapshot.child("age").getValue().toString());
+                            }
+                        }
+
+                        cards item = new cards(dataSnapshot.getKey(), dataSnapshot.child("name").getValue().toString(), profileImageUrl,age,location);
                         rowItems.add(item);
                         arrayAdapter.notifyDataSetChanged();
+                        checkRowItem();
                     }
                 }
             }
@@ -289,6 +348,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //Added Amal
+    public void goToMainPage(View view){
+       Intent intent = getIntent();
+       finish();
+       startActivity(intent);
+    }
+
+    //Added Amal
     private void isConnectionMatch(String userId){
         DatabaseReference currentUserConnectionsDb = usersDb.child(currentUid).child("connections").child("yeps").child(userId);
         currentUserConnectionsDb.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -319,6 +385,17 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(MainActivity.this, BioActivity.class);
         startActivity(intent);
         return;
+    }
+
+    //Added by Amal
+    private void checkRowItem() {
+        if (rowItems.isEmpty()) {
+            moreFrame.setVisibility(View.VISIBLE);
+            cardFrame.setVisibility(View.GONE);
+        }else{
+            moreFrame.setVisibility(View.GONE);
+            cardFrame.setVisibility(View.VISIBLE);
+        }
     }
 
 }

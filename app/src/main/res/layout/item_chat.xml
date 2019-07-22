@@ -5,17 +5,19 @@
 
     <LinearLayout
         android:id="@+id/container"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="20sp">
+        android:padding="10sp">
 
         <TextView
             android:id="@+id/message"
-            android:layout_width="match_parent"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="Text"
-            android:textSize="18sp" />
+            android:textSize="20sp"
+            android:paddingLeft="10sp"
+            android:paddingRight="10sp"/>
 
 
     </LinearLayout>

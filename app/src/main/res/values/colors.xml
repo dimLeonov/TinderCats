@@ -80,7 +80,7 @@
     <color name="grey_light">#E0E0E0</color>
 
     <!-- Screens background color-->
-    <color name="bg_screen1">#f64c73</color>
+    <color name="bg_screen1">#F64C73</color>
 
     <!-- dots inactive colors -->
     <color name="dot_dark_screen1">#d1395c</color>

@@ -25,6 +25,7 @@
         <Button
 
             style="?android:buttonBarButtonStyle"
+            android:onClick="goToMainPage"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -81,8 +82,6 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-
-
                     <Button
                         android:onClick="navBioPage"
                         style="?android:buttonBarButtonStyle"
@@ -96,6 +95,64 @@
 
         </LinearLayout>
     </FrameLayout>
+
+    <!--Added by Amal-->
+
+    <FrameLayout
+        android:id="@+id/more_frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="70dp"
+        android:visibility="gone">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="40dp"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:text="No More Cats Available"
+                    android:textColor="@color/transparentPink"
+                    android:textSize="20dp" />
+
+            <com.tindercatapp.myapplication.Utils.PulsatorLayout
+                android:id="@+id/pulsator"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:pulse_color="@color/colorAccent"
+                app:pulse_count="3"
+                app:pulse_duration="8000"
+                app:pulse_interpolator="Decelerate"
+                app:pulse_repeat="0"
+                app:pulse_startFromScratch="false">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/post"
+                    android:layout_width="160dp"
+                    android:layout_height="160dp"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/ic_launcher_web"
+                    app:civ_border_color="@color/transparentPink"
+                    app:civ_border_width="1dp" />
+
+            </com.tindercatapp.myapplication.Utils.PulsatorLayout>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+    </FrameLayout>
+
 
     <!--<com.lorentzos.flingswipe.SwipeFlingAdapterView
         android:id="@+id/frame"

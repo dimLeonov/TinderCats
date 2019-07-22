@@ -47,5 +47,9 @@ dependencies {
     implementation 'com.google.firebase:firebase-storage:18.1.0'
     implementation 'com.google.android.gms:play-services-auth:17.0.0'
     //removed glide v4 implementation since we have 3.7 and it works.
+
+    //Added by Amal
+    //Circle ImageView
+    implementation 'de.hdodenhof:circleimageview:2.2.0'
 }
 apply plugin: 'com.google.gms.google-services'

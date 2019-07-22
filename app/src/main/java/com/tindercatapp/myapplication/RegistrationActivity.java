@@ -107,6 +107,8 @@ public class RegistrationActivity extends AppCompatActivity {
                             userInfo.put("name", name);
                             userInfo.put("sex", radioButton.getText().toString());
                             userInfo.put("profileImageUrl", "default");
+                            userInfo.put("age", "0");
+                            userInfo.put("location", "");
                             currentUserDb.updateChildren(userInfo);
 
 
