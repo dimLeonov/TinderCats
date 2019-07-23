@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -43,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
 
     ListView listView;
     List<cards> rowItems;
+
 
     static boolean isSoundMute;
 
@@ -105,6 +107,7 @@ public class MainActivity extends AppCompatActivity {
 
             flingContainer.setFlingListener(new SwipeFlingAdapterView.onFlingListener() {
 
+
                 @Override
                 public void removeFirstObjectInAdapter() {
                     // this is the simplest way to delete an object from the Adapter (/AdapterView)
@@ -133,10 +136,6 @@ public class MainActivity extends AppCompatActivity {
                         catHissSound.setVolume(0,0);
                     }
 
-
-                    //Toast.makeText(MainActivity.this, "Nope", Toast.LENGTH_SHORT).show();
-
-                   /// checkRowItem();
                 }
 
                 @Override
@@ -156,16 +155,6 @@ public class MainActivity extends AppCompatActivity {
                         catMeowSound.setVolume(0,0);
                     }
 
-                    //TODO iterate i++ and set card user ID fusing arrayAdapter.getItem(i) and use setcarduserid
-                    //Toast.makeText(MainActivity.this, "Like", Toast.LENGTH_SHORT).show();
-                    //arrayAdapter.getItem(0);
-                    //String UserID = arrayAdapter.getItem(0).getUserId();
-                    //arrayAdapter.setCardUserID(UserID);
-                    //Toast.makeText(MainActivity.this, "UID:"+arrayAdapter.getCardUserID(), Toast.LENGTH_SHORT).show();
-                    //Toast.makeText(MainActivity.this,UserID , Toast.LENGTH_SHORT).show();
-
-
-                   /// checkRowItem();
                 }
 
                 @Override
@@ -180,6 +169,8 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
+
+
 // Optionally add an OnItemClickListener
             flingContainer.setOnItemClickListener(new SwipeFlingAdapterView.OnItemClickListener() {
                 @Override
@@ -187,12 +178,18 @@ public class MainActivity extends AppCompatActivity {
 
                     Intent intent = new Intent(MainActivity.this, BioActivity.class);
                     intent.putExtra("source", "main");
-                    intent.putExtra("UID", arrayAdapter.getCardUserID());
+
+                    cards obj = (cards) dataObject;
+                    String userId = obj.getUserId();
+                    intent.putExtra("UID", userId);
+
                     startActivity(intent);
                     finish();
 
                 }
             });
+
+
 
         }
 
@@ -418,14 +415,18 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void navBioPage (View view){
-        Intent intent = new Intent(MainActivity.this, BioActivity.class);
+ public void navBioPage (View view){
+
+
+     Toast.makeText(MainActivity.this,"not working. click on card.",Toast.LENGTH_LONG).show();
+
+        /*Intent intent = new Intent(MainActivity.this, BioActivity.class);
         intent.putExtra("source", "main");
-        //intent.putExtra("UID", arrayAdapter.getName());
-        intent.putExtra("UID", arrayAdapter.getCardUserID());
+        intent.putExtra("UID", userId);
         startActivity(intent);
-        finish();
+        finish();*/
     }
+
 
     //Added by Amal
     private void checkRowItem() {
