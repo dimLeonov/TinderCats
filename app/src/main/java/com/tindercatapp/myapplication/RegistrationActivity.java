@@ -113,6 +113,10 @@ public class RegistrationActivity extends AppCompatActivity {
 
                             currentUserDb.updateChildren(userInfo);
                             currentUserDb.child("settings").child("mute").setValue(false);
+                            currentUserDb.child("settings").child("level").setValue(20);
+                            currentUserDb.child("settings").child("happysound").setValue("happy1");
+                            currentUserDb.child("settings").child("nopesound").setValue("nope1");
+
 
 
                             //currentUserDb.setValue(name);

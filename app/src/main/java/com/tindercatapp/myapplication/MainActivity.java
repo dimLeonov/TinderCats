@@ -2,6 +2,7 @@ package com.tindercatapp.myapplication;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,6 +24,11 @@ import com.lorentzos.flingswipe.SwipeFlingAdapterView;
 import com.tindercatapp.myapplication.Matches.MatchesActivity;
 import com.tindercatapp.myapplication.Utils.PulsatorLayout;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.widget.Button;
+import android.content.Context;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     private String currentUid;
     static MediaPlayer catHissSound, catMeowSound;  // added by Natalia 17.7
     private DatabaseReference usersDb;
+    DatabaseReference userDb;
 
     FrameLayout cardFrame, moreFrame;
 
@@ -45,6 +52,9 @@ public class MainActivity extends AppCompatActivity {
     List<cards> rowItems;
 
     static boolean isSoundMute;
+    static float volume;
+    static String happySoundDB ="happy1";
+    static String nopeSoundDB ="nope1";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,8 +63,8 @@ public class MainActivity extends AppCompatActivity {
 
         // added by Natalia
         //String userSex=getIntent().getExtras().getString("userSex");
-        catMeowSound = MediaPlayer.create(this, R.raw.cat_meow); // added by Natalia 17.7
-        catHissSound = MediaPlayer.create(this, R.raw.cat_hissing);
+       // catMeowSound = MediaPlayer.create(this, R.raw.cat_meow); // added by Natalia 17.7
+       // catHissSound = MediaPlayer.create(this, R.raw.cat_purr_2);
 
         //Added by Amal
         cardFrame = findViewById(R.id.card_frame);
@@ -69,7 +79,14 @@ public class MainActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         currentUid = mAuth.getCurrentUser().getUid();
 
-        DatabaseReference userDb = FirebaseDatabase.getInstance().getReference().child("Cats").child(currentUid);
+    }
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        userDb = FirebaseDatabase.getInstance().getReference().child("Cats").child(currentUid);
 
         userDb.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -77,6 +94,18 @@ public class MainActivity extends AppCompatActivity {
                 if (dataSnapshot.exists()) {
                     if (dataSnapshot.child("settings").child("mute").getValue() != null) {
                         isSoundMute = Boolean.parseBoolean(dataSnapshot.child("settings").child("mute").getValue().toString());
+                    }
+
+                    if (dataSnapshot.child("settings").child("level").getValue() != null) {
+                        volume = Float.parseFloat(dataSnapshot.child("settings").child("level").getValue().toString())*0.01f;
+                    }
+
+                    if (dataSnapshot.child("settings").child("happysound").getValue() != null) {
+                        happySoundDB =dataSnapshot.child("settings").child("happysound").getValue().toString();
+                    }
+
+                    if (dataSnapshot.child("settings").child("nopesound").getValue() != null) {
+                        nopeSoundDB =dataSnapshot.child("settings").child("nopesound").getValue().toString();
                     }
                 }
             }
@@ -86,6 +115,18 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+        switch (happySoundDB){
+            case "happy1": catHissSound = MediaPlayer.create(this, R.raw.cat_purr_1);  break;
+            case "happy2": catHissSound = MediaPlayer.create(this, R.raw.cat_purr_2); break;
+            case "happy3": catHissSound = MediaPlayer.create(this, R.raw.cat_purr_3); break;
+        }
+
+        switch (nopeSoundDB){
+            case "nope1": catMeowSound = MediaPlayer.create(this, R.raw.cat_meow_1);  break;
+            case "nope2": catMeowSound = MediaPlayer.create(this, R.raw.cat_meow_2); break;
+            case "nope3": catMeowSound = MediaPlayer.create(this, R.raw.cat_meow_3); break;
+        }
 
         rowItems = new ArrayList<cards>();
 
@@ -98,9 +139,14 @@ public class MainActivity extends AppCompatActivity {
 
         checkRowItem();
         updateSwipeCard();
+
     }
 
-        private void  updateSwipeCard(){
+    private void soundsFromDB(DatabaseReference userDb){
+
+    }
+
+    private void  updateSwipeCard(){
 
             flingContainer.setFlingListener(new SwipeFlingAdapterView.onFlingListener() {
 
@@ -127,15 +173,12 @@ public class MainActivity extends AppCompatActivity {
                     usersDb.child(userId).child("connections").child("nope").child(currentUid).setValue(true);
 
                     if(!isSoundMute){
+                        catHissSound.setVolume(volume,volume);
                         catHissSound.start(); // added by Natalia 17.7
                     }else{
                         catHissSound.setVolume(0,0);
                     }
 
-
-                    //Toast.makeText(MainActivity.this, "Nope", Toast.LENGTH_SHORT).show();
-
-                   /// checkRowItem();
                 }
 
                 @Override
@@ -150,15 +193,12 @@ public class MainActivity extends AppCompatActivity {
                     isConnectionMatch(userId);
 
                     if(!isSoundMute){
+                        catMeowSound.setVolume(volume,volume);
                         catMeowSound.start(); // added by Natalia 17.7
                     }else{
                         catMeowSound.setVolume(0,0);
                     }
 
-
-                    //Toast.makeText(MainActivity.this, "Like", Toast.LENGTH_SHORT).show();
-
-                   /// checkRowItem();
                 }
 
                 @Override
@@ -179,71 +219,11 @@ public class MainActivity extends AppCompatActivity {
                 public void onItemClicked(int itemPosition, Object dataObject) {
                     Intent intent = new Intent(MainActivity.this, BioActivity.class);
                     startActivity(intent);
-
-
                 }
             });
 
         }
 
-
-    /*
-    private String userSex;
-    private String oppositeUserSex;
-    public void checkUserSex(){
-        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
-        DatabaseReference maleDb = FirebaseDatabase.getInstance().getReference().child("Cats").child("Male");
-        maleDb.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                if (dataSnapshot.getKey().equals(user.getUid())){
-                    userSex = "Male";
-                    oppositeUserSex = "Female";
-                    getOppositeSexUsers();
-                }
-            }
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-            }
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        });
-
-        DatabaseReference femaleDb = FirebaseDatabase.getInstance().getReference().child("Cats").child("Female");
-        femaleDb.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                if (dataSnapshot.getKey().equals(user.getUid())){
-                    userSex = "Female";
-                    oppositeUserSex = "Male";
-                    getOppositeSexUsers();
-                }
-            }
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-            }
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        });
-    }
-    */
 // Added by Amal
     private String userSex;
     private String oppositeUserSex;
@@ -275,37 +255,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
-/*
-    public void getOppositeSexUsers(){
-        DatabaseReference oppositeSexDb = FirebaseDatabase.getInstance().getReference().child("Cats").child(oppositeUserSex);
-        oppositeSexDb.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                if (dataSnapshot.exists()){
-                    //rowItems.add(dataSnapshot.child("name").getValue().toString());
-                    cards item = new cards(dataSnapshot.getKey(), dataSnapshot.child("name").toString());
-                    rowItems.add(item);
-                    arrayAdapter.notifyDataSetChanged();
-                }
-            }
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-            }
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        });
-
-    }
-*/
 
     //Added by Amal
     public void getOppositeSexUsers(){
@@ -383,6 +332,9 @@ public class MainActivity extends AppCompatActivity {
        startActivity(intent);
     }
 
+
+
+
     //Added Amal
     private void isConnectionMatch(String userId){
         DatabaseReference currentUserConnectionsDb = usersDb.child(currentUid).child("connections").child("yeps").child(userId);
@@ -426,5 +378,9 @@ public class MainActivity extends AppCompatActivity {
             cardFrame.setVisibility(View.VISIBLE);
         }
     }
+
+
+
+
 
 }
