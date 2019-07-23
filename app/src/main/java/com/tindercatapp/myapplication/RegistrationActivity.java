@@ -63,13 +63,19 @@ public class RegistrationActivity extends AppCompatActivity {
     private GoogleSignInClient mGoogleSignInClient;
     private com.google.android.gms.common.SignInButton mGoogleSignInButton;
     private LoginButton facebookLoginButton;
-    private LoginManager loginManager;
     private CallbackManager callbackManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
+
+        mRegister = findViewById(R.id.register);
+        mEmail = findViewById(R.id.email);
+        mPassword = findViewById(R.id.password);
+        mName = findViewById(R.id.name);
+        mRadioGroup = findViewById(R.id.radioGroup);
+        mGoogleSignInButton = findViewById(R.id.sign_in_button);
 
         mAuth = FirebaseAuth.getInstance();
         firebaseAuthStateListener = new FirebaseAuth.AuthStateListener() {
@@ -87,16 +93,9 @@ public class RegistrationActivity extends AppCompatActivity {
             }
         };
 
-        mRegister = findViewById(R.id.register);
-        mEmail = findViewById(R.id.email);
-        mPassword = findViewById(R.id.password);
-        mName = findViewById(R.id.name);
-        mRadioGroup = findViewById(R.id.radioGroup);
-        mGoogleSignInButton = findViewById(R.id.sign_in_button);
-
+        /* Facebook Login */
         callbackManager = CallbackManager.Factory.create();
         facebookLoginButton = findViewById(R.id.facebook_login_button);
-//        facebookLoginButton.setReadPermissions("email", "public_profile"); // Deprecated, unused?
         facebookLoginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
@@ -142,8 +141,26 @@ public class RegistrationActivity extends AppCompatActivity {
                 Log.e("TAG", " Facebook registerCallback called. Login encountered an error: " + error);
             }
 
-        }); // Facebook login button ends
+        }); /* Facebook login ends */
 
+        /* Google Sign In */
+        // Configure Google Sign In
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .requestProfile()
+                .build();
+
+        // Build a GoogleSignInClient with the options specified by gso.
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+        mGoogleSignInButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                googleSignIn();
+            }
+        }); /* Google Sign In ends */
+
+        /* Standart Register */
         mRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -181,25 +198,32 @@ public class RegistrationActivity extends AppCompatActivity {
                     }
                 });
             }
-        }); //mRegister listener ends here
+        });/* Register ends here */
+    } /* onCreate ends here */
 
-        // Configure Google Sign In
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .requestProfile()
-                .build();
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
-        // Build a GoogleSignInClient with the options specified by gso.
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-        mGoogleSignInButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                googleSignIn();
+        // Facebook
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+
+        // Google
+        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
+        if (requestCode == RC_GOOGLE_SIGN_IN) {
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            try {
+                // Google Sign In was successful, authenticate with Firebase
+                GoogleSignInAccount account = task.getResult(ApiException.class);
+                firebaseAuthWithGoogle(account);
+            } catch (ApiException e) {
+                Log.w("TAG", "Google Sign In Failed: ", e);
+                // TODO possible UI update here - show Gogole Sign in failed
             }
-        });
-    } // onCreate ends here
+        }
+    } // onActivityResult ends here
 
+    /* Facebook Login */
     private void handleFacebookAccessToken(AccessToken token, final Profile mProfile) {
         Log.i("TAG", "Handling FB with token: " + token);
         AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
@@ -236,33 +260,31 @@ public class RegistrationActivity extends AppCompatActivity {
         }
     }
 
+    private void registerUserWithFaceBook (final Profile mProfile) {
+        FirebaseUser user = mAuth.getCurrentUser();
+        DatabaseReference currentUserDb = FirebaseDatabase.getInstance().getReference().child("Cats").child(user.getUid());
+        Map <String, Object> userInfo = new HashMap<>();
+        userInfo.put("name", mProfile.getFirstName());
+        try {
+            currentUserDb.updateChildren(userInfo, new DatabaseReference.CompletionListener() {
+                @Override
+                public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
+                    Log.i("TAG", "Firstname: " + mProfile.getFirstName() + ", Lastname: " + mProfile.getLastName() + ", ID: " + mProfile.getId() + ", Email: NaN");
+                    // TODO possible UI update
+                }
+            });
+        } catch (Exception e) {
+            Log.e("TAG", "Registering to Firebase with Facebook failed: " + e);
+        }
+    } // Registering with Facebook ends
+    /* Facebook Login ends */
+
+    /* Google Sign In */
     // Google Sign In Intent creation
     private void googleSignIn() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_GOOGLE_SIGN_IN);
     }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        // Facebook
-        callbackManager.onActivityResult(requestCode, resultCode, data);
-
-        // Google
-        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
-        if (requestCode == RC_GOOGLE_SIGN_IN) {
-            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            try {
-                // Google Sign In was successful, authenticate with Firebase
-                GoogleSignInAccount account = task.getResult(ApiException.class);
-                firebaseAuthWithGoogle(account);
-            } catch (ApiException e) {
-                Log.w("TAG", "Google Sign In Failed: ", e);
-                // TODO possible UI update here - show Gogole Sign in failed
-            }
-        }
-    } // onActivityResult ends here
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount account) {
         Log.d("TAG", "firebaseAuthWithGoogleAccount:" + account.getId());
@@ -306,25 +328,7 @@ public class RegistrationActivity extends AppCompatActivity {
         } catch (Exception e) {
             Log.e("TAG", "Registering to Firebase with Google failed: " +  e);
         }
-    } // Registering with Google ends
-
-    private void registerUserWithFaceBook (final Profile mProfile) {
-        FirebaseUser user = mAuth.getCurrentUser();
-        DatabaseReference currentUserDb = FirebaseDatabase.getInstance().getReference().child("Cats").child(user.getUid());
-        Map <String, Object> userInfo = new HashMap<>();
-        userInfo.put("name", mProfile.getFirstName());
-        try {
-            currentUserDb.updateChildren(userInfo, new DatabaseReference.CompletionListener() {
-                @Override
-                public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
-                    Log.i("TAG", "Firstname: " + mProfile.getFirstName() + ", Lastname: " + mProfile.getLastName() + ", ID: " + mProfile.getId() + ", Email: NaN");
-                    // TODO possible UI update
-                }
-            });
-        } catch (Exception e) {
-            Log.e("TAG", "Registering to Firebase with Facebook failed: " + e);
-        }
-    } // Registering with Facebook ends
+    }  /* Google Sign In ends */
 
     @Override
     protected void onStart() {
