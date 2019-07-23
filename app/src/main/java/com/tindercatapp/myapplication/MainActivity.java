@@ -8,10 +8,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 import android.media.MediaPlayer; // added by Natalia 17.7
+
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -24,10 +29,14 @@ import com.lorentzos.flingswipe.SwipeFlingAdapterView;
 import com.tindercatapp.myapplication.Matches.MatchesActivity;
 import com.tindercatapp.myapplication.Utils.PulsatorLayout;
 
+
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.widget.Button;
 import android.content.Context;
+
+
+import com.tindercatapp.myapplication.arrayAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
     ListView listView;
     List<cards> rowItems;
 
+
     static boolean isSoundMute;
     static float volume;
     static String happySoundDB ="happy1";
@@ -66,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
        // catMeowSound = MediaPlayer.create(this, R.raw.cat_meow); // added by Natalia 17.7
        // catHissSound = MediaPlayer.create(this, R.raw.cat_purr_2);
 
+
         //Added by Amal
         cardFrame = findViewById(R.id.card_frame);
         moreFrame = findViewById(R.id.more_frame);
@@ -77,7 +88,18 @@ public class MainActivity extends AppCompatActivity {
         usersDb = FirebaseDatabase.getInstance().getReference().child("Cats");
 
         mAuth = FirebaseAuth.getInstance();
-        currentUid = mAuth.getCurrentUser().getUid();
+
+        /* Added By Janis - data verification */
+        /* Missing UID check. Will sign user out back to chooseloginregister page */
+        try {
+            currentUid = mAuth.getCurrentUser().getUid();
+        } catch (NullPointerException e) {
+            Log.e("TAG", "Access to Application without valid ID.");
+            Intent intent = new Intent(MainActivity.this, ChooseLoginRegistrationActivity.class);
+            startActivity(intent);
+            finish();
+            return;
+        }
 
     }
 
@@ -87,6 +109,44 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
 
         userDb = FirebaseDatabase.getInstance().getReference().child("Cats").child(currentUid);
+
+        /* GoogleSignIn preparation */
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .requestProfile()
+                .build();
+
+        final GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
+        /* Missing profile data check */
+        try {
+            final DatabaseReference currentUserDb = usersDb.child(currentUid);
+            currentUserDb.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    Log.v("TAG", "Current datasnapshot: " + dataSnapshot.getValue());
+                    if (!dataSnapshot.hasChild("sex") || !dataSnapshot.hasChild("profileImageUrl")
+                            || !dataSnapshot.hasChild("age") || !dataSnapshot.hasChild("name")
+                            || !dataSnapshot.hasChild("location")) {
+                        Log.w("TAG", "User has missing information. Proceed with prompting to add info.");
+                        Toast.makeText(MainActivity.this,"You have data missing. Please Update your profile.", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Log.i("TAG", "Current profile ready for Swiping. Enjoy!");
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                }
+            });
+        } catch (NullPointerException e) {
+            Log.e("TAG", "Access to Application without valid ID.");
+            Intent intent = new Intent(MainActivity.this, ChooseLoginRegistrationActivity.class);
+            startActivity(intent);
+            finish();
+        }
+        /* Missing profile data check ends */
 
         userDb.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -149,6 +209,7 @@ public class MainActivity extends AppCompatActivity {
     private void  updateSwipeCard(){
 
             flingContainer.setFlingListener(new SwipeFlingAdapterView.onFlingListener() {
+
 
                 @Override
                 public void removeFirstObjectInAdapter() {
@@ -213,14 +274,31 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
+
+
 // Optionally add an OnItemClickListener
             flingContainer.setOnItemClickListener(new SwipeFlingAdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClicked(int itemPosition, Object dataObject) {
+
                     Intent intent = new Intent(MainActivity.this, BioActivity.class);
+
+
+
+                    intent.putExtra("source", "main");
+
+                    cards obj = (cards) dataObject;
+                    String userId = obj.getUserId();
+                    intent.putExtra("UID", userId);
+
                     startActivity(intent);
+                    finish();
+
+
                 }
             });
+
+
 
         }
 
@@ -315,14 +393,12 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
         startActivity(intent);
         finish();
-        return;
     }
 
     //Added Amal
     public void goToMatches(View view){
         Intent intent = new Intent(MainActivity.this, MatchesActivity.class);
         startActivity(intent);
-        return;
     }
 
     //Added Amal
@@ -362,11 +438,18 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void navBioPage (View view){
-        Intent intent = new Intent(MainActivity.this, BioActivity.class);
+ public void navBioPage (View view){
+
+
+     Toast.makeText(MainActivity.this,"not working. click on card.",Toast.LENGTH_LONG).show();
+
+        /*Intent intent = new Intent(MainActivity.this, BioActivity.class);
+        intent.putExtra("source", "main");
+        intent.putExtra("UID", userId);
         startActivity(intent);
-        return;
+        finish();*/
     }
+
 
     //Added by Amal
     private void checkRowItem() {

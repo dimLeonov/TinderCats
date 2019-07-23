@@ -17,14 +17,23 @@ import java.util.List;
 public class arrayAdapter extends ArrayAdapter<cards> {
 
     Context context;
+    String CardUserID;
+//int i=0;
 
-    public arrayAdapter(Context context, int resourceId, List<cards> items){
+    public arrayAdapter(Context context, int resourceId, List<cards> items) {
         super(context, resourceId, items);
     }
-    public View getView(int position, View convertView, ViewGroup parent){
+
+    public View getView(int position, View convertView, ViewGroup parent) {
         cards card_item = getItem(position);
 
-        if (convertView == null){
+        /*i++;
+        if (i == 1) {
+            setCardUserID(card_item.getUserId());
+        }
+        //if (i > 1){i=0;}*/
+
+        if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.item, parent, false);
         }
 
@@ -33,11 +42,10 @@ public class arrayAdapter extends ArrayAdapter<cards> {
 
 
         //name.setText(card_item.getName());
-        //
         name.setText(card_item.toString());
 
 
-        switch(card_item.getProfileImageUrl()){
+        switch (card_item.getProfileImageUrl()) {
             case "default":
                 //image.setImageResource(R.drawable.ic_launcher_web);
                 Glide.clear(image);
@@ -51,6 +59,14 @@ public class arrayAdapter extends ArrayAdapter<cards> {
 
 
         return convertView;
-
     }
+
+/*    public void setCardUserID(String CardUserID) {
+            this.CardUserID = CardUserID;
+    }
+
+    public String getCardUserID() {
+        return CardUserID;
+    }*/
+
 }

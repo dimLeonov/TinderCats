@@ -88,6 +88,7 @@ public class SettingsActivity extends AppCompatActivity {
                             case "nope3": ((RadioButton)((RadioGroup)findViewById(R.id.nopeSounds)).getChildAt(2)).setChecked(true);break;
 
                         }
+
                     }
                 }
             }
@@ -99,9 +100,6 @@ public class SettingsActivity extends AppCompatActivity {
         });
 
         //sounds_switch.setChecked(isSoundMute);
-
-
-
        // M;ainActivity.catMeowSound.setVolume(0,0) for mute
 
         sounds_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

@@ -18,8 +18,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:onClick="navProfilePage"
-            android:text="back to swiping" />
+            android:onClick="navBack"
+            android:text="back" />
 
     </LinearLayout>
 
@@ -42,7 +42,8 @@
                 android:gravity="center_horizontal"
                 android:orientation="horizontal">
 
-                <ImageButton
+                <ImageView
+                    android:id="@+id/biopicture"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="0dp"
@@ -81,6 +82,7 @@
                         android:orientation="horizontal">
 
                         <TextView
+                            android:id="@+id/bioname"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/_10dp"
@@ -89,6 +91,7 @@
                             android:textStyle="bold" />
 
                         <TextView
+                            android:id="@+id/bioage"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="@dimen/_10dp"
@@ -104,6 +107,7 @@
                         android:orientation="horizontal">
 
                         <TextView
+                            android:id="@+id/biolocation"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/_10dp"
@@ -128,6 +132,7 @@
                         android:orientation="horizontal">
 
                         <TextView
+                            android:id="@+id/biotext"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/_10dp"
