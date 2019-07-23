@@ -12,6 +12,10 @@ import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 import android.media.MediaPlayer; // added by Natalia 17.7
+
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -70,9 +74,58 @@ public class MainActivity extends AppCompatActivity {
         usersDb = FirebaseDatabase.getInstance().getReference().child("Cats");
 
         mAuth = FirebaseAuth.getInstance();
-        currentUid = mAuth.getCurrentUser().getUid();
+
+        /* Added By Janis - data verification */
+        /* Missing UID check. Will sign user out back to chooseloginregister page */
+        try {
+            currentUid = mAuth.getCurrentUser().getUid();
+        } catch (NullPointerException e) {
+            Log.e("TAG", "Access to Application without valid ID.");
+            Intent intent = new Intent(MainActivity.this, ChooseLoginRegistrationActivity.class);
+            startActivity(intent);
+            finish();
+            return;
+        }
 
         DatabaseReference userDb = FirebaseDatabase.getInstance().getReference().child("Cats").child(currentUid);
+
+        /* GoogleSignIn preparation */
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .requestProfile()
+                .build();
+
+        final GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
+        /* Missing profile data check */
+        try {
+            final DatabaseReference currentUserDb = usersDb.child(currentUid);
+            currentUserDb.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    Log.v("TAG", "Current datasnapshot: " + dataSnapshot.getValue());
+                    if (!dataSnapshot.hasChild("sex") || !dataSnapshot.hasChild("profileImageUrl")
+                            || !dataSnapshot.hasChild("age") || !dataSnapshot.hasChild("name")
+                            || !dataSnapshot.hasChild("location")) {
+                        Log.w("TAG", "User has missing information. Proceed with prompting to add info.");
+                        Toast.makeText(MainActivity.this,"You have data missing. Please Update your profile.", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Log.i("TAG", "Current profile ready for Swiping. Enjoy!");
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                }
+            });
+        } catch (NullPointerException e) {
+            Log.e("TAG", "Access to Application without valid ID.");
+            Intent intent = new Intent(MainActivity.this, ChooseLoginRegistrationActivity.class);
+            startActivity(intent);
+            finish();
+        }
+        /* Missing profile data check ends */
 
         userDb.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
