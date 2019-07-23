@@ -18,7 +18,7 @@ public class arrayAdapter extends ArrayAdapter<cards> {
 
     Context context;
     String CardUserID;
-int i=0;
+//int i=0;
 
     public arrayAdapter(Context context, int resourceId, List<cards> items) {
         super(context, resourceId, items);
@@ -27,12 +27,11 @@ int i=0;
     public View getView(int position, View convertView, ViewGroup parent) {
         cards card_item = getItem(position);
 
-        //todo clean this up. setting current card doesnt work.
-        i++;
+        /*i++;
         if (i == 1) {
             setCardUserID(card_item.getUserId());
         }
-        //if (i > 1){i=0;}
+        //if (i > 1){i=0;}*/
 
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.item, parent, false);
@@ -62,12 +61,12 @@ int i=0;
         return convertView;
     }
 
-    public void setCardUserID(String CardUserID) {
+/*    public void setCardUserID(String CardUserID) {
             this.CardUserID = CardUserID;
     }
 
     public String getCardUserID() {
         return CardUserID;
-    }
+    }*/
 
 }

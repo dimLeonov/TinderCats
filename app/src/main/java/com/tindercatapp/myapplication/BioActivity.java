@@ -125,13 +125,6 @@ public class BioActivity extends AppCompatActivity {
         }
     }
 
-    /*TODO create proper getters and put this into its own class*/
-    public String getUserName() {
-        return name;
-    }
-    public String getProfileImageUrl(){
-        return profileImageUrl;
-    }
 
     public void navBack (View view){
         if (source.contains("main")){
