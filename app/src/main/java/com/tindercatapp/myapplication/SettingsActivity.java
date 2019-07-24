@@ -29,7 +29,7 @@ public class SettingsActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private String currentUid;
     private DatabaseReference usersDb;
-    private boolean isSoundMute ;
+    private boolean isSoundMute;
     private int volume;
     private String happySound, happySoundDB;
     private String nopeSound, nopeSoundDB;
@@ -70,10 +70,16 @@ public class SettingsActivity extends AppCompatActivity {
                     if (dataSnapshot.child("settings").child("happysound").getValue() != null) {
                         happySoundDB = dataSnapshot.child("settings").child("happysound").getValue().toString();
 
-                        switch (happySoundDB){
-                            case "happy1": ((RadioButton)((RadioGroup)findViewById(R.id.happySounds)).getChildAt(0)).setChecked(true);break;
-                            case "happy2": ((RadioButton)((RadioGroup)findViewById(R.id.happySounds)).getChildAt(1)).setChecked(true);break;
-                            case "happy3": ((RadioButton)((RadioGroup)findViewById(R.id.happySounds)).getChildAt(2)).setChecked(true);break;
+                        switch (happySoundDB) {
+                            case "happy1":
+                                ((RadioButton) ((RadioGroup) findViewById(R.id.happySounds)).getChildAt(0)).setChecked(true);
+                                break;
+                            case "happy2":
+                                ((RadioButton) ((RadioGroup) findViewById(R.id.happySounds)).getChildAt(1)).setChecked(true);
+                                break;
+                            case "happy3":
+                                ((RadioButton) ((RadioGroup) findViewById(R.id.happySounds)).getChildAt(2)).setChecked(true);
+                                break;
 
                         }
 
@@ -82,10 +88,16 @@ public class SettingsActivity extends AppCompatActivity {
                     if (dataSnapshot.child("settings").child("nopesound").getValue() != null) {
                         nopeSoundDB = dataSnapshot.child("settings").child("nopesound").getValue().toString();
 
-                        switch (nopeSoundDB){
-                            case "nope1": ((RadioButton)((RadioGroup)findViewById(R.id.nopeSounds)).getChildAt(0)).setChecked(true);break;
-                            case "nope2": ((RadioButton)((RadioGroup)findViewById(R.id.nopeSounds)).getChildAt(1)).setChecked(true);break;
-                            case "nope3": ((RadioButton)((RadioGroup)findViewById(R.id.nopeSounds)).getChildAt(2)).setChecked(true);break;
+                        switch (nopeSoundDB) {
+                            case "nope1":
+                                ((RadioButton) ((RadioGroup) findViewById(R.id.nopeSounds)).getChildAt(0)).setChecked(true);
+                                break;
+                            case "nope2":
+                                ((RadioButton) ((RadioGroup) findViewById(R.id.nopeSounds)).getChildAt(1)).setChecked(true);
+                                break;
+                            case "nope3":
+                                ((RadioButton) ((RadioGroup) findViewById(R.id.nopeSounds)).getChildAt(2)).setChecked(true);
+                                break;
 
                         }
 
@@ -100,14 +112,14 @@ public class SettingsActivity extends AppCompatActivity {
         });
 
         //sounds_switch.setChecked(isSoundMute);
-       // M;ainActivity.catMeowSound.setVolume(0,0) for mute
+        // M;ainActivity.catMeowSound.setVolume(0,0) for mute
 
         sounds_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     usersDb.child(currentUid).child("settings").child("mute").setValue(true);
-                    }else{
+                } else {
                     usersDb.child(currentUid).child("settings").child("mute").setValue(false);
                 }
             }
@@ -169,7 +181,7 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
 
-    public void goToMainPageFromSettings(View view){
+    public void goToMainPageFromSettings(View view) {
         Intent intent = new Intent(SettingsActivity.this, MainActivity.class);
         startActivity(intent);
         finish();
@@ -177,7 +189,7 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     //Added Amal
-    public void goToMatchesFromSettings(View view){
+    public void goToMatchesFromSettings(View view) {
         Intent intent = new Intent(SettingsActivity.this, MatchesActivity.class);
         startActivity(intent);
         finish();
@@ -193,40 +205,40 @@ public class SettingsActivity extends AppCompatActivity {
 
 
     public void onRadioButtonClicked(View v) {
-        boolean  checked = ((RadioButton) v).isChecked();
-        switch(v.getId()) {
+        boolean checked = ((RadioButton) v).isChecked();
+        switch (v.getId()) {
             case R.id.happy1:
-                if(checked)
+                if (checked)
                     playCatSound("happy1");
-                    usersDb.child(currentUid).child("settings").child("happysound").setValue("happy1");
-                    break;
+                usersDb.child(currentUid).child("settings").child("happysound").setValue("happy1");
+                break;
 
             case R.id.happy2:
-                if(checked)
+                if (checked)
                     playCatSound("happy2");
                 usersDb.child(currentUid).child("settings").child("happysound").setValue("happy2");
                 break;
 
             case R.id.happy3:
-                if(checked)
+                if (checked)
                     playCatSound("happy3");
                 usersDb.child(currentUid).child("settings").child("happysound").setValue("happy3");
                 break;
 
             case R.id.nope1:
-                if(checked)
+                if (checked)
                     playCatSound("nope1");
                 usersDb.child(currentUid).child("settings").child("nopesound").setValue("nope1");
                 break;
 
             case R.id.nope2:
-                if(checked)
+                if (checked)
                     playCatSound("nope2");
                 usersDb.child(currentUid).child("settings").child("nopesound").setValue("nope2");
                 break;
 
             case R.id.nope3:
-                if(checked)
+                if (checked)
                     playCatSound("nope3");
                 usersDb.child(currentUid).child("settings").child("nopesound").setValue("nope3");
                 break;
@@ -235,38 +247,47 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
 
-        public void playCatSound(String soundName){
+    public void playCatSound(String soundName) {
 
-        switch (soundName){
-            case "happy1": catSound = MediaPlayer.create(this, R.raw.cat_purr_1);  break;
-            case "happy2": catSound = MediaPlayer.create(this, R.raw.cat_purr_2); break;
-            case "happy3": catSound = MediaPlayer.create(this, R.raw.cat_purr_3); break;
+        switch (soundName) {
+            case "happy1":
+                catSound = MediaPlayer.create(this, R.raw.cat_purr_1);
+                break;
+            case "happy2":
+                catSound = MediaPlayer.create(this, R.raw.cat_purr_2);
+                break;
+            case "happy3":
+                catSound = MediaPlayer.create(this, R.raw.cat_purr_3);
+                break;
 
-            case "nope1": catSound = MediaPlayer.create(this, R.raw.cat_meow_1);  break;
-            case "nope2": catSound = MediaPlayer.create(this, R.raw.cat_meow_2); break;
-            case "nope3": catSound = MediaPlayer.create(this, R.raw.cat_meow_3); break;
+            case "nope1":
+                catSound = MediaPlayer.create(this, R.raw.cat_meow_1);
+                break;
+            case "nope2":
+                catSound = MediaPlayer.create(this, R.raw.cat_meow_2);
+                break;
+            case "nope3":
+                catSound = MediaPlayer.create(this, R.raw.cat_meow_3);
+                break;
         }
-            catSound.start();
-        }
+        catSound.start();
+    }
 
 
-
-    public void navProfilePage (View view){
+    public void navProfilePage(View view) {
         Intent intent = new Intent(SettingsActivity.this, ProfileActivity.class);
         startActivity(intent);
         return;
     }
 
-    public void saveSettings (View view){
+    public void saveSettings(View view) {
         //Toast.makeText(SettingsActivity.this, "I don't work yet :(", Toast.LENGTH_SHORT).show();
         return;
     }
     /*TODO implement mute sounds setting*/
     /*TODO implement settings save button functionality*/
 
-   // sounds_switch.OnCheckedChangeListener(){}
-
-
+    // sounds_switch.OnCheckedChangeListener(){}
 
 
 }

@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -54,16 +55,17 @@ import java.util.Map;
 
 public class RegistrationActivity extends AppCompatActivity {
 
-    private Button mRegister;
+    private Button mRegisterButton;
     private EditText mEmail, mPassword, mName;
     private RadioGroup mRadioGroup;
+    private ImageButton mProfileImage;
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener firebaseAuthStateListener;
 
     private static final int RC_GOOGLE_SIGN_IN = 123;
     private GoogleSignInClient mGoogleSignInClient;
-    private com.google.android.gms.common.SignInButton mGoogleSignInButton;
+    private com.google.android.gms.common.SignInButton mSignInButton;
     private LoginButton facebookLoginButton;
     private CallbackManager mCallbackManager;
     private AccessToken facebookAccessToken;
@@ -73,28 +75,23 @@ public class RegistrationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
 
-        mRegister = findViewById(R.id.register);
-        mEmail = findViewById(R.id.email);
-        mPassword = findViewById(R.id.password);
-        mName = findViewById(R.id.name);
-        mRadioGroup = findViewById(R.id.radioGroup);
-        mGoogleSignInButton = findViewById(R.id.sign_in_button);
 
-        mAuth = FirebaseAuth.getInstance();
-        firebaseAuthStateListener = new FirebaseAuth.AuthStateListener() {
+        initializeFirebase();
+        initializeXML();
+
+
+        // choose image from gallery
+        mProfileImage.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                Log.d("TAG", "AuthStateChange event detected");
-                final FirebaseUser user = mAuth.getCurrentUser();
-                if (user !=null){
-                    Log.d("TAG", "Valid firebase user detected");
-                    Intent intent = new Intent(RegistrationActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    finish();
-                    return;
-                }
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_PICK);
+                intent.setType("image/*");
+                startActivityForResult(intent, 1);
+
             }
-        };
+        });
+
+
 
         /* 2 Facebook Login */
         // Initialize Facebook Login button
@@ -104,8 +101,10 @@ public class RegistrationActivity extends AppCompatActivity {
         facebookLoginButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
+
                 Log.d("TAG", "facebook:onSuccess:" + loginResult);
                 handleFacebookAccessToken(loginResult.getAccessToken());
+
             }
 
             @Override
@@ -129,65 +128,79 @@ public class RegistrationActivity extends AppCompatActivity {
 
         // Build a GoogleSignInClient with the options specified by gso.
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-        mGoogleSignInButton.setOnClickListener(new View.OnClickListener() {
+        mSignInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 googleSignIn();
             }
         }); /* Google Sign In ends */
 
+
         /* 1 Standart Register */
-        mRegister.setOnClickListener(new View.OnClickListener() {
+        mRegisterButton.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
-                int selectId = mRadioGroup.getCheckedRadioButtonId();
-
-                final RadioButton radioButton = (RadioButton) findViewById(selectId);
-
-                if(radioButton.getText() == null){
-                    return;
-                }
-
                 final String email = mEmail.getText().toString();
                 final String password = mPassword.getText().toString();
                 final String name = mName.getText().toString();
+
+                final RadioButton radioButton = (RadioButton) findViewById(mRadioGroup.getCheckedRadioButtonId());
+
+                if (radioButton.getText() == null) {
+                    return;
+                }
+
                 mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(RegistrationActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(!task.isSuccessful()){
+                        if (!task.isSuccessful()) {
                             Toast.makeText(RegistrationActivity.this, "sign up error", Toast.LENGTH_SHORT).show();
-                        }else{
+                        } else {
                             String userId = mAuth.getCurrentUser().getUid();
 
                             //Added by Amal
                             DatabaseReference currentUserDb = FirebaseDatabase.getInstance().getReference().child("Cats").child(userId);
                             Map userInfo = new HashMap<>();
                             userInfo.put("name", name);
+                            userInfo.put("location", "");
+                            userInfo.put("age", "0");
                             userInfo.put("sex", radioButton.getText().toString());
                             userInfo.put("profileImageUrl", "default");
-                            userInfo.put("age", "0");
-                            userInfo.put("location", "");
-
                             currentUserDb.updateChildren(userInfo);
-                            currentUserDb.child("settings").child("mute").setValue(false);
-
-                            currentUserDb.child("settings").child("level").setValue(20);
-                            currentUserDb.child("settings").child("happysound").setValue("happy1");
-                            currentUserDb.child("settings").child("nopesound").setValue("nope1");
-
-
-
-                            //currentUserDb.setValue(name);
-                            // DatabaseReference currentUserDb = FirebaseDatabase.getInstance().getReference().child("Cats").child(radioButton.getText().toString()).child(userId).child("name");
-                            //DatabaseReference currentUserDb = FirebaseDatabase.getInstance().getReference().child("Cats").child(radioButton.getText().toString()).child(userId).child("name");
-                            //currentUserDb.setValue(name);
-
                         }
                     }
                 });
             }
-        });/* Register ends here */
+        });
+        /* Register ends here */
     } /* onCreate ends here */
+
+
+    public void initializeFirebase() {
+        mAuth = FirebaseAuth.getInstance();
+        firebaseAuthStateListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                final FirebaseUser user = mAuth.getCurrentUser();
+                if (user != null) {
+                    Intent intent = new Intent(RegistrationActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            }
+        };
+    }
+
+    public void initializeXML() {
+        mRegisterButton = findViewById(R.id.register);
+        mSignInButton = findViewById(R.id.sign_in_button);
+        mEmail = findViewById(R.id.email);
+        mPassword = findViewById(R.id.password);
+        mName = findViewById(R.id.name);
+        mRadioGroup = findViewById(R.id.radioGroup);
+        mProfileImage = (ImageButton) findViewById(R.id.profileImage);
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -251,10 +264,12 @@ public class RegistrationActivity extends AppCompatActivity {
         }
     }
 
+
     private void registerUserWithFaceBook (final FirebaseUser user) {
         DatabaseReference currentUserDb = FirebaseDatabase.getInstance().getReference().child("Cats").child(user.getUid());
         Map <String, Object> userInfo = new HashMap<>();
         userInfo.put("name", user.getDisplayName());
+
         try {
             currentUserDb.updateChildren(userInfo, new DatabaseReference.CompletionListener() {
                 @Override
@@ -296,16 +311,16 @@ public class RegistrationActivity extends AppCompatActivity {
                 });
     } // Firebase auth with google ends here
 
-    private void registerUserWithGoogle (GoogleSignInAccount account) {
+    private void registerUserWithGoogle(GoogleSignInAccount account) {
         FirebaseUser user = mAuth.getCurrentUser();
         DatabaseReference currentUserDb = FirebaseDatabase.getInstance().getReference().child("Cats").child(user.getUid());
 
         Log.i("TAG", "User is registering with google.");
         String firstName = account.getGivenName(); // user does not provide only the first name, so account is used here
         System.out.println("User first name is is: " + firstName);
-        Log.i("TAG","Google ID: " + account.getId());
+        Log.i("TAG", "Google ID: " + account.getId());
 
-        Map <String, Object> userInfo = new HashMap<>();
+        Map<String, Object> userInfo = new HashMap<>();
         userInfo.put("name", firstName);
         Log.v("TAG", "CurrentUserDB: " + currentUserDb);
         try {
@@ -316,7 +331,7 @@ public class RegistrationActivity extends AppCompatActivity {
                 }
             });
         } catch (Exception e) {
-            Log.e("TAG", "Registering to Firebase with Google failed: " +  e);
+            Log.e("TAG", "Registering to Firebase with Google failed: " + e);
         }
     }  /* Google Sign In ends */
 
@@ -333,9 +348,15 @@ public class RegistrationActivity extends AppCompatActivity {
         FirebaseUser currentUser = mAuth.getCurrentUser();
     }
 
-    public void navLoginPage (View view){
+    public void navChooseLoginRegistration(View view) {
+        Intent intent = new Intent(RegistrationActivity.this, ChooseLoginRegistrationActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    public void navLoginPage(View view) {
         Intent intent = new Intent(RegistrationActivity.this, LoginActivity.class);
         startActivity(intent);
-        return;
+        finish();
     }
 }

@@ -50,9 +50,9 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatViewHolders> {
         }
     }
 
-        @Override
-        public int getItemCount () {
-            return this.chatList.size();
-        }
+    @Override
+    public int getItemCount() {
+        return this.chatList.size();
+    }
 
 }

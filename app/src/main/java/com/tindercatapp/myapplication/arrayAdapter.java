@@ -18,7 +18,6 @@ public class arrayAdapter extends ArrayAdapter<cards> {
 
     Context context;
     String CardUserID;
-//int i=0;
 
     public arrayAdapter(Context context, int resourceId, List<cards> items) {
         super(context, resourceId, items);

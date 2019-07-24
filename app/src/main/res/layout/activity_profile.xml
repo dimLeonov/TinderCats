@@ -1,147 +1,191 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/light_grey"
     android:orientation="vertical">
 
-
     <LinearLayout
+        android:id="@+id/buttonBarTop"
+        style="?android:buttonBarStyle"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/profile_bg"
-        android:orientation="vertical"
-        android:weightSum="10"
-        tools:context=".ProfileActivity">
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@color/grey">
 
-
-        <LinearLayout
-            style="?android:buttonBarStyle"
-            android:layout_width="match_parent"
+        <Button
+            style="?android:buttonBarButtonStyle"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_weight="1"
+            android:clickable="false"
+            android:enabled="false"
+            android:onClick="navProfilePage"
+            android:text="My Profile"
+            android:textColor="@color/color_bitter" />
 
-
-            <Button
-
-                style="?android:buttonBarButtonStyle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="My Profile"
-                android:textColor="@color/grey"
-                />
-
-            <Button
-                android:onClick="navMainPage"
-                style="?android:buttonBarButtonStyle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Swipe" />
-
-            <Button
-                android:onClick="navMatchesPage"
-                style="?android:buttonBarButtonStyle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Matches" />
-
-        </LinearLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@android:color/darker_gray"/>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_centerInParent="true"
-            android:layout_weight="3"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <!--TODO use user profile pic from DB instead of placeholder-->
-            <!--TODO add onclick link to View my profile activity-->
-
-                <ImageButton
-                    android:id="@+id/circle_profile_image"
-                    android:layout_width="151dp"
-                    android:layout_height="161dp"
-                    android:layout_marginTop="59dp"
-                    android:onClick="navBioPage"
-                    android:src="@drawable/tempcat" />
-
-            <!--TODO use username string from DB instead of placeholder-->
-            <TextView
-                android:onClick="editProfilePage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="@dimen/_10dp"
-                android:text="My name placeholder"
-                android:textColor="@android:color/black"
-                android:textSize="20sp" />
-
-           <!-- <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal">-->
-
-
-                <TextView
-                    android:onClick="editProfilePage"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="25dp"
-                    android:gravity="center"
-                    android:text="Edit profile"
-                    android:textColor="@color/transparentPink"
-                    android:clickable="true"
-                    android:textSize="20dp" />
-<!--
-            </LinearLayout>-->
-
-
-        </LinearLayout>
-        <LinearLayout
-            style="?android:buttonBarStyle"
-            android:layout_marginTop="@dimen/_10dp"
-            android:layout_width="match_parent"
+        <Button
+            style="?android:buttonBarButtonStyle"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_weight="1"
+            android:onClick="navMainPage"
+            android:text="Swipe" />
 
-
-            <!--TODO add onClick to logout method-->
-            <Button
-                android:onClick="logoutUser"
-                style="?android:buttonBarButtonStyle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Sign out" />
-
-            <Button
-                style="?android:buttonBarButtonStyle"
-                android:onClick="navSettingsPage"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Settings" />
-
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="3">
-
-        </LinearLayout>
-
+        <Button
+            style="?android:buttonBarButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="navMatchesPage"
+            android:text="Matches" />
     </LinearLayout>
 
+    <ImageView
+        android:id="@+id/profileImage"
+        android:layout_width="wrap_content"
+        android:layout_height="291dp"
+        android:layout_below="@+id/buttonBarTop"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="30dp"
+        android:onClick="navBioPage"
+        app:srcCompat="@drawable/ic_launcher_web" />
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/name_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_below="@+id/profileImage"
+        android:layout_marginLeft="30sp"
+        android:layout_marginTop="15sp"
+        android:background="@null"
+        android:hint="Name:  "
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/location_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_below="@+id/name_hint"
+        android:layout_marginLeft="30sp"
+        android:background="@null"
+        android:hint="Location: "
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/sex_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_below="@+id/location_hint"
+        android:layout_marginLeft="30sp"
+        android:background="@null"
+        android:hint="Gender: "
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/age_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_below="@+id/sex_hint"
+        android:layout_marginLeft="30sp"
+        android:background="@null"
+        android:hint="Age: "
+        android:textSize="15sp" />
+    <TextView
+        android:id="@+id/bio_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_below="@+id/age_hint"
+        android:layout_marginLeft="30sp"
+        android:background="@null"
+        android:hint="Bio: "
+        android:textSize="15sp" />
+
+    <EditText
+        android:id="@+id/name"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@+id/profileImage"
+        android:layout_marginLeft="100sp"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="30dp"
+        android:enabled="false"
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/location"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@id/name"
+        android:layout_marginLeft="100sp"
+        android:layout_marginRight="30dp"
+        android:enabled="false"
+        android:inputType="text" />
+
+    <EditText
+        android:id="@+id/sex"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@+id/location"
+        android:layout_marginLeft="100sp"
+        android:layout_marginRight="30dp"
+        android:enabled="false"
+        android:inputType="text" />
+
+    <EditText
+        android:id="@+id/age"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@+id/sex"
+        android:layout_marginLeft="100sp"
+        android:layout_marginRight="30dp"
+        android:enabled="false"
+        android:inputType="number" />
+    <EditText
+        android:id="@+id/bio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/age"
+        android:layout_marginLeft="100sp"
+        android:layout_marginRight="30dp"
+        android:enabled="false"
+        android:inputType="textMultiLine" />
+
+    <LinearLayout
+        android:id="@+id/buttonBarBottom"
+        style="?android:buttonBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/grey">
+
+        <Button
+            style="?android:buttonBarButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="logoutUser"
+            android:text="sign out" />
+
+        <Button
+            style="?android:buttonBarButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="editProfilePage"
+            android:text="edit Profile" />
+
+        <Button
+            style="?android:buttonBarButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="navSettingsPage"
+            android:text="settings" />
+    </LinearLayout>
+
+</RelativeLayout>

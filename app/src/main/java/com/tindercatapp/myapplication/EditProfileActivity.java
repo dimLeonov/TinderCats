@@ -16,6 +16,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioGroup;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -36,14 +38,15 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class EditProfileActivity extends AppCompatActivity
-{
-    private EditText mNameField,mPhoneField;
-    private Button mBack, mConfirm;
+public class EditProfileActivity extends AppCompatActivity {
+    private FirebaseAuth firebaseAuth;
+    private DatabaseReference databaseReference;
+
+    private EditText mNameField, mLocationField, mAgeField, mBioField;
+    private RadioGroup mSexField;
+    private RadioButton radioButtonM, radioButtonF;
     private ImageView mProfileImage;
-    private FirebaseAuth mAuth;
-    private DatabaseReference mCostumerDatabase;
-    private String userId, name, phone, profileImageUrl;
+    private String userId, name, location, sex, age, bio, profileImageUrl;
     private Uri resultUri;
 
     @Override
@@ -52,70 +55,62 @@ public class EditProfileActivity extends AppCompatActivity
         setContentView(R.layout.activity_editprofile);
 
         mNameField = (EditText) findViewById(R.id.name);
-        mPhoneField = (EditText) findViewById(R.id.phone);
-
+        mLocationField = (EditText) findViewById(R.id.location);
+        mSexField = (RadioGroup) findViewById(R.id.sex);
+        mAgeField = (EditText) findViewById(R.id.age);
+        mBioField = (EditText) findViewById(R.id.bio);
         mProfileImage = (ImageView) findViewById(R.id.profileImage);
-
-     /*   mBack = (Button) findViewById(R.id.back);
-        mConfirm = (Button) findViewById(R.id.confirm);*/
+        radioButtonM = (RadioButton) findViewById(R.id.SexRadioMale);
+        radioButtonF = (RadioButton) findViewById(R.id.SexRadioFemale);
 
         // database references
-        mAuth = FirebaseAuth.getInstance();
-        userId = mAuth.getCurrentUser().getUid();
-        mCostumerDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child("male").child(userId);
+        firebaseAuth = FirebaseAuth.getInstance();
+        userId = firebaseAuth.getCurrentUser().getUid();
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("Cats").child(userId);
 
-        getUserInfo();
+        setUserInfo();
 
-        mProfileImage.setOnClickListener(new View.OnClickListener()
-        {
+        mProfileImage.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view)
-            {
+            public void onClick(View view) {
                 Intent intent = new Intent(Intent.ACTION_PICK);
                 intent.setType("image/*");
-                startActivityForResult(intent,1);
-
+                startActivityForResult(intent, 1);
             }
         });
-
-
     }
 
-        public void saveUserInformation()
-        {
-            name = mNameField.getText().toString();
-            phone = mPhoneField.getText().toString();
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
+            final Uri imageUri = data.getData();
+            resultUri = imageUri;
+            mProfileImage.setImageURI(resultUri);
 
-            Map userInfo = new HashMap();
-            userInfo.put("name",name);
-            userInfo.put("phone",phone);
-            mCostumerDatabase.updateChildren(userInfo);
 
-            if(resultUri!=null)
-            {
+            if (resultUri != null) {
                 final StorageReference filepath = FirebaseStorage.getInstance().getReference().child("profileImages").child(userId);
                 Bitmap bitmap = null;
-                try
-                {
+                try {
                     bitmap = MediaStore.Images.Media.getBitmap(getApplication().getContentResolver(), resultUri);
-                }
-                catch(IOException e)
-                {
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG,20,baos);
-                byte[] data = baos.toByteArray();
-                UploadTask uploadTask = filepath.putBytes(data);
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 20, baos);
+                byte[] data2 = baos.toByteArray();
+
+                UploadTask uploadTask = filepath.putBytes(data2);
                 uploadTask.addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        finish();}
+                        finish();
+                    }
 
 
                 });
                 uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                         filepath.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
@@ -123,80 +118,109 @@ public class EditProfileActivity extends AppCompatActivity
                             public void onSuccess(Uri uri) {
                                 Map userInfo = new HashMap();
                                 userInfo.put("profileImageUrl", uri.toString());
-                                mCostumerDatabase.updateChildren(userInfo);
-                                finish();
-                                return;
+                                databaseReference.updateChildren(userInfo);
                             }
                         });
-
-
                     }
-
-
                 });
             }
-
-            else
-            {
+            else{
                 finish();
             }
-        }
-        @Override
-        protected void onActivityResult(int requestCode, int resultCode, Intent data)
-        {
-            super.onActivityResult(requestCode,resultCode,data);
-            if(requestCode==1 && resultCode == Activity.RESULT_OK)
-            {
-                final Uri imageUri = data.getData();
-                resultUri = imageUri;
-                mProfileImage.setImageURI(resultUri);
-            }
-        }
-        private void getUserInfo()
-        {
-            mCostumerDatabase.addListenerForSingleValueEvent(new ValueEventListener()
-            {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot)
-                {
-                    if(dataSnapshot.exists() && dataSnapshot.getChildrenCount()>0)
-                    {
-                        Map<String,Object> map = (Map<String,Object>)dataSnapshot.getValue();
 
-                        if(map.get("name")!=null)
-                        {
-                            name = map.get("name").toString();
-                            mNameField.setText(name);
+
+        }
+    }
+
+    private void setUserInfo() {
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists() && dataSnapshot.getChildrenCount() > 0) {
+                    Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();
+
+                    if (map.get("name") != null) {
+                        name = map.get("name").toString();
+                        mNameField.setText(name);
+                    }
+                    if (map.get("location") != null) {
+                        location = map.get("location").toString();
+                        mLocationField.setText(location);
+                    }
+                    if (map.get("sex") != null) {
+                        sex = map.get("sex").toString();
+                        if(sex.contains("Male")){
+                            radioButtonM.setChecked(true);
                         }
-                        if(map.get("phone")!=null)
-                        {
-                            phone = map.get("phone").toString();
-                            mPhoneField.setText(phone);
+                        else{
+                            radioButtonF.setChecked(true);
                         }
-                        if(map.get("profileImageUrl")!=null)
-                        {
-                            profileImageUrl = map.get("profileImageUrl").toString();
-                            Glide.with(getApplication()).load(profileImageUrl).into(mProfileImage);
+
+
+
+                    }
+                    if (map.get("age") != null) {
+                        age = map.get("age").toString();
+                        mAgeField.setText(age);
+                    }
+                    if (map.get("bio") != null) {
+                        bio = map.get("bio").toString();
+                        mBioField.setText(bio);
+                    }
+                    if (map.get("profileImageUrl") != null) {
+                        profileImageUrl = map.get("profileImageUrl").toString();
+                        if (profileImageUrl.contains("firebase")) {
+                            Glide.with(getApplication())
+                                    .load(profileImageUrl)
+                                    .into(mProfileImage);
+                        } else {
+                            Glide.with(getApplication())
+                                    .load(R.drawable.ic_launcher_web)
+                                    .into(mProfileImage);
                         }
                     }
                 }
+            }
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                }
-            });
-        }
-
-   public void saveProfileEdit (View view){
-        Toast.makeText(EditProfileActivity.this, "I don't work yet :(", Toast.LENGTH_SHORT).show();
-       saveUserInformation();
-        return;
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
     }
- public void navProfilePage (View view){
-     Intent intent = new Intent(EditProfileActivity.this, ProfileActivity.class);
-     startActivity(intent);
-     return;
- }
+
+    public void saveUserInformation() {
+        name = mNameField.getText().toString();
+        location = mLocationField.getText().toString();
+
+        int checkedSex = mSexField.getCheckedRadioButtonId();
+        RadioButton radioButton = (RadioButton) mSexField.findViewById(checkedSex);
+        sex = radioButton.getText().toString();
+
+        age = mAgeField.getText().toString();
+        bio = mBioField.getText().toString();
+
+        Map userInfo = new HashMap();
+        userInfo.put("name", name);
+        userInfo.put("location", location);
+        userInfo.put("sex", sex);
+        userInfo.put("age", age);
+        userInfo.put("bio", bio);
+        databaseReference.updateChildren(userInfo);
+
     }
+
+    public void saveProfileEdit(View view) {
+        saveUserInformation();
+        Intent intent = new Intent(EditProfileActivity.this, ProfileActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    public void navProfilePage(View view) {
+        Intent intent = new Intent(EditProfileActivity.this, ProfileActivity.class);
+        startActivity(intent);
+        finish();
+    }
+}
+
 

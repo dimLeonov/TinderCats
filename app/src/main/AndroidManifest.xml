@@ -30,9 +30,6 @@
             android:name=".ProfileActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".EditProfileActivity_old"
-            android:screenOrientation="portrait"/>
-        <activity
             android:name=".RegistrationActivity"
             android:screenOrientation="portrait"/>
         <activity

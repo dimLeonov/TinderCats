@@ -80,11 +80,11 @@
                 android:id="@+id/name"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/bg_screen1"
-                android:gravity="left"
+                android:background="@color/color_bitter"
+                android:gravity="center"
                 android:paddingLeft="10sp"
                 android:paddingBottom="5sp"
-                android:textColor="@android:color/white"
+                android:textColor="@android:color/black"
                 android:textSize="30sp"
                 tools:text="Name" />
 

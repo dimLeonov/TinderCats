@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
-    <color name="colorPrimary">#d13135</color>
-    <color name="colorPrimaryDark">#d13135</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="colorPrimary">#7bb338</color>
+    <color name="colorPrimaryDark">#7bb338</color>
+    <color name="colorAccent">#000000</color>
 
-    <color name="transparentPink">#99FF4081</color>
+    <color name="transparentPink">#7bb338</color>
 
     <color name="grey">#bfbfbf</color>
     <color name="white">#ffffff</color>
@@ -26,6 +26,7 @@
     <color name="color_savory">#e08720</color>
     <color name="color_sour">#e2c713</color>
     <color name="color_bitter">#7bb338</color>
+    <color name="color_transp_bitter">#D97bb338</color>
     <color name="color_sweet">#e87aab</color>
     <color name="color_spicy">#d4472b</color>
     <color name="cardBorderColor">#dedede</color>

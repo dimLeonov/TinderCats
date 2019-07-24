@@ -4,9 +4,9 @@ public class ChatObject {
     private String message;
     private Boolean currentUser;
 
-    public ChatObject(String message,Boolean currentUser){
-        this.message=message;
-        this.currentUser=currentUser;
+    public ChatObject(String message, Boolean currentUser) {
+        this.message = message;
+        this.currentUser = currentUser;
     }
 
 
