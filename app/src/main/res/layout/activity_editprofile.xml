@@ -1,60 +1,180 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".EditProfileActivity"
     android:orientation="vertical"
-    android:padding="20sp">
-    <LinearLayout
-        style="?android:buttonBarStyle"
-        android:layout_width="match_parent"
+    android:background="@color/light_grey"
+    tools:context=".EditProfileActivity"
+    >
+    <Button
+        android:id="@+id/topPanel"
+        android:onClick="navProfilePage"
+        style="?android:buttonBarButtonStyle"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="0dp"
-        android:orientation="horizontal">
+        android:layout_width="match_parent"
+        android:clickable="false"
+        android:background="@color/grey"
+        />
 
-        <Button
-            android:onClick="navProfilePage"
-            style="?android:buttonBarButtonStyle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="back to profile"
+        <ImageButton
+            android:id="@+id/profileImage"
+            android:layout_width="match_parent"
+            android:layout_below="@+id/topPanel"
+            android:layout_height="291dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="30sp"
+            app:srcCompat="@drawable/ic_launcher_web"
             />
 
+
+    <TextView
+        android:id="@+id/sex_hint"
+        android:layout_below="@+id/profileImage"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginLeft="30sp"
+        android:layout_marginTop="23dp"
+        android:background="@null"
+        android:hint="Gender: "
+        android:textSize="15sp"
+        />
+    <TextView
+        android:id="@+id/name_hint"
+        android:layout_below="@+id/sex_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginLeft="30sp"
+        android:background="@null"
+        android:hint="Name: "
+        android:textSize="15sp"
+        />
+    <TextView
+        android:id="@+id/location_hint"
+        android:layout_below="@+id/name_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginLeft="30sp"
+        android:background="@null"
+        android:hint="Location: "
+        android:textSize="15sp"
+        />
+    <TextView
+        android:id="@+id/age_hint"
+        android:layout_below="@+id/location_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginLeft="30sp"
+        android:background="@null"
+        android:hint="Age: "
+        android:textSize="15sp"
+        />
+    <TextView
+        android:id="@+id/bio_hint"
+        android:layout_below="@+id/age_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginLeft="30sp"
+        android:background="@null"
+        android:hint="Bio: "
+        android:textSize="15sp"
+        />
+    <RadioGroup
+        android:id="@+id/sex"
+        android:layout_below="@+id/profileImage"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="18sp"
+        android:layout_marginLeft="100sp"
+        android:orientation="horizontal"
+        >
+        <RadioButton
+            android:id="@+id/SexRadioMale"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="0dp"
+            android:text="Male"
+            />
+        <RadioButton
+            android:id="@+id/SexRadioFemale"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Female"
+            />
+    </RadioGroup>
+    <EditText
+        android:id="@+id/name"
+        android:layout_below="@+id/sex"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="100sp"
+
+        android:layout_marginRight="30dp"
+        android:inputType="textPersonName"
+        />
+    <EditText
+        android:id="@+id/location"
+        android:layout_below="@id/name"
+        android:layout_marginLeft="100sp"
+        android:layout_marginRight="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:inputType="textPersonName"
+        />
+
+
+    <EditText
+        android:id="@+id/age"
+        android:layout_below="@+id/location"
+        android:layout_marginLeft="100sp"
+        android:layout_marginRight="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:inputType="number"
+        />
+    <EditText
+        android:id="@+id/bio"
+        android:layout_below="@+id/age"
+        android:layout_marginLeft="100sp"
+        android:layout_marginRight="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
+        />
+    <LinearLayout
+        style="?android:buttonBarStyle"
+        android:id="@+id/buttonBarBottom"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/grey"
+        >
+        <Button
+            style="?android:buttonBarButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="navProfilePage"
+            android:text="cancel"
+            />
+        <Button
+            style="?android:buttonBarButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:enabled="true"
+            />
+        <Button
+            style="?android:buttonBarButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="saveProfileEdit"
+            android:text="confirm"
+            />
     </LinearLayout>
 
-
-    <ImageView
-        android:layout_width="100sp"
-        android:layout_height="100sp"
-        android:id="@+id/profileImage"
-        android:src="@mipmap/ic_launcher"
-        />
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/name"
-        android:background="@null"
-        android:hint="Name:"
-        android:layout_marginBottom="20sp"
-        android:inputType="phone"
-        />
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/phone"
-        android:background="@null"
-        android:hint="Phone:"
-        android:layout_marginBottom="20sp"
-        android:inputType="phone"
-        />
-    <Button
-        android:onClick="saveProfileEdit"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="confirm"
-        />
-
-</LinearLayout>
+</RelativeLayout>

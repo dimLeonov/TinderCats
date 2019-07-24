@@ -25,7 +25,7 @@ import java.util.List;
 public class MatchesActivity extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter  mMatchesAdapter;
+    private RecyclerView.Adapter mMatchesAdapter;
     private RecyclerView.LayoutManager mMatchesLayoutManager;
 
     private String currentUserID;
@@ -35,10 +35,10 @@ public class MatchesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_matches);
 
-        currentUserID= FirebaseAuth.getInstance().getCurrentUser().getUid();
-       // currentUserID="Fm1";
+        currentUserID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        // currentUserID="Fm1";
 
-        mRecyclerView = (RecyclerView)findViewById(R.id.recyclerView);
+        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         mRecyclerView.setNestedScrollingEnabled(false);
         mRecyclerView.setHasFixedSize(true);
         mMatchesLayoutManager = new LinearLayoutManager(MatchesActivity.this);
@@ -50,13 +50,13 @@ public class MatchesActivity extends AppCompatActivity {
         getUserMatchId();
 
         //for(int i=0;i<100;i++){
-           // MatchesObject obj = new MatchesObject(Integer.toString(i));
-           // resultMatches.add(obj);
+        // MatchesObject obj = new MatchesObject(Integer.toString(i));
+        // resultMatches.add(obj);
 
         //}
 
 
-       // mMatchesAdapter.notifyDataSetChanged();
+        // mMatchesAdapter.notifyDataSetChanged();
 
 
 
@@ -76,38 +76,38 @@ public class MatchesActivity extends AppCompatActivity {
         */
     }
 
-    public void navMainPage (View view){
+    public void navMainPage(View view) {
         Intent intent = new Intent(MatchesActivity.this, MainActivity.class);
         startActivity(intent);
         return;
     }
 
-    public void navProfilePage (View view){
+    public void navProfilePage(View view) {
         Intent intent = new Intent(MatchesActivity.this, ProfileActivity.class);
         startActivity(intent);
         return;
     }
 
 
-    private void FetchMatchInformation(String key){
-      //  DatabaseReference userDb = FirebaseDatabase.getInstance().getReference().child("Users").child(key);
+    private void FetchMatchInformation(String key) {
+        //  DatabaseReference userDb = FirebaseDatabase.getInstance().getReference().child("Users").child(key);
         DatabaseReference userDb = FirebaseDatabase.getInstance().getReference().child("Cats").child(key);
 
         userDb.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot.exists()){
+                if (dataSnapshot.exists()) {
                     String userId = dataSnapshot.getKey();
-                    String name ="";
-                    String profileImageUrl="";
-                    if(dataSnapshot.child("name").getValue()!= null){
+                    String name = "";
+                    String profileImageUrl = "";
+                    if (dataSnapshot.child("name").getValue() != null) {
                         name = dataSnapshot.child("name").getValue().toString();
                     }
-                    if(dataSnapshot.child("profileImageUrl").getValue()!= null){
+                    if (dataSnapshot.child("profileImageUrl").getValue() != null) {
                         profileImageUrl = dataSnapshot.child("profileImageUrl").getValue().toString();
                     }
 
-                    MatchesObject obj = new MatchesObject(userId,name,profileImageUrl);
+                    MatchesObject obj = new MatchesObject(userId, name, profileImageUrl);
                     resultMatches.add(obj);
                     mMatchesAdapter.notifyDataSetChanged();
                 }
@@ -120,28 +120,29 @@ public class MatchesActivity extends AppCompatActivity {
         });
     }
 
-    private ArrayList<MatchesObject> resultMatches =  new ArrayList<MatchesObject>();
-    private List<MatchesObject> getDataSetMatches(){
+    private ArrayList<MatchesObject> resultMatches = new ArrayList<MatchesObject>();
+
+    private List<MatchesObject> getDataSetMatches() {
         return resultMatches;
     }
 
-    private void getUserMatchId(){
+    private void getUserMatchId() {
         DatabaseReference matchDb = FirebaseDatabase.getInstance().getReference().child("Cats").child(currentUserID).child("connections").child("matches");
-   matchDb.addListenerForSingleValueEvent(new ValueEventListener() {
-       @Override
-       public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-           if(dataSnapshot.exists()){
-               for(DataSnapshot match : dataSnapshot.getChildren()){
-                   FetchMatchInformation(match.getKey());
-               }
-           }
-       }
+        matchDb.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot match : dataSnapshot.getChildren()) {
+                        FetchMatchInformation(match.getKey());
+                    }
+                }
+            }
 
-       @Override
-       public void onCancelled(@NonNull DatabaseError databaseError) {
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
-       }
-   });
+            }
+        });
     }
 
 }

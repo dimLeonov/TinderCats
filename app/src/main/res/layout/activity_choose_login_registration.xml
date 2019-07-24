@@ -1,38 +1,55 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:divider="?android:dividerHorizontal"
     android:orientation="vertical"
-    android:showDividers="middle">
-
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:gravity="center"
-        android:fontFamily="@font/roboto_light"
-        android:text="Welcome to Tinder for Cats!"
-        android:textSize="30sp"
-        android:typeface="sans" />
+    android:showDividers="middle"
+    android:background="@color/light_grey"
+    >
 
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:layout_gravity="center_horizontal"
-        android:background="@drawable/tempcat" />
-        <!--app:imageResources="@array/img_id_arr"-->
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="171dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="30dp"
+        android:background="@drawable/welcome_to_tinder"
+        android:clickable="false"
+        android:gravity="center" />
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="253dp"
+        android:layout_height="288dp"
+        android:layout_above="@+id/buttonBar"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="58dp"
+        android:clickable="false"
+        android:background="@drawable/logo_transparent"
+        />
 
     <LinearLayout
         style="?android:buttonBarStyle"
+        android:id="@+id/buttonBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:background="@color/grey"
+        >
         <Button
+            style="?android:buttonBarButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Quit"
+            android:onClick="navQuit"
+            />
+        <Button
+            android:id="@+id/register"
             style="?android:buttonBarButtonStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -40,15 +57,15 @@
             android:text="Sign Up"
             android:onClick="navRegisterPage"
             />
-
         <Button
+            android:id="@+id/login"
             style="?android:buttonBarButtonStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Log in"
-            android:onClick="navLoginPage"/>
-
+            android:onClick="navLoginPage"
+            />
     </LinearLayout>
-</LinearLayout>
+</RelativeLayout>
 

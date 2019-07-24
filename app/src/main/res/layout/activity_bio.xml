@@ -48,7 +48,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="0dp"
                     android:layout_marginBottom="0dp"
-                    android:src="@drawable/tempcat" />
+                    android:src="@drawable/ic_launcher_web" />
 
             </LinearLayout>
 
@@ -86,7 +86,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/_10dp"
-                            android:text="Kat Kittens"
+                            android:text="Name not set"
                             android:textSize="24sp"
                             android:textStyle="bold" />
 
@@ -95,7 +95,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="@dimen/_10dp"
-                            android:text=", 20"
+                            android:text=", Age not set"
                             android:textSize="24sp" />
 
                     </LinearLayout>
@@ -113,7 +113,7 @@
                             android:layout_marginLeft="@dimen/_10dp"
                             android:layout_marginRight="@dimen/_10dp"
                             android:layout_marginBottom="@dimen/_10dp"
-                            android:text="Riga, Latvia"
+                            android:text="Location not set"
                             android:textSize="20sp" />
 
 
@@ -138,7 +138,7 @@
                             android:layout_marginLeft="@dimen/_10dp"
                             android:layout_marginRight="@dimen/_10dp"
                             android:layout_marginBottom="@dimen/_10dp"
-                            android:text="I'm a simple cat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+                            android:text="Bio not set."
                             android:textSize="20sp" />
                     </LinearLayout>
 

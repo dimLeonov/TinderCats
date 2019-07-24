@@ -84,12 +84,11 @@ public class LoginActivity extends AppCompatActivity {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 Log.d("TAG", "FirebaseAuthState changed: " + firebaseAuth);
                 FirebaseUser user = mAuth.getCurrentUser();
-                if (user !=null){
+                if (user != null) {
                     Log.i("TAG", "Valid mAuth user detected and AuthStateChanged");
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();
-                    return;
                 }
             }
         };
@@ -102,7 +101,7 @@ public class LoginActivity extends AppCompatActivity {
                 mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(!task.isSuccessful()){
+                        if (!task.isSuccessful()) {
                             Toast.makeText(LoginActivity.this, "Sign In error", Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -119,7 +118,7 @@ public class LoginActivity extends AppCompatActivity {
                 Log.d("TAG", " Facebook registerCallback called. Login to Facebook successful. Your login result: " + loginResult);
                 AccessToken resultToken = loginResult.getAccessToken();
                 String successToken = loginResult.getAccessToken().getToken(); // AccessToken's String value
-                Log.d("TAG", "Your Success Token (String): "+ successToken);
+                Log.d("TAG", "Your Success Token (String): " + successToken);
                 FirebaseUser currrentUser = mAuth.getCurrentUser(); // So far this is null
 
                 AccessToken accessToken = AccessToken.getCurrentAccessToken();
@@ -132,7 +131,7 @@ public class LoginActivity extends AppCompatActivity {
                 Profile mProfile = Profile.getCurrentProfile(); // Facebook profile
                 Log.d("TAG", "Current Facebook profile: " + mProfile);
 
-                if(mProfile != null) {
+                if (mProfile != null) {
                     Log.d("TAG", "Facebook profile succesfully retrieved");
                     handleFacebookAccessToken(resultToken, mProfile);
                     GraphRequest graphRequest = GraphRequest.newMeRequest(loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
@@ -204,16 +203,16 @@ public class LoginActivity extends AppCompatActivity {
         startActivityForResult(signInIntent, RC_GOOGLE_SIGN_IN);
     }
 
-    private void registerUserWithGoogle (GoogleSignInAccount account) {
+    private void registerUserWithGoogle(GoogleSignInAccount account) {
         FirebaseUser user = mAuth.getCurrentUser();
         DatabaseReference currentUserDb = FirebaseDatabase.getInstance().getReference().child("Cats").child(user.getUid());
 
         Log.i("TAG", "User is registering with google.");
         String firstName = account.getGivenName(); // user does not provide only the first name, so account is used here
         System.out.println("User first name is is: " + firstName);
-        Log.i("TAG","Google ID: " + account.getId());
+        Log.i("TAG", "Google ID: " + account.getId());
 
-        Map <String, Object> userInfo = new HashMap<>();
+        Map<String, Object> userInfo = new HashMap<>();
         userInfo.put("name", firstName);
         Log.v("TAG", "CurrentUserDB: " + currentUserDb);
         try {
@@ -224,7 +223,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
             });
         } catch (Exception e) {
-            Log.e("TAG", "Registering to Firebase with Google failed: " +  e);
+            Log.e("TAG", "Registering to Firebase with Google failed: " + e);
         }
     } // Registering with Google ends
 
@@ -286,10 +285,10 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private void registerUserWithFaceBook (final Profile mProfile) {
+    private void registerUserWithFaceBook(final Profile mProfile) {
         FirebaseUser user = mAuth.getCurrentUser();
         DatabaseReference currentUserDb = FirebaseDatabase.getInstance().getReference().child("Cats").child(user.getUid());
-        Map <String, Object> userInfo = new HashMap<>();
+        Map<String, Object> userInfo = new HashMap<>();
         userInfo.put("name", mProfile.getFirstName());
         try {
             currentUserDb.updateChildren(userInfo, new DatabaseReference.CompletionListener() {
@@ -316,9 +315,9 @@ public class LoginActivity extends AppCompatActivity {
         mAuth.removeAuthStateListener(firebaseAuthStateListener);
     }
 
-    public void navRegisterPage (View view){
+    public void navRegisterPage(View view) {
         Intent intent = new Intent(LoginActivity.this, RegistrationActivity.class);
         startActivity(intent);
-        return;
+        finish();
     }
 }

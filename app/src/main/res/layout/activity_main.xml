@@ -154,4 +154,73 @@
         </RelativeLayout>
     </FrameLayout>
 
+
+
+
+
+    <FrameLayout
+        android:id="@+id/nodata_frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="70dp"
+        android:visibility="gone">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="90dp"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:layout_marginRight="50dp"
+                    android:layout_marginLeft="50dp"
+                    android:text="Please visit your profile page and add information about yourself before swiping!"
+                    android:textColor="@color/transparentPink"
+                    android:textSize="25dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="90dp"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:layout_marginRight="50dp"
+                    android:layout_marginLeft="50dp"
+                    android:text="Missing data:"
+                    android:textColor="@color/transparentPink"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:id="@+id/missingdata"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:layout_marginRight="50dp"
+                    android:layout_marginLeft="50dp"
+                    android:text=""
+                    android:textColor="@color/transparentPink"
+                    android:textSize="20dp" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+    </FrameLayout>
+
+
+
+
 </RelativeLayout>

@@ -10,15 +10,15 @@ public class cards {
     private String location;
     private Settings settings;
 
-    public cards (String userId, String name, String profileImageUrl,int age, String location){
+    public cards(String userId, String name, String profileImageUrl, int age, String location) {
         this.userId = userId;
         this.name = name;
         this.profileImageUrl = profileImageUrl;
-        this.age=age;
-        this.location=location;
+        this.age = age;
+        this.location = location;
     }
 
-    public String getUserId(){
+    public String getUserId() {
         return userId;
     }
 
@@ -26,18 +26,19 @@ public class cards {
         this.userId = userId;
     }
 
-    public String getName(){
+    public String getName() {
         return name;
     }
-    public void setName(String name){
+
+    public void setName(String name) {
         this.name = name;
     }
 
-    public String getProfileImageUrl(){
+    public String getProfileImageUrl() {
         return profileImageUrl;
     }
 
-    public void setProfileImageUrl(String profileImageUrl){
+    public void setProfileImageUrl(String profileImageUrl) {
         this.profileImageUrl = profileImageUrl;
     }
 
@@ -67,13 +68,13 @@ public class cards {
 
     @Override
     public String toString() {
-        this.name = this.name .toUpperCase().charAt(0)+this.name .substring(1,this.name.length());
-        String desc =this.name;
-        if(age!=0){
-            desc+=", "+age;
+        this.name = this.name.toUpperCase().charAt(0) + this.name.substring(1, this.name.length());
+        String desc = this.name;
+        if (age != 0) {
+            desc += ", " + age;
         }
-        if(location!="" && location.length()>1){
-            desc+=", "+location;
+        if (location != "" && location.length() > 1) {
+            desc += ", " + location;
         }
         return desc;
     }
