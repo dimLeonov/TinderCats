@@ -79,13 +79,13 @@ public class MatchesActivity extends AppCompatActivity {
     public void navMainPage(View view) {
         Intent intent = new Intent(MatchesActivity.this, MainActivity.class);
         startActivity(intent);
-        return;
+        finish();
     }
 
     public void navProfilePage(View view) {
         Intent intent = new Intent(MatchesActivity.this, ProfileActivity.class);
         startActivity(intent);
-        return;
+        finish();
     }
 
 

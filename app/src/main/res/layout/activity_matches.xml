@@ -8,52 +8,53 @@
     android:orientation="horizontal">
 
     <LinearLayout
+        style="?android:buttonBarStyle"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:weightSum="10">
+        android:layout_height="wrap_content"
+        android:background="@color/grey"
+        android:orientation="horizontal"
+        >
 
-
-        <LinearLayout
-            style="?android:buttonBarStyle"
-            android:layout_width="match_parent"
+        <Button
+            android:onClick="navProfilePage"
+            style="?android:buttonBarButtonStyle"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_weight="1"
+            android:text="My Profile"
+            />
 
+        <Button
+            style="?android:buttonBarButtonStyle"
+            android:onClick="navMainPage"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Swipe"
 
-            <Button
-                android:onClick="navProfilePage"
-                style="?android:buttonBarButtonStyle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="My Profile"
-                />
+            />
 
-            <Button
-                android:onClick="navMainPage"
-                style="?android:buttonBarButtonStyle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Swipe" />
+        <Button
 
-            <Button
+            style="?android:buttonBarButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Matches"
+            android:enabled="false"
+            android:clickable="false"
+            android:textColor="@color/color_bitter"
+            />
 
-                style="?android:buttonBarButtonStyle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Matches"
-                android:textColor="@color/grey"/>
-
-        </LinearLayout>
+    </LinearLayout>
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginBottom="@dimen/_10dp"
             android:background="@android:color/darker_gray"/>
-
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="">
 <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
