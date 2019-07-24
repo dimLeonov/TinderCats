@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -165,6 +166,8 @@ public class ProfileActivity extends AppCompatActivity {
                 Log.i("TAG", "Google Sign Out successful.");
             }
         });
+        // Facebook log out
+        LoginManager.getInstance().logOut();
         Log.i("TAG", "User Signed Out");
         Intent intent = new Intent(ProfileActivity.this, ChooseLoginRegistrationActivity.class);
         startActivity(intent);

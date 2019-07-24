@@ -16,12 +16,14 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.facebook.AccessToken;
+import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.Profile;
+import com.facebook.ProfileTracker;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
@@ -65,7 +67,8 @@ public class RegistrationActivity extends AppCompatActivity {
     private GoogleSignInClient mGoogleSignInClient;
     private com.google.android.gms.common.SignInButton mSignInButton;
     private LoginButton facebookLoginButton;
-    private CallbackManager callbackManager;
+    private CallbackManager mCallbackManager;
+    private AccessToken facebookAccessToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,57 +93,32 @@ public class RegistrationActivity extends AppCompatActivity {
 
 
 
-        /* Facebook Login */
-        callbackManager = CallbackManager.Factory.create();
-        facebookLoginButton = findViewById(R.id.facebook_login_button);
-        facebookLoginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+        /* 2 Facebook Login */
+        // Initialize Facebook Login button
+        mCallbackManager = CallbackManager.Factory.create();
+        LoginButton facebookLoginButton = findViewById(R.id.facebook_login_button);
+        facebookLoginButton.setReadPermissions("email", "public_profile");
+        facebookLoginButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                Log.d("TAG", " Facebook registerCallback called. Login to Facebook successful. Your login result: " + loginResult);
-                AccessToken resultToken = loginResult.getAccessToken();
-                String successToken = loginResult.getAccessToken().getToken(); // AccessToken's String value
-                Log.d("TAG", "Your Success Token (String): " + successToken);
-                FirebaseUser currrentUser = mAuth.getCurrentUser(); // So far this is null
 
-                AccessToken accessToken = AccessToken.getCurrentAccessToken();
-                boolean isLoggedIn = accessToken != null && !accessToken.isExpired();
-                Log.d("TAG", "Your currentAccessToken: " + accessToken);
-                Log.d("TAG", "Logged in? (AccessToken): " + isLoggedIn);
+                Log.d("TAG", "facebook:onSuccess:" + loginResult);
+                handleFacebookAccessToken(loginResult.getAccessToken());
 
-                LoginManager.getInstance().logInWithReadPermissions(RegistrationActivity.this, Arrays.asList("public_profile", "email"));
-
-                Profile mProfile = Profile.getCurrentProfile(); // Facebook profile
-                Log.d("TAG", "Current Facebook profile: " + mProfile);
-
-                if (mProfile != null) {
-                    Log.d("TAG", "Facebook profile succesfully retrieved");
-                    handleFacebookAccessToken(resultToken, mProfile);
-                    GraphRequest graphRequest = GraphRequest.newMeRequest(loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
-                        @Override
-                        public void onCompleted(JSONObject object, GraphResponse response) {
-                            Log.d("TAG", "Graphrequest succesfully called and completed");
-                            getFacebookData(object);
-                        }
-                    });
-                } else {
-                    Log.e("TAG", "Error: Current Facebook profile Null");
-                }
-                //TODO possible UI update
             }
 
             @Override
             public void onCancel() {
-                Log.d("TAG", "Facebook callback has been cancelled");
+                Log.d("TAG", "facebook:onCancel");
             }
 
             @Override
             public void onError(FacebookException error) {
-                Log.e("TAG", " Facebook registerCallback called. Login encountered an error: " + error);
+                Log.d("TAG", "facebook:onError", error);
             }
-
-        }); /* Facebook login ends */
-
-        /* Google Sign In */
+        });
+        /* Facebook login ends here */
+        /* 3 Google Sign In */
         // Configure Google Sign In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -157,8 +135,10 @@ public class RegistrationActivity extends AppCompatActivity {
             }
         }); /* Google Sign In ends */
 
-        /* Standart Register */
+
+        /* 1 Standart Register */
         mRegisterButton.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
                 final String email = mEmail.getText().toString();
@@ -227,7 +207,7 @@ public class RegistrationActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         // Facebook
-        callbackManager.onActivityResult(requestCode, resultCode, data);
+        mCallbackManager.onActivityResult(requestCode, resultCode, data);
 
         // Google
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
@@ -244,27 +224,30 @@ public class RegistrationActivity extends AppCompatActivity {
         }
     } // onActivityResult ends here
 
-    /* Facebook Login */
-    private void handleFacebookAccessToken(AccessToken token, final Profile mProfile) {
-        Log.i("TAG", "Handling FB with token: " + token);
+    private void handleFacebookAccessToken(AccessToken token) {
+        Log.d("TAG", "handleFacebookAccessToken:" + token);
+
         AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
-        Log.i("TAG", "FacebookAuthProvider credential acquired: " + credential);
-        mAuth.signInWithCredential(credential).addOnCompleteListener(RegistrationActivity.this, new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()) {
-                    Log.d("TAG", "Signing in Firebase with Facebook successful");
-                    FirebaseUser user = mAuth.getCurrentUser();
-                    if (user != null) {
-                        Log.i("TAG", "User Email: " + user.getEmail());
-                        registerUserWithFaceBook(mProfile);
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d("TAG", "signInWithCredential:success");
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            registerUserWithFaceBook(user);
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w("TAG", "signInWithCredential:failure", task.getException());
+                            Toast.makeText(RegistrationActivity.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                            mAuth.signOut();
+                            LoginManager.getInstance().logOut();
+                        }
                     }
-                } else {
-                    Log.e("TAG", "Signing in Firebase failed.");
-                }
-            }
-        });
-    } // handleFacebookToken ends here
+                });
+    }
 
     private void getFacebookData(JSONObject object) {
         try {
@@ -281,17 +264,18 @@ public class RegistrationActivity extends AppCompatActivity {
         }
     }
 
-    private void registerUserWithFaceBook(final Profile mProfile) {
-        FirebaseUser user = mAuth.getCurrentUser();
+
+    private void registerUserWithFaceBook (final FirebaseUser user) {
         DatabaseReference currentUserDb = FirebaseDatabase.getInstance().getReference().child("Cats").child(user.getUid());
-        Map<String, Object> userInfo = new HashMap<>();
-        userInfo.put("name", mProfile.getFirstName());
+        Map <String, Object> userInfo = new HashMap<>();
+        userInfo.put("name", user.getDisplayName());
+
         try {
             currentUserDb.updateChildren(userInfo, new DatabaseReference.CompletionListener() {
                 @Override
                 public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
-                    Log.i("TAG", "Firstname: " + mProfile.getFirstName() + ", Lastname: " + mProfile.getLastName() + ", ID: " + mProfile.getId() + ", Email: NaN");
-                    // TODO possible UI update
+                    Log.d("TAG", "Name: " + user.getDisplayName() + ", ID: " + user.getUid() + ", Email: " + user.getEmail());
+                    Toast.makeText(RegistrationActivity.this, "Database updated with Facebook data", Toast.LENGTH_SHORT).show();
                 }
             });
         } catch (Exception e) {
@@ -361,6 +345,7 @@ public class RegistrationActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         mAuth.removeAuthStateListener(firebaseAuthStateListener);
+        FirebaseUser currentUser = mAuth.getCurrentUser();
     }
 
     public void navChooseLoginRegistration(View view) {
