@@ -12,7 +12,9 @@
         style="?android:buttonBarStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:background="@color/grey"
+        android:orientation="horizontal"
+        >
 
         <Button
             android:onClick="navProfilePage"
@@ -20,17 +22,20 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="My Profile" />
+            android:text="My Profile"
+            />
 
         <Button
-
             style="?android:buttonBarButtonStyle"
             android:onClick="goToMainPage"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Swipe"
-            android:textColor="@color/grey"/>
+            android:textColor="@color/color_bitter"
+            android:enabled="false"
+            android:clickable="false"
+            />
 
         <Button
             android:onClick="goToMatches"
@@ -38,7 +43,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Matches" />
+            android:text="Matches"
+            />
 
     </LinearLayout>
     <FrameLayout
