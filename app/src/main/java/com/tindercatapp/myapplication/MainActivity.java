@@ -13,6 +13,9 @@ import android.widget.ListView;
 import android.widget.Toast;
 import android.media.MediaPlayer; // added by Natalia 17.7
 import androidx.core.app.NotificationCompat;
+
+import com.facebook.Profile;
+import com.facebook.ProfileTracker;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -57,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -82,12 +86,32 @@ public class MainActivity extends AppCompatActivity {
         try {
             currentUid = mAuth.getCurrentUser().getUid();
         } catch (NullPointerException e) {
-            Log.e("TAG", "Access to Application without valid ID.");
-            Intent intent = new Intent(MainActivity.this, ChooseLoginRegistrationActivity.class);
-            startActivity(intent);
-            finish();
-            return;
+            Log.e("MAINACTIVITY", "Access to Application without valid ID.");
+            ProfileTracker profileTracker = new ProfileTracker() {
+                @Override
+                protected void onCurrentProfileChanged(Profile oldProfile, Profile currentProfile) {
+                    currentUid = mAuth.getCurrentUser().getUid();
+                    Log.d("MAINACTIVITY", "Profile Tracker has retrieved a valid Facebook Profile. mAuth ID:" + currentUid);
+                }
+            };
+
+            try {
+                Log.d("THREAD", "Sleeping for 500ms to retrieve FB profile");
+                Thread.sleep(500);
+            } catch (InterruptedException ex) {
+                Log.d("THREAD", ex.toString());
+            }
+
+            if (currentUid == null) {
+                Log.d("INTENT", "Couldn't retrieve profile. Going back.");
+                Intent intent = new Intent(MainActivity.this, ChooseLoginRegistrationActivity.class);
+                startActivity(intent);
+                finish();
+                return;
+            }
         }
+
+        Log.d("MAINACTIVITY", "mAuth user ID:" + currentUid);
 
         DatabaseReference userDb = FirebaseDatabase.getInstance().getReference().child("Cats").child(currentUid);
 
@@ -127,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         }
-        /* Missing profile data check ends */
+        ///////////* Missing profile data check ends *//////////////////
 
         userDb.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

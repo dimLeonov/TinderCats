@@ -23,6 +23,8 @@ import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.Profile;
+import com.facebook.ProfileTracker;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
@@ -79,7 +81,6 @@ public class ChooseLoginRegistrationActivity extends AppCompatActivity {
 
         initializeFirebase();
         initializeXML();
-
 
         /* Facebook Login onCreate */
         mCallbackManager = CallbackManager.Factory.create();
@@ -144,28 +145,81 @@ public class ChooseLoginRegistrationActivity extends AppCompatActivity {
 
     /* Facebook Methods */
     private void handleFacebookAccessToken(AccessToken token) {
-        Log.d("TAG", "handleFacebookAccessToken:" + token);
+        Log.d("FACEBOOK", "Facebook access token:" + token);
+        final AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
+        Log.d("FACEBOOK", "Attempting to assign a variable to a facebook profile...");
+        Profile mProfile = Profile.getCurrentProfile();
+        ProfileTracker profileTracker = new ProfileTracker() {
+            @Override
+            protected void onCurrentProfileChanged(Profile oldProfile, final Profile currentProfile) {
+                if (currentProfile != null) {
+                    Log.d("FACEBOOK", "Profile retrieved with profiletracker:" + currentProfile);
 
-        AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
-        mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d("TAG", "signInWithCredential:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            registerUserWithFaceBook(user);
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w("TAG", "signInWithCredential:failure", task.getException());
-                            Toast.makeText(ChooseLoginRegistrationActivity.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
-                            mAuth.signOut();
-                            LoginManager.getInstance().logOut();
-                        }
-                    }
-                });
+                    mAuth.signInWithCredential(credential)
+                            .addOnCompleteListener(ChooseLoginRegistrationActivity.this, new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if (task.isSuccessful()) {
+                                        Log.d("FIREBASE", "Sign In With Facebook Credential:success");
+                                        final FirebaseUser user = mAuth.getCurrentUser();
+                                        final String userId = user.getUid();
+                                        Log.d("USER", user.getUid());
+                                        currentUserDb = FirebaseDatabase.getInstance().getReference().child("Cats").child(userId);
+                                        final Map userInfo = new HashMap();
+                                        /* Profile Data check */
+                                        currentUserDb.addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                Log.i("TAG", "Current datasnapshot: " + dataSnapshot.getValue());
+                                                if (!dataSnapshot.hasChild("profileImageUrl")) {
+                                                    Log.d("IMAGE", "User has no profile image. Requesting a cat from the API.");
+                                                    getRandomCatpicURL(userId);
+                                                } else {
+                                                    Log.i("IMAGE", "Current profile has a picture.");
+                                                }
+                                                if (!dataSnapshot.hasChild("name")) {
+                                                    Log.d("NAME", "Current user account has no name. User must have signed in with Facebook for the 1st time." +
+                                                            " Adding user's name to DB");
+                                                    userInfo.put("name", currentProfile.getFirstName());
+                                                } else {
+                                                    Log.i("NAME", "User has a name assigned. Therefore, this is not users's first Sign In With Facebook.");
+                                                }
+                                                if (userInfo.size() < 1 ) {
+                                                    Log.i("USERINFO", "No new values to add to users account:" + userInfo.size());
+                                                    return;
+                                                } else {
+                                                    try {
+                                                        currentUserDb.updateChildren(userInfo, new DatabaseReference.CompletionListener() {
+                                                            @Override
+                                                            public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
+                                                                Log.d("FIREBASE", "Username successfully added to firebase");
+                                                            }
+                                                        });
+                                                    } catch (Exception e) {
+                                                        Log.e("FIREBASE", "Registering Facebook user's name in firebase failed: " + e);
+                                                    }
+                                                }
+                                            }
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                            }
+                                        }); /* Profile Data check Ends */
+                                    } else {
+                                        Log.e("FIREBASE", "Sign In With Facebook Credential failed: ", task.getException());
+                                        Toast.makeText(ChooseLoginRegistrationActivity.this, "Firebase Authentication failed.",
+                                                Toast.LENGTH_SHORT).show();
+                                        mAuth.signOut();
+                                        LoginManager.getInstance().logOut();
+                                    }
+                                }
+                            });
+                    Log.d("INTENT", "User logged in with Facebook.");
+                    Intent intent = new Intent(ChooseLoginRegistrationActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            }
+        };
     }
 
     private void getFacebookData(JSONObject object) {
@@ -209,7 +263,7 @@ public class ChooseLoginRegistrationActivity extends AppCompatActivity {
         startActivityForResult(signInIntent, RC_GOOGLE_SIGN_IN);
     }
 
-    private void firebaseAuthWithGoogle(GoogleSignInAccount account) {
+    private void firebaseAuthWithGoogle(final GoogleSignInAccount account) {
         Log.d("FIREBASE: ", "AuthWithGoogleAccount:" + account.getDisplayName());
         AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
         mAuth.signInWithCredential(credential)
@@ -218,29 +272,51 @@ public class ChooseLoginRegistrationActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             Log.i("FIREBASE: ", "Sign In With Google Credentials: success");
-                            user = mAuth.getCurrentUser();
-                            currentUserDb = FirebaseDatabase.getInstance().getReference().child("Cats").child(user.getUid());
+                            Log.i("GOOGLEACCOUNT", "Your name:" + account.getGivenName());
+                            Log.i("GOOGLEACCOUNT", "Your scopes:" + account.getGrantedScopes());
 
-                            /* Profile Image Url Data check */
+                            user = mAuth.getCurrentUser();
+                            Log.i("ID", "User ID:" + user.getUid());
+                            currentUserDb = FirebaseDatabase.getInstance().getReference().child("Cats").child(user.getUid());
+                            final Map userInfo = new HashMap();
+                            /* Profile Data check */
                             currentUserDb.addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                     Log.i("TAG", "Current datasnapshot: " + dataSnapshot.getValue());
                                     if (!dataSnapshot.hasChild("profileImageUrl")) {
                                         Log.d("IMAGE", "User has no profile image. Requesting a cat from the API.");
-                                        getRandomCatpicURL();
+                                        getRandomCatpicURL(null);
                                     } else {
                                         Log.i("IMAGE", "Current profile has a picture.");
+                                    }
+                                    if (!dataSnapshot.hasChild("name")) {
+                                        Log.d("NAME", "Current user account has no name. User must have signed in with Google for the 1st time." +
+                                                " Adding user's name to DB");
+                                        userInfo.put("name", account.getGivenName());
+                                    } else {
+                                        Log.i("NAME", "User has a name assigned. Therefore, this is not users's first Sign In.");
+                                    }
+                                    if (userInfo.size() < 1 ) {
+                                        Log.i("USERINFO", "No new values to add to users account:" + userInfo.size());
+                                        return;
+                                    } else {
+                                        try {
+                                            currentUserDb.updateChildren(userInfo, new DatabaseReference.CompletionListener() {
+                                                @Override
+                                                public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
+                                                    Log.d("FIREBASE", "Username successfully added to firebase");
+                                                }
+                                            });
+                                        } catch (Exception e) {
+                                            Log.e("FIREBASE", "Registering Google user's name in firebase failed: " + e);
+                                        }
                                     }
                                 }
                                 @Override
                                 public void onCancelled(@NonNull DatabaseError databaseError) {
                                 }
-                            });
-                            /* Profile Image Url check Ends */
-
-
-
+                            }); /* Profile Data check Ends */
 
                         } else {
                             Log.w("FIREBASE", "Sign In With Google Credentials: failure. Exception: ", task.getException());
@@ -250,33 +326,8 @@ public class ChooseLoginRegistrationActivity extends AppCompatActivity {
                 });
     } // Firebase auth with google ends here
 
-    private void registerUserWithGoogle(GoogleSignInAccount account) {
-        FirebaseUser user = mAuth.getCurrentUser();
-        DatabaseReference currentUserDb = FirebaseDatabase.getInstance().getReference().child("Cats").child(user.getUid());
-
-        Log.i("TAG", "User is registering with google.");
-        String firstName = account.getGivenName(); // user does not provide only the first name, so account is used here
-        System.out.println("User first name is is: " + firstName);
-        Log.i("TAG", "Google ID: " + account.getId());
-
-        Map<String, Object> userInfo = new HashMap<>();
-        userInfo.put("name", firstName);
-        Log.v("TAG", "CurrentUserDB: " + currentUserDb);
-        try {
-            currentUserDb.updateChildren(userInfo, new DatabaseReference.CompletionListener() {
-                @Override
-                public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
-                    // TODO possible UI update
-                }
-            });
-        } catch (Exception e) {
-            Log.e("TAG", "Registering to Firebase with Google failed: " + e);
-        }
-    }
-    /* Google methods end here */
-
     /* Facebook/Google pic API*/
-    private void getRandomCatpicURL() {
+    private void getRandomCatpicURL(@Nullable final String userId) {
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = "https://api.thecatapi.com/v1/images/search?size=full";
 
@@ -290,7 +341,12 @@ public class ChooseLoginRegistrationActivity extends AppCompatActivity {
                             Log.i("JSON", "JSONObject: " + jsonObject);
                             String picUrl = jsonObject.getString("url");
                             Log.i("JSON","picUrl: " + picUrl);
-                            getCatPic(picUrl);
+                            if (userId == null) {
+                                getCatPic(picUrl, null);
+                            } else {
+                                getCatPic(picUrl, userId);
+
+                            }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -304,7 +360,7 @@ public class ChooseLoginRegistrationActivity extends AppCompatActivity {
         queue.add(jsonArrayRequest);
     }
 
-    private void getCatPic(String picUrl) {
+    private void getCatPic(String picUrl, @Nullable final String userID) {
         RequestQueue queue = Volley.newRequestQueue(this);
 
         ImageRequest imageRequest = new ImageRequest(picUrl, new Response.Listener<Bitmap>() {
@@ -312,7 +368,12 @@ public class ChooseLoginRegistrationActivity extends AppCompatActivity {
             public void onResponse(Bitmap response) {
                 if (response != null) {
                     Log.d("BITMAP","Bitmap response: " + response);
-                        final String userId = user.getUid();
+                        final String userId;
+                        if (userID == null) {
+                            userId = user.getUid();
+                        } else {
+                            userId = userID;
+                        }
                         final StorageReference filepath = FirebaseStorage.getInstance().getReference().child("profileImages").child(userId);
                         ByteArrayOutputStream baos = new ByteArrayOutputStream();
                         response.compress(Bitmap.CompressFormat.JPEG,20,baos);
