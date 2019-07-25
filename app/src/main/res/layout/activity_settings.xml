@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/light_grey"
     android:orientation="vertical">
 
     <LinearLayout
@@ -12,7 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:background="@color/grey">
+        android:background="@color/grey"
+        >
 
         <Button
             android:onClick="navProfilePageFromSettings"
@@ -52,7 +53,197 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:padding="10dp">
+            <!--
+                       <android.support.v7.widget.CardView
+                           android:layout_width="match_parent"
+                           android:layout_height="wrap_content"
+                           android:padding="10dp"
+                           app:cardCornerRadius="@dimen/_5dp"
+                           app:cardElevation="4dp"
+                           app:cardUseCompatPadding="true">
 
+                           <LinearLayout
+                               android:layout_width="match_parent"
+                               android:layout_height="wrap_content"
+                               android:orientation="vertical">
+
+                               <TextView
+                                   android:layout_width="match_parent"
+                                   android:layout_height="wrap_content"
+                                   android:paddingLeft="10dp"
+                                   android:paddingTop="10dp"
+                                   android:text="Show Me"
+                                   android:textColor="@color/colorPrimaryDark"
+                                   android:textSize="18dp"
+                                   android:textStyle="bold" />
+
+                               <TextView
+                                   android:id="@+id/gender_text"
+                                   android:layout_width="match_parent"
+                                   android:layout_height="wrap_content"
+                                   android:layout_marginBottom="10dp"
+                                   android:gravity="end"
+                                   android:paddingEnd="10dp"
+                                   android:paddingRight="10dp"
+                                   android:text="Women"
+                                   android:textColor="@color/black"
+                                   android:textSize="16dp" />
+
+                               <RelativeLayout
+                                   android:layout_width="match_parent"
+                                   android:layout_height="wrap_content">
+
+                                   <TextView
+                                       android:layout_width="wrap_content"
+                                       android:layout_height="wrap_content"
+                                       android:padding="10dp"
+                                       android:text="Men"
+                                       android:textSize="18dp" />
+
+                                   <android.support.v7.widget.SwitchCompat
+                                       android:id="@+id/switch_man"
+                                       android:layout_width="wrap_content"
+                                       android:layout_height="wrap_content"
+                                       android:layout_alignParentEnd="true"
+                                       android:layout_alignParentRight="true"
+                                       android:layout_centerVertical="true"
+                                       android:layout_gravity="center"
+                                       android:layout_marginRight="10dp"
+                                       android:background="@null"
+                                       android:button="@drawable/custom_switch"
+                                       android:thumb="@null"
+                                       app:track="@null" />
+                               </RelativeLayout>
+
+                               <RelativeLayout
+                                   android:layout_width="match_parent"
+                                   android:layout_height="wrap_content">
+
+                                   <TextView
+                                       android:layout_width="wrap_content"
+                                       android:layout_height="wrap_content"
+                                       android:padding="10dp"
+                                       android:text="Women"
+                                       android:textSize="18dp" />
+
+                                   <android.support.v7.widget.SwitchCompat
+                                       android:id="@+id/switch_woman"
+                                       android:layout_width="wrap_content"
+                                       android:layout_height="wrap_content"
+                                       android:layout_alignParentEnd="true"
+                                       android:layout_alignParentRight="true"
+                                       android:layout_centerVertical="true"
+                                       android:layout_gravity="center"
+                                       android:layout_marginRight="10dp"
+                                       android:background="@null"
+                                       android:button="@drawable/custom_switch"
+                                       android:checked="true"
+                                       android:thumb="@null"
+                                       app:track="@null" />
+                               </RelativeLayout>
+
+                           </LinearLayout>
+                       </android.support.v7.widget.CardView>
+
+                       <android.support.v7.widget.CardView
+                           android:layout_width="match_parent"
+                           android:layout_height="wrap_content"
+                           android:padding="10dp"
+                           app:cardCornerRadius="@dimen/_5dp"
+                           app:cardElevation="4dp"
+                           app:cardUseCompatPadding="true">
+
+                           <LinearLayout
+                               android:layout_width="match_parent"
+                               android:layout_height="wrap_content"
+                               android:orientation="vertical">
+
+                               <TextView
+                                   android:layout_width="match_parent"
+                                   android:layout_height="wrap_content"
+                                   android:paddingLeft="10dp"
+                                   android:paddingTop="10dp"
+                                   android:text="Maximum Distance"
+                                   android:textColor="@color/colorPrimaryDark"
+                                   android:textSize="18dp"
+                                   android:textStyle="bold" />
+
+                               <TextView
+                                   android:id="@+id/distance_text"
+                                   android:layout_width="match_parent"
+                                   android:layout_height="wrap_content"
+                                   android:layout_marginBottom="10dp"
+                                   android:gravity="end"
+                                   android:paddingEnd="10dp"
+                                   android:paddingRight="10dp"
+                                   android:text="20 Km"
+                                   android:textColor="@color/black"
+                                   android:textSize="16dp" />
+
+                               <SeekBar
+                                   android:id="@+id/distance"
+                                   android:layout_width="match_parent"
+                                   android:layout_height="wrap_content"
+                                   android:layout_margin="20dp"
+                                   android:max="100"
+                                   android:min="5"
+                                   android:progress="20"
+                                   android:progressDrawable="@drawable/custom_seekbar_progress"
+                                   android:thumb="@drawable/seek_bar_thumb" />
+
+                           </LinearLayout>
+                       </android.support.v7.widget.CardView>
+                       <androidx.cardview.widget.CardView
+                           android:layout_width="match_parent"
+                           android:layout_height="wrap_content"
+                           android:padding="10dp"
+                           android:visibility="visible"
+                           app:cardCornerRadius="@dimen/_5dp"
+                           app:cardElevation="4dp"
+                           app:cardUseCompatPadding="true">
+
+                           <LinearLayout
+                               android:layout_width="match_parent"
+                               android:layout_height="wrap_content"
+                               android:orientation="vertical">
+
+                               <TextView
+                                   android:layout_width="match_parent"
+                                   android:layout_height="wrap_content"
+                                   android:paddingLeft="10dp"
+                                   android:paddingTop="10dp"
+                                   android:text="Age Range"
+                                   android:textColor="@color/colorPrimaryDark"
+                                   android:textSize="18dp"
+                                   android:textStyle="bold" />
+
+                               <TextView
+                                   android:id="@+id/age_range"
+                                   android:layout_width="match_parent"
+                                   android:layout_height="wrap_content"
+                                   android:layout_marginBottom="10dp"
+                                   android:gravity="end"
+                                   android:paddingEnd="10dp"
+                                   android:paddingRight="10dp"
+
+                                   android:text="50-14"
+                                   android:textColor="@color/black"
+                                   android:textSize="16dp" />
+
+                               <com.yahoo.mobile.client.android.util.rangeseekbar.RangeSeekBar xmlns:rsb="http://schemas.android.com/apk/res-auto"
+                                   android:id="@+id/rangeSeekbar"
+                                   android:layout_width="match_parent"
+                                   android:layout_height="wrap_content"
+                                   android:layout_marginLeft="10dp"
+                                   android:layout_marginRight="10dp"
+                                   android:layout_marginBottom="10dp"
+                                   rsb:absoluteMaxValue="14"
+                                   rsb:absoluteMinValue="50" />
+
+                           </LinearLayout>
+                       </androidx.cardview.widget.CardView>
+
+-->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -112,24 +303,19 @@
                         android:paddingLeft="10dp"
                         android:orientation="horizontal">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Volume"
-                        android:textColor="@color/black"
-                        android:textSize="18dp"
-                        android:layout_weight="1"/>
-
-
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Volume"
+                            android:textColor="@color/black"
+                            android:textSize="18dp"
+                            android:layout_weight="1"/>
 
                         <SeekBar
                             android:id="@+id/seekBar"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="8"
-                           android:progressTint="@color/colorPrimary"
-                            android:progressBackgroundTint="@color/bottomNavTextColor"
-                            android:thumbTint="@color/colorPrimaryDark"/>
+                            android:layout_weight="8" />
 
                     </LinearLayout>
 
@@ -171,8 +357,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="2"
                                     android:text="Sound 1"
-                                    android:onClick="onRadioButtonClicked"
-                                    android:buttonTint="@color/colorPrimary"/>
+                                    android:onClick="onRadioButtonClicked"/>
 
                                 <RadioButton
                                     android:id="@+id/nope2"
@@ -180,8 +365,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="2"
                                     android:text="Sound 2"
-                                    android:onClick="onRadioButtonClicked"
-                                    android:buttonTint="@color/colorPrimary"/>
+                                    android:onClick="onRadioButtonClicked"/>
 
                                 <RadioButton
                                     android:id="@+id/nope3"
@@ -189,8 +373,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="2"
                                     android:text="Sound 3"
-                                    android:onClick="onRadioButtonClicked"
-                                    android:buttonTint="@color/colorPrimary"/>
+                                    android:onClick="onRadioButtonClicked"/>
 
                             </RadioGroup>
 
@@ -230,32 +413,29 @@
                                 android:layout_weight="1"
                                 android:id="@+id/happySounds">
 
-                            <RadioButton
-                                android:id="@+id/happy1"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="2"
-                                android:text="Sound 1"
-                                android:onClick="onRadioButtonClicked"
-                                android:buttonTint="@color/colorPrimary"/>
+                                <RadioButton
+                                    android:id="@+id/happy1"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="2"
+                                    android:text="Sound 1"
+                                    android:onClick="onRadioButtonClicked"/>
 
-                            <RadioButton
-                                android:id="@+id/happy2"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="2"
-                                android:text="Sound 2"
-                                android:onClick="onRadioButtonClicked"
-                                android:buttonTint="@color/colorPrimary"/>
+                                <RadioButton
+                                    android:id="@+id/happy2"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="2"
+                                    android:text="Sound 2"
+                                    android:onClick="onRadioButtonClicked"/>
 
-                            <RadioButton
-                                android:id="@+id/happy3"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="2"
-                                android:text="Sound 3"
-                                android:onClick="onRadioButtonClicked"
-                                android:buttonTint="@color/colorPrimary"/>
+                                <RadioButton
+                                    android:id="@+id/happy3"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="2"
+                                    android:text="Sound 3"
+                                    android:onClick="onRadioButtonClicked"/>
 
                             </RadioGroup>
 
@@ -268,128 +448,202 @@
 
 
 
-<!--
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:paddingLeft="10dp">
+                    <!--
+                                        <RelativeLayout
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginTop="10dp"
+                                            android:paddingLeft="10dp">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Message"
-                            android:textColor="@color/black"
-                            android:textSize="18dp" />
+                                            <TextView
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:text="Message"
+                                                android:textColor="@color/black"
+                                                android:textSize="18dp" />
 
-                        <androidx.appcompat.widget.SwitchCompat
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
-                            android:layout_gravity="center"
-                            android:layout_marginRight="10dp"
-                            android:background="@null"
-                            android:button="@drawable/custom_switch"
-                            android:checked="true"
-                            android:thumb="@null"
-                            app:track="@null" />
-                    </RelativeLayout>-->
-<!--
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginBottom="10dp"
-                        android:paddingLeft="10dp">
+                                            <androidx.appcompat.widget.SwitchCompat
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_alignParentEnd="true"
+                                                android:layout_alignParentRight="true"
+                                                android:layout_centerVertical="true"
+                                                android:layout_gravity="center"
+                                                android:layout_marginRight="10dp"
+                                                android:background="@null"
+                                                android:button="@drawable/custom_switch"
+                                                android:checked="true"
+                                                android:thumb="@null"
+                                                app:track="@null" />
+                                        </RelativeLayout>-->
+                    <!--
+                                        <RelativeLayout
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginTop="10dp"
+                                            android:layout_marginBottom="10dp"
+                                            android:paddingLeft="10dp">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Message Likes"
-                            android:textColor="@color/black"
-                            android:textSize="18dp" />
+                                            <TextView
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:text="Message Likes"
+                                                android:textColor="@color/black"
+                                                android:textSize="18dp" />
 
-                        <androidx.appcompat.widget.SwitchCompat
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
-                            android:layout_gravity="center"
-                            android:layout_marginRight="10dp"
-                            android:background="@null"
-                            android:button="@drawable/custom_switch"
-                            android:checked="true"
-                            android:thumb="@null"
-                            app:track="@null" />
-                    </RelativeLayout>-->
+                                            <androidx.appcompat.widget.SwitchCompat
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_alignParentEnd="true"
+                                                android:layout_alignParentRight="true"
+                                                android:layout_centerVertical="true"
+                                                android:layout_gravity="center"
+                                                android:layout_marginRight="10dp"
+                                                android:background="@null"
+                                                android:button="@drawable/custom_switch"
+                                                android:checked="true"
+                                                android:thumb="@null"
+                                                app:track="@null" />
+                                        </RelativeLayout>-->
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-    <!--
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:text="Contact Us"
-                android:textColor="@color/black"
-                android:textSize="18dp"
-                android:textStyle="bold" />
+            <!--
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:text="Contact Us"
+                        android:textColor="@color/black"
+                        android:textSize="18dp"
+                        android:textStyle="bold" />
 
-            <android.support.v7.widget.CardView
+                    <android.support.v7.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        app:cardCornerRadius="4dp"
+                        app:cardElevation="@dimen/_5dp"
+                        app:cardUseCompatPadding="true">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:padding="10dp"
+                            android:text="Help &amp; Support"
+                            android:textSize="20dp" />
+                    </android.support.v7.widget.CardView>
+
+                    <android.support.v7.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        app:cardCornerRadius="4dp"
+                        app:cardElevation="4dp"
+                        app:cardUseCompatPadding="true">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:padding="10dp"
+                                android:text="Share"
+                                android:textSize="20dp" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:padding="10dp"
+                                android:text="Purchase"
+                                android:textSize="20dp" />
+
+                        </LinearLayout>
+                    </android.support.v7.widget.CardView>
+
+                    <android.support.v7.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        app:cardCornerRadius="4dp"
+                        app:cardElevation="4dp"
+                        app:cardUseCompatPadding="true">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:padding="10dp"
+                                android:text=" Legal"
+                                android:textColor="@color/colorPrimaryDark"
+                                android:textSize="18dp" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:padding="10dp"
+                                android:text="Licenses"
+                                android:textColor="@color/black"
+                                android:textSize="20dp" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:padding="10dp"
+                                android:text="Privacy Policy"
+                                android:textColor="@color/black"
+                                android:textSize="20dp" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:padding="10dp"
+                                android:text="Terms of Service"
+                                android:textColor="@color/black"
+                                android:textSize="20dp" />
+
+                        </LinearLayout>
+                    </android.support.v7.widget.CardView>-->
+
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 app:cardCornerRadius="4dp"
-                app:cardElevation="@dimen/_5dp"
+                app:cardElevation="4dp"
                 app:cardUseCompatPadding="true">
 
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:padding="10dp"
-                    android:text="Help &amp; Support"
-                    android:textSize="20dp" />
-            </android.support.v7.widget.CardView>
-
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                app:cardCornerRadius="4dp"
-                app:cardElevation="4dp"
-                app:cardUseCompatPadding="true">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
                     android:orientation="vertical">
 
-
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:padding="10dp"
-                        android:text="Share"
-                        android:textSize="20dp" />
+                        android:text=" Logout"
+                        android:textColor="@color/black"
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:padding="10dp"
-                        android:text="Purchase"
-                        android:textSize="20dp" />
+                        android:textSize="18dp" />
 
                 </LinearLayout>
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
@@ -399,45 +653,20 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:orientation="vertical">
 
                     <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
                         android:padding="10dp"
-                        android:text=" Legal"
+                        android:text=" Delete Account"
                         android:textColor="@color/colorPrimaryDark"
                         android:textSize="18dp" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="10dp"
-                        android:text="Licenses"
-                        android:textColor="@color/black"
-                        android:textSize="20dp" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="10dp"
-                        android:text="Privacy Policy"
-                        android:textColor="@color/black"
-                        android:textSize="20dp" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="10dp"
-                        android:text="Terms of Service"
-                        android:textColor="@color/black"
-                        android:textSize="20dp" />
-
                 </LinearLayout>
-            </android.support.v7.widget.CardView>-->
-
-
+            </androidx.cardview.widget.CardView>
 
 
 

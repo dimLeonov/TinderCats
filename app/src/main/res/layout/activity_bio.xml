@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
+    android:background="@color/light_grey"
     android:orientation="vertical">
 
     <LinearLayout
@@ -11,7 +11,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="0dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:background="@color/grey"
+        >
 
         <Button
             style="?android:buttonBarButtonStyle"
@@ -20,9 +22,7 @@
             android:layout_weight="1"
             android:onClick="navBack"
             android:text="back" />
-
     </LinearLayout>
-
 
     <ScrollView
         android:layout_width="match_parent"
@@ -38,17 +38,18 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:background="@color/light_grey"
+                >
 
                 <ImageView
                     android:id="@+id/biopicture"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="0dp"
-                    android:layout_marginBottom="0dp"
-                    android:src="@drawable/ic_launcher_web" />
+                    android:src="@drawable/logo_green_400"
+                    />
 
             </LinearLayout>
 
@@ -67,7 +68,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:background="@color/light_grey"
+                >
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -116,7 +119,6 @@
                             android:text="Location not set"
                             android:textSize="20sp" />
 
-
                     </LinearLayout>
 
                     <View
@@ -141,11 +143,8 @@
                             android:text="Bio not set."
                             android:textSize="20sp" />
                     </LinearLayout>
-
                 </LinearLayout>
-
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
-
 </LinearLayout>

@@ -6,7 +6,8 @@
     android:orientation="horizontal"
     android:paddingLeft="10sp"
     android:paddingRight="10sp"
-    android:background="@drawable/match_item_border">
+    android:background="@color/light_grey"
+    >
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/MatchImage"
