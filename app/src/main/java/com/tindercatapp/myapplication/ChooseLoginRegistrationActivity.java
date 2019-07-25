@@ -266,26 +266,6 @@ public class ChooseLoginRegistrationActivity extends AppCompatActivity {
         }
     }
 
-    private void registerUserWithFaceBook (final FirebaseUser user) {
-        currentUserDb = FirebaseDatabase.getInstance().getReference().child("Cats").child(user.getUid());
-        Map <String, Object> userInfo = new HashMap<>();
-        userInfo.put("name", user.getDisplayName());
-
-        try {
-            currentUserDb.updateChildren(userInfo, new DatabaseReference.CompletionListener() {
-                @Override
-                public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
-                    Log.d("TAG", "Name: " + user.getDisplayName() + ", ID: " + user.getUid() + ", Email: " + user.getEmail());
-                    Toast.makeText(ChooseLoginRegistrationActivity.this, "Database updated with Facebook data", Toast.LENGTH_SHORT).show();
-                }
-            });
-        } catch (Exception e) {
-            Log.e("TAG", "Registering to Firebase with Facebook failed: " + e);
-        }
-    } // Registering with Facebook ends
-    /* Facebook Methods end here */
-
-
     /* Google Sign In methods */
     private void googleSignIn() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
