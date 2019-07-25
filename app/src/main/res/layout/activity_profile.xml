@@ -43,12 +43,20 @@
             android:onClick="navMatchesPage"
             android:text="Matches" />
     </LinearLayout>
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_marginTop="30dp"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="30dp"
+        android:background="@color/light_grey">
 
     <ImageView
         android:id="@+id/profileImage"
         android:layout_width="wrap_content"
         android:layout_height="291dp"
-        android:layout_below="@+id/buttonBarTop"
         android:layout_marginLeft="30dp"
         android:layout_marginTop="30dp"
         android:layout_marginRight="30dp"
@@ -61,7 +69,7 @@
         android:layout_height="40dp"
         android:layout_below="@+id/profileImage"
         android:layout_marginLeft="30sp"
-        android:layout_marginTop="15sp"
+        android:layout_marginTop="25sp"
         android:background="@null"
         android:hint="Name:  "
         android:textSize="15sp" />
@@ -154,6 +162,16 @@
         android:layout_marginRight="30dp"
         android:enabled="false"
         android:inputType="textMultiLine" />
+
+        <LinearLayout
+            android:layout_below="@id/bio"
+            android:layout_width="match_parent"
+            android:layout_height="200dp">
+
+        </LinearLayout>
+
+    </RelativeLayout>
+</ScrollView>
 
     <LinearLayout
         android:id="@+id/buttonBarBottom"

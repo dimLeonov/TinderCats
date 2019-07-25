@@ -43,6 +43,7 @@
                     android:id="@+id/item_swipe_left_indicator"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="left"
                     android:layout_margin="10dp"
                     android:alpha="0"
                     android:background="@drawable/like_border"
@@ -51,12 +52,8 @@
                     android:paddingRight="10dp"
                     android:paddingBottom="5dp"
                     android:text="LIKE"
-                    android:fontFamily="@font/roboto"
-                    android:gravity="center"
-                    android:textAllCaps="true"
-                    android:textColor="@color/black"
-                    android:textStyle="bold"
-                    android:textSize="20dp"
+                    android:textColor="@color/likegreen"
+                    android:textSize="35sp"
                     />
 
                 <TextView

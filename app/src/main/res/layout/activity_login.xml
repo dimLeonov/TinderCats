@@ -1,82 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/light_grey"
     >
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:gravity="center"
-        android:orientation="vertical"
-        >
-        <TextView
-            android:id="@+id/label1"
+        android:layout_height="match_parent">
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp"
-            android:text="Use your e-mail and password:"
-            android:fontFamily="@font/roboto"
-            android:gravity="center"
-            android:textColor="@color/color_bitter"
-            android:textStyle="bold"
-            android:textSize="20dp"
-            />
+            android:layout_height="match_parent"
+            android:background="@color/light_grey">
+            <LinearLayout
+                android:id="@+id/scroll1"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:orientation="horizontal">
 
-        <EditText
-            android:id="@+id/email"
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:inputType="textEmailAddress"
-            android:textColorHint="@color/grey"
-            android:background="@color/white"
-            android:hint=" Email"
-            />
-        <EditText
-            android:id="@+id/password"
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:layout_marginTop="15dp"
-            android:inputType="textPassword"
-            android:textColorHint="@color/grey"
-            android:background="@color/white"
-            android:hint=" Password"
-            />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/scroll2"
+                android:layout_below="@+id/scroll1"
+                android:layout_marginTop="@dimen/_10dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                >
+                <TextView
+                    android:id="@+id/label1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
 
-        <Button
-            android:id="@+id/login"
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:layout_marginTop="30dp"
-            android:text="Login"
-            android:background="@color/color_bitter"
-            android:textColor="@color/white"
-            />
-        <Button
-            android:id="@+id/returnButton"
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:layout_marginTop="15dp"
-            android:onClick="navChooseLoginRegistration"
-            android:background="@color/color_bitter"
-            android:textColor="@color/white"
-            android:text="return"
-            />
+                    android:layout_marginBottom="30dp"
+                    android:text="Use your e-mail and password:"
+                    android:fontFamily="@font/roboto"
+                    android:gravity="center"
+                    android:textColor="@color/color_bitter"
+                    android:textStyle="bold"
+                    android:textSize="20dp"
+                    />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:gravity="center"
-            android:text="No account yet? Create one"
-            android:textColor="@color/black"
-            android:onClick="navRegisterPage"
-            android:clickable="true"
-            android:textSize="17dp"
-            />
+                <EditText
+                    android:id="@+id/email"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:inputType="textEmailAddress"
+                    android:textColorHint="@color/grey"
+                    android:background="@color/white"
+                    android:hint=" Email"
+                    />
+                <EditText
+                    android:id="@+id/password"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="15dp"
+                    android:inputType="textPassword"
+                    android:textColorHint="@color/grey"
+                    android:background="@color/white"
+                    android:hint=" Password"
+                    />
 
-    </LinearLayout>
+                <Button
+                    android:id="@+id/login"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="30dp"
+                    android:text="Login"
+                    android:background="@color/color_bitter"
+                    android:textColor="@color/white"
+                    />
+                <Button
+                    android:id="@+id/returnButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="15dp"
+                    android:onClick="navChooseLoginRegistration"
+                    android:background="@color/color_bitter"
+                    android:textColor="@color/white"
+                    android:text="return"
+                    />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:gravity="center"
+                    android:text="No account yet? Create one"
+                    android:textColor="@color/black"
+                    android:onClick="navRegisterPage"
+                    android:clickable="true"
+                    android:textSize="17dp"
+                    />
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/scroll3"
+                android:layout_below="@+id/scroll2"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:orientation="horizontal">
+
+            </LinearLayout>
+        </RelativeLayout>
+    </ScrollView>
 </RelativeLayout>
+
