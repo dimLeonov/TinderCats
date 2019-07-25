@@ -64,7 +64,7 @@
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="390dp"
                 android:padding="10dp"
                 app:cardCornerRadius="@dimen/_5dp"
                 app:cardElevation="4dp"
@@ -74,7 +74,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
-
 
 
                     <RelativeLayout
@@ -109,17 +108,16 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:paddingLeft="10dp"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:paddingLeft="10dp">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Volume"
-                        android:textColor="@color/black"
-                        android:textSize="18dp"
-                        android:layout_weight="1"/>
-
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Volume"
+                            android:textColor="@color/black"
+                            android:textSize="18dp" />
 
 
                         <SeekBar
@@ -127,9 +125,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="8"
-                           android:progressTint="@color/colorPrimary"
                             android:progressBackgroundTint="@color/bottomNavTextColor"
-                            android:thumbTint="@color/colorPrimaryDark"/>
+                            android:progressTint="@color/colorPrimary"
+                            android:thumbTint="@color/colorPrimaryDark" />
 
                     </LinearLayout>
 
@@ -137,8 +135,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:paddingLeft="10dp"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:paddingLeft="10dp">
 
                         <TextView
                             android:layout_width="344dp"
@@ -153,44 +151,43 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
-                            android:paddingLeft="10dp"
+                            android:layout_weight="5"
                             android:orientation="vertical"
-                            android:layout_weight="5">
+                            android:paddingLeft="10dp">
 
 
                             <RadioGroup
+                                android:id="@+id/nopeSounds"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:id="@+id/nopeSounds"
-                                >
+                                android:layout_weight="1">
 
                                 <RadioButton
                                     android:id="@+id/nope1"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="2"
-                                    android:text="Sound 1"
+                                    android:buttonTint="@color/colorPrimary"
                                     android:onClick="onRadioButtonClicked"
-                                    android:buttonTint="@color/colorPrimary"/>
+                                    android:text="Sound 1" />
 
                                 <RadioButton
                                     android:id="@+id/nope2"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="2"
-                                    android:text="Sound 2"
+                                    android:buttonTint="@color/colorPrimary"
                                     android:onClick="onRadioButtonClicked"
-                                    android:buttonTint="@color/colorPrimary"/>
+                                    android:text="Sound 2" />
 
                                 <RadioButton
                                     android:id="@+id/nope3"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="2"
-                                    android:text="Sound 3"
+                                    android:buttonTint="@color/colorPrimary"
                                     android:onClick="onRadioButtonClicked"
-                                    android:buttonTint="@color/colorPrimary"/>
+                                    android:text="Sound 3" />
 
                             </RadioGroup>
 
@@ -201,10 +198,10 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="134dp"
                         android:layout_marginTop="10dp"
-                        android:paddingLeft="10dp"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:paddingLeft="10dp">
 
                         <TextView
                             android:layout_width="344dp"
@@ -219,47 +216,49 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
-                            android:paddingLeft="10dp"
+                            android:layout_weight="5"
                             android:orientation="vertical"
-                            android:layout_weight="5">
+                            android:paddingLeft="10dp">
 
 
                             <RadioGroup
+                                android:id="@+id/happySounds"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:id="@+id/happySounds">
+                                android:layout_weight="1">
 
-                            <RadioButton
-                                android:id="@+id/happy1"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="2"
-                                android:text="Sound 1"
-                                android:onClick="onRadioButtonClicked"
-                                android:buttonTint="@color/colorPrimary"/>
+                                <RadioButton
+                                    android:id="@+id/happy1"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="2"
+                                    android:buttonTint="@color/colorPrimary"
+                                    android:onClick="onRadioButtonClicked"
+                                    android:text="Sound 1" />
 
-                            <RadioButton
-                                android:id="@+id/happy2"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="2"
-                                android:text="Sound 2"
-                                android:onClick="onRadioButtonClicked"
-                                android:buttonTint="@color/colorPrimary"/>
+                                <RadioButton
+                                    android:id="@+id/happy2"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="2"
+                                    android:buttonTint="@color/colorPrimary"
+                                    android:onClick="onRadioButtonClicked"
+                                    android:text="Sound 2" />
 
-                            <RadioButton
-                                android:id="@+id/happy3"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="2"
-                                android:text="Sound 3"
-                                android:onClick="onRadioButtonClicked"
-                                android:buttonTint="@color/colorPrimary"/>
+                                <RadioButton
+                                    android:id="@+id/happy3"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="2"
+                                    android:buttonTint="@color/colorPrimary"
+                                    android:onClick="onRadioButtonClicked"
+                                    android:text="Sound 3" />
 
                             </RadioGroup>
 
                         </LinearLayout>
+
+
 
                     </LinearLayout>
 
@@ -268,7 +267,8 @@
 
 
 
-<!--
+
+                    <!--
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -296,7 +296,7 @@
                             android:thumb="@null"
                             app:track="@null" />
                     </RelativeLayout>-->
-<!--
+                    <!--
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -328,6 +328,26 @@
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="236dp"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical"
+                android:paddingLeft="10dp">
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:background="@drawable/white_rounded_button"
+                    android:gravity="center"
+                    android:text="Delete Account"
+                    android:textColor="@color/white"
+                    android:id="@+id/deleteUser"/>
+
+            </LinearLayout>
 
     <!--
             <TextView
@@ -445,15 +465,6 @@
         </LinearLayout>
     </ScrollView>
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:background="@drawable/white_rounded_button"
-        android:gravity="center"
-        android:onClick="Logout"
-        android:text="LOG OUT"
-        android:textColor="@color/white"
-        android:visibility="gone" />
+
 
 </LinearLayout>

@@ -27,6 +27,7 @@
             android:text="My Profile"
             android:textColor="@color/color_bitter" />
 
+
         <Button
             style="?android:buttonBarButtonStyle"
             android:layout_width="0dp"
@@ -42,6 +43,8 @@
             android:layout_weight="1"
             android:onClick="navMatchesPage"
             android:text="Matches" />
+
+
     </LinearLayout>
 
     <ImageView

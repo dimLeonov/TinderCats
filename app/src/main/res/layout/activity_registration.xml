@@ -144,7 +144,7 @@
         android:textColor="@color/black"
         android:textSize="17dp"
         android:clickable="false"
-        />
+        android:visibility="invisible"/>
 
     <Button
         android:id="@+id/register"

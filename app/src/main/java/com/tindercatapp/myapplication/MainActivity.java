@@ -46,23 +46,18 @@ import com.tindercatapp.myapplication.arrayAdapter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class MainActivity extends AppCompatActivity {
-    private cards cards[];
+
     private arrayAdapter arrayAdapter;
-    private int i;
-
     private FirebaseAuth mAuth;
-
     private String currentUid;
     static MediaPlayer catHissSound, catMeowSound;  // added by Natalia 17.7
     private DatabaseReference usersDb;
 
     FrameLayout cardFrame, moreFrame;
-
     SwipeFlingAdapterView flingContainer;
-
-    ListView listView;
     List<cards> rowItems;
 
 
@@ -79,6 +74,8 @@ public class MainActivity extends AppCompatActivity {
 
     NotificationChannel notificationChannel;
     public static NotificationManager notificationManager;
+    private DatabaseReference mMatchReference;
+    private ChildEventListener mMatchReferenceListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,13 +138,22 @@ public class MainActivity extends AppCompatActivity {
             notificationManager.cancelAll();
         }
 
+        mMatchReference =  usersDb.child(currentUid).child("connections").child("matches");
+
+        final AtomicInteger count = new AtomicInteger();
+
         //Notification for new match
-        usersDb.child(currentUid).child("connections").child("matches")
-                .addChildEventListener(new ChildEventListener() {
+        mMatchReferenceListener=mMatchReference.addChildEventListener(new ChildEventListener() {
 
                     @Override
                     public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s){
+                        int newCount = count.incrementAndGet();
+                        System.out.println("First Time >>>>>>>>>"+newCount);
                         //sendNotification("Congratulations","You have a new match",MatchesActivity.class);
+                        //Toast.makeText(MainActivity.this,"Notification on new Match", Toast.LENGTH_SHORT).show();
+
+
+
                     }
 
                     @Override
@@ -165,7 +171,24 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
                     }
+
+
                 });
+
+
+        mMatchReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                long numChildren = dataSnapshot.getChildrenCount();
+                System.out.println(">>>>>>>>>" +count.get() + " == " + numChildren+">>>>>>>>>>>>");
+                if(count.get()<numChildren){
+                    Toast.makeText(MainActivity.this,"Notification on new Match", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        });
 
 
         /* GoogleSignIn preparation */
@@ -259,6 +282,12 @@ public class MainActivity extends AppCompatActivity {
         updateSwipeCard();
     }
 
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
     private void sendNotification(String title, String context, Class intent){
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -280,15 +309,15 @@ public class MainActivity extends AppCompatActivity {
         builder.setSmallIcon(R.drawable.ic_launcher_web);
 
 
-        Intent resultIntent = new Intent(this, intent);
-        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-        stackBuilder.addParentStack(intent);
+       // Intent resultIntent = new Intent(this, intent);
+       // TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+       // stackBuilder.addParentStack(intent);
 
         // Adds the Intent that starts the Activity to the top of the stack
-        stackBuilder.addNextIntent(resultIntent);
-        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+       // stackBuilder.addNextIntent(resultIntent);
+       // PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        builder.setContentIntent(resultPendingIntent);
+        //builder.setContentIntent();
         builder.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher_web));
         Uri sound = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" +getPackageName() + "/" + R.raw.cat_meow_1);
         builder.setSound(sound);
@@ -529,13 +558,13 @@ public class MainActivity extends AppCompatActivity {
 
     public void navBioPage (View view){
 
-        Toast.makeText(MainActivity.this,"not working. click on card.",Toast.LENGTH_LONG).show();
-
-        /*Intent intent = new Intent(MainActivity.this, BioActivity.class);
+        cards currentcard = rowItems.get(0);
+        Intent intent = new Intent(MainActivity.this, BioActivity.class);
+        intent.putExtra("UID", currentcard.getUserId());
         intent.putExtra("source", "main");
-        intent.putExtra("UID", userId);
         startActivity(intent);
-        finish();*/
+        finish();
+
     }
 
 

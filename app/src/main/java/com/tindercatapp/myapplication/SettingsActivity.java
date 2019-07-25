@@ -4,16 +4,22 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -34,6 +40,7 @@ public class SettingsActivity extends AppCompatActivity {
     private String happySound, happySoundDB;
     private String nopeSound, nopeSoundDB;
     static MediaPlayer catSound;
+    private Button deleteButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +52,8 @@ public class SettingsActivity extends AppCompatActivity {
 
         happySounds = (RadioGroup) findViewById(R.id.happySounds);
         nopeSounds = (RadioGroup) findViewById(R.id.nopeSounds);
+
+        deleteButton = (Button)findViewById(R.id.deleteUser);
 
         usersDb = FirebaseDatabase.getInstance().getReference().child("Cats");
         mAuth = FirebaseAuth.getInstance();
@@ -111,8 +120,6 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
-        //sounds_switch.setChecked(isSoundMute);
-        // M;ainActivity.catMeowSound.setVolume(0,0) for mute
 
         sounds_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -142,44 +149,30 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
-
-/*
-        happySounds.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                if(i== R.id.happy1){
-                    happySound="happy1";
-                }else if(i== R.id.happy2){
-                    happySound="happy2";
-                 }else{
-                    happySound="happy3";
-                }
-                System.out.println(">>>> Sound Selected "+happySound);
-                playCatSound(happySound);
-                usersDb.child(currentUid).child("settings").child("happysound").setValue(happySound);
+            public void onClick(View view) {
+
+                final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                user.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            usersDb.child(currentUid).removeValue();
+                            Intent intent = new Intent(SettingsActivity.this, ChooseLoginRegistrationActivity.class);
+                            startActivity(intent);
+                            finish();
+                        } else {
+                            task.getException();
+                        }
+                    }
+                });
 
             }
         });
 
 
-        nopeSounds.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                if(i== R.id.nope1){
-                    nopeSound="nope1";
-                }else if(i== R.id.nope2){
-                    nopeSound="nope2";
-                }else{
-                    nopeSound="nope3";
-                }
-                System.out.println(">>>> Sound Selected "+nopeSound);
-                playCatSound(nopeSound);
-                usersDb.child(currentUid).child("settings").child("nopesound").setValue(nopeSound);
-            }
-        });
-        */
     }
-
 
     public void goToMainPageFromSettings(View view) {
         Intent intent = new Intent(SettingsActivity.this, MainActivity.class);
@@ -202,7 +195,6 @@ public class SettingsActivity extends AppCompatActivity {
         finish();
         return;
     }
-
 
     public void onRadioButtonClicked(View v) {
         boolean checked = ((RadioButton) v).isChecked();
@@ -280,14 +272,8 @@ public class SettingsActivity extends AppCompatActivity {
         return;
     }
 
-    public void saveSettings(View view) {
-        //Toast.makeText(SettingsActivity.this, "I don't work yet :(", Toast.LENGTH_SHORT).show();
-        return;
-    }
-    /*TODO implement mute sounds setting*/
-    /*TODO implement settings save button functionality*/
 
-    // sounds_switch.OnCheckedChangeListener(){}
+
 
 
 }
