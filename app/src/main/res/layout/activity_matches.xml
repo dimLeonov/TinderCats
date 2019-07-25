@@ -5,21 +5,24 @@
     tools:context=".Matches.MatchesActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:background="@color/light_grey">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:weightSum="10">
+        android:weightSum="10"
+        >
+
 
         <LinearLayout
             style="?android:buttonBarStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/grey"
             android:orientation="horizontal"
-            >
+            android:background="@color/grey">
+
 
             <Button
                 android:onClick="navProfilePage"
@@ -31,25 +34,22 @@
                 />
 
             <Button
-                style="?android:buttonBarButtonStyle"
                 android:onClick="navMainPage"
+                style="?android:buttonBarButtonStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Swipe"
-
-                />
+                android:text="Swipe" />
 
             <Button
-                android:textColor="@color/color_bitter"
+
                 style="?android:buttonBarButtonStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Matches"
-                android:enabled="false"
-                android:clickable="false"
-                />
+                android:textColor="@color/color_bitter"
+                android:enabled="false"/>
 
         </LinearLayout>
         <View

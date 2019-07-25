@@ -29,7 +29,6 @@ public class RegistrationActivity extends AppCompatActivity {
     private Button mRegisterButton;
     private EditText mEmail, mPassword, mName, mLocation,mAge,mBio;
     private RadioGroup mRadioGroup;
-    private ImageButton mProfileImage;
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener firebaseAuthStateListener;
@@ -40,16 +39,6 @@ public class RegistrationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_registration);
         initializeFirebase();
         initializeXML();
-        // choose image from gallery
-        mProfileImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_PICK);
-                intent.setType("image/*");
-                startActivityForResult(intent, 1);
-
-            }
-        });
 
         mRegisterButton.setOnClickListener(new View.OnClickListener() {
 
@@ -86,7 +75,6 @@ public class RegistrationActivity extends AppCompatActivity {
                             userInfo.put("age", age);
                             userInfo.put("bio", bio);
                             userInfo.put("sex", radioButton.getText().toString());
-                            userInfo.put("profileImageUrl", "default");
                             currentUserDb.updateChildren(userInfo);
                         }
                     }
@@ -119,7 +107,6 @@ public class RegistrationActivity extends AppCompatActivity {
         mAge = findViewById(R.id.age);
         mBio = findViewById(R.id.bio);
         mRadioGroup = findViewById(R.id.radioGroup);
-        mProfileImage = (ImageButton) findViewById(R.id.profileImage);
     }
 
     @Override

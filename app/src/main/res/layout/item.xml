@@ -10,7 +10,8 @@
     android:clipToPadding="false"
     android:paddingLeft="10sp"
     android:paddingRight="10sp"
-    android:paddingBottom="10sp">
+    android:paddingBottom="10sp"
+    android:background="@color/light_grey">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -50,8 +51,13 @@
                     android:paddingRight="10dp"
                     android:paddingBottom="5dp"
                     android:text="LIKE"
-                    android:textColor="@color/likegreen"
-                    android:textSize="35sp" />
+                    android:fontFamily="@font/roboto"
+                    android:gravity="center"
+                    android:textAllCaps="true"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:textSize="20dp"
+                    />
 
                 <TextView
                     android:id="@+id/item_swipe_right_indicator"
@@ -71,24 +77,25 @@
 
             </FrameLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-
-            <TextView
-                android:id="@+id/name"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/color_bitter"
-                android:gravity="center"
-                android:paddingBottom="5sp"
-                android:textColor="@android:color/white"
-                android:textSize="30sp"
-                tools:text="Name" />
+                android:layout_height="wrap_content">
 
 
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/name"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/color_bitter"
+                    android:gravity="center"
+                    android:paddingLeft="10sp"
+                    android:paddingBottom="5sp"
+                    android:textColor="@android:color/black"
+                    android:textSize="30sp"
+                    tools:text="Name" />
+
+
+            </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 

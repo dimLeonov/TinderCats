@@ -7,30 +7,44 @@
     android:showDividers="middle"
     android:background="@color/light_grey"
     >
-
-    <ImageView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="171dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginRight="30dp"
-        android:background="@drawable/welcome_to_tinder"
-        android:clickable="false"
-        android:gravity="center" />
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="253dp"
-        android:layout_height="288dp"
-        android:layout_above="@+id/buttonBar"
-        android:layout_centerInParent="true"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="58dp"
-        android:clickable="false"
-        android:background="@drawable/logo_transparent"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_centerVertical="true"
         />
-
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/welcome"
+        android:layout_above="@+id/buttons"
+        android:layout_marginRight="30dp"
+        android:layout_marginLeft="30dp"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/buttons"
+        android:layout_above="@id/buttonBar"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="@dimen/_10dp"
+        android:gravity="center_horizontal"
+        >
+        <com.google.android.gms.common.SignInButton
+            android:id="@+id/google_sign_in_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/_10dp"
+            android:layout_centerInParent="true"
+            />
+        <com.facebook.login.widget.LoginButton
+            android:id="@+id/facebook_login_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_centerInParent="true"
+            />
+    </LinearLayout>
     <LinearLayout
         style="?android:buttonBarStyle"
         android:id="@+id/buttonBar"
@@ -67,18 +81,5 @@
             android:onClick="navLoginPage"
             />
     </LinearLayout>
-    <com.google.android.gms.common.SignInButton
-        android:id="@+id/google_sign_in_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:layout_centerInParent="true"
-        />
-    <com.facebook.login.widget.LoginButton
-        android:id="@+id/facebook_login_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:layout_centerInParent="true"/>
 </RelativeLayout>
 
