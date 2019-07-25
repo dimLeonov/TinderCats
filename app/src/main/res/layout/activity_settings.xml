@@ -11,7 +11,8 @@
         style="?android:buttonBarStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:background="@color/grey">
 
         <Button
             android:onClick="navProfilePageFromSettings"
@@ -51,197 +52,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:padding="10dp">
-            <!--
-                       <android.support.v7.widget.CardView
-                           android:layout_width="match_parent"
-                           android:layout_height="wrap_content"
-                           android:padding="10dp"
-                           app:cardCornerRadius="@dimen/_5dp"
-                           app:cardElevation="4dp"
-                           app:cardUseCompatPadding="true">
 
-                           <LinearLayout
-                               android:layout_width="match_parent"
-                               android:layout_height="wrap_content"
-                               android:orientation="vertical">
-
-                               <TextView
-                                   android:layout_width="match_parent"
-                                   android:layout_height="wrap_content"
-                                   android:paddingLeft="10dp"
-                                   android:paddingTop="10dp"
-                                   android:text="Show Me"
-                                   android:textColor="@color/colorPrimaryDark"
-                                   android:textSize="18dp"
-                                   android:textStyle="bold" />
-
-                               <TextView
-                                   android:id="@+id/gender_text"
-                                   android:layout_width="match_parent"
-                                   android:layout_height="wrap_content"
-                                   android:layout_marginBottom="10dp"
-                                   android:gravity="end"
-                                   android:paddingEnd="10dp"
-                                   android:paddingRight="10dp"
-                                   android:text="Women"
-                                   android:textColor="@color/black"
-                                   android:textSize="16dp" />
-
-                               <RelativeLayout
-                                   android:layout_width="match_parent"
-                                   android:layout_height="wrap_content">
-
-                                   <TextView
-                                       android:layout_width="wrap_content"
-                                       android:layout_height="wrap_content"
-                                       android:padding="10dp"
-                                       android:text="Men"
-                                       android:textSize="18dp" />
-
-                                   <android.support.v7.widget.SwitchCompat
-                                       android:id="@+id/switch_man"
-                                       android:layout_width="wrap_content"
-                                       android:layout_height="wrap_content"
-                                       android:layout_alignParentEnd="true"
-                                       android:layout_alignParentRight="true"
-                                       android:layout_centerVertical="true"
-                                       android:layout_gravity="center"
-                                       android:layout_marginRight="10dp"
-                                       android:background="@null"
-                                       android:button="@drawable/custom_switch"
-                                       android:thumb="@null"
-                                       app:track="@null" />
-                               </RelativeLayout>
-
-                               <RelativeLayout
-                                   android:layout_width="match_parent"
-                                   android:layout_height="wrap_content">
-
-                                   <TextView
-                                       android:layout_width="wrap_content"
-                                       android:layout_height="wrap_content"
-                                       android:padding="10dp"
-                                       android:text="Women"
-                                       android:textSize="18dp" />
-
-                                   <android.support.v7.widget.SwitchCompat
-                                       android:id="@+id/switch_woman"
-                                       android:layout_width="wrap_content"
-                                       android:layout_height="wrap_content"
-                                       android:layout_alignParentEnd="true"
-                                       android:layout_alignParentRight="true"
-                                       android:layout_centerVertical="true"
-                                       android:layout_gravity="center"
-                                       android:layout_marginRight="10dp"
-                                       android:background="@null"
-                                       android:button="@drawable/custom_switch"
-                                       android:checked="true"
-                                       android:thumb="@null"
-                                       app:track="@null" />
-                               </RelativeLayout>
-
-                           </LinearLayout>
-                       </android.support.v7.widget.CardView>
-
-                       <android.support.v7.widget.CardView
-                           android:layout_width="match_parent"
-                           android:layout_height="wrap_content"
-                           android:padding="10dp"
-                           app:cardCornerRadius="@dimen/_5dp"
-                           app:cardElevation="4dp"
-                           app:cardUseCompatPadding="true">
-
-                           <LinearLayout
-                               android:layout_width="match_parent"
-                               android:layout_height="wrap_content"
-                               android:orientation="vertical">
-
-                               <TextView
-                                   android:layout_width="match_parent"
-                                   android:layout_height="wrap_content"
-                                   android:paddingLeft="10dp"
-                                   android:paddingTop="10dp"
-                                   android:text="Maximum Distance"
-                                   android:textColor="@color/colorPrimaryDark"
-                                   android:textSize="18dp"
-                                   android:textStyle="bold" />
-
-                               <TextView
-                                   android:id="@+id/distance_text"
-                                   android:layout_width="match_parent"
-                                   android:layout_height="wrap_content"
-                                   android:layout_marginBottom="10dp"
-                                   android:gravity="end"
-                                   android:paddingEnd="10dp"
-                                   android:paddingRight="10dp"
-                                   android:text="20 Km"
-                                   android:textColor="@color/black"
-                                   android:textSize="16dp" />
-
-                               <SeekBar
-                                   android:id="@+id/distance"
-                                   android:layout_width="match_parent"
-                                   android:layout_height="wrap_content"
-                                   android:layout_margin="20dp"
-                                   android:max="100"
-                                   android:min="5"
-                                   android:progress="20"
-                                   android:progressDrawable="@drawable/custom_seekbar_progress"
-                                   android:thumb="@drawable/seek_bar_thumb" />
-
-                           </LinearLayout>
-                       </android.support.v7.widget.CardView>
-                       <androidx.cardview.widget.CardView
-                           android:layout_width="match_parent"
-                           android:layout_height="wrap_content"
-                           android:padding="10dp"
-                           android:visibility="visible"
-                           app:cardCornerRadius="@dimen/_5dp"
-                           app:cardElevation="4dp"
-                           app:cardUseCompatPadding="true">
-
-                           <LinearLayout
-                               android:layout_width="match_parent"
-                               android:layout_height="wrap_content"
-                               android:orientation="vertical">
-
-                               <TextView
-                                   android:layout_width="match_parent"
-                                   android:layout_height="wrap_content"
-                                   android:paddingLeft="10dp"
-                                   android:paddingTop="10dp"
-                                   android:text="Age Range"
-                                   android:textColor="@color/colorPrimaryDark"
-                                   android:textSize="18dp"
-                                   android:textStyle="bold" />
-
-                               <TextView
-                                   android:id="@+id/age_range"
-                                   android:layout_width="match_parent"
-                                   android:layout_height="wrap_content"
-                                   android:layout_marginBottom="10dp"
-                                   android:gravity="end"
-                                   android:paddingEnd="10dp"
-                                   android:paddingRight="10dp"
-
-                                   android:text="50-14"
-                                   android:textColor="@color/black"
-                                   android:textSize="16dp" />
-
-                               <com.yahoo.mobile.client.android.util.rangeseekbar.RangeSeekBar xmlns:rsb="http://schemas.android.com/apk/res-auto"
-                                   android:id="@+id/rangeSeekbar"
-                                   android:layout_width="match_parent"
-                                   android:layout_height="wrap_content"
-                                   android:layout_marginLeft="10dp"
-                                   android:layout_marginRight="10dp"
-                                   android:layout_marginBottom="10dp"
-                                   rsb:absoluteMaxValue="14"
-                                   rsb:absoluteMinValue="50" />
-
-                           </LinearLayout>
-                       </androidx.cardview.widget.CardView>
-
--->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -309,11 +120,16 @@
                         android:textSize="18dp"
                         android:layout_weight="1"/>
 
+
+
                         <SeekBar
                             android:id="@+id/seekBar"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="8" />
+                            android:layout_weight="8"
+                           android:progressTint="@color/colorPrimary"
+                            android:progressBackgroundTint="@color/bottomNavTextColor"
+                            android:thumbTint="@color/colorPrimaryDark"/>
 
                     </LinearLayout>
 
@@ -355,7 +171,8 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="2"
                                     android:text="Sound 1"
-                                    android:onClick="onRadioButtonClicked"/>
+                                    android:onClick="onRadioButtonClicked"
+                                    android:buttonTint="@color/colorPrimary"/>
 
                                 <RadioButton
                                     android:id="@+id/nope2"
@@ -363,7 +180,8 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="2"
                                     android:text="Sound 2"
-                                    android:onClick="onRadioButtonClicked"/>
+                                    android:onClick="onRadioButtonClicked"
+                                    android:buttonTint="@color/colorPrimary"/>
 
                                 <RadioButton
                                     android:id="@+id/nope3"
@@ -371,7 +189,8 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="2"
                                     android:text="Sound 3"
-                                    android:onClick="onRadioButtonClicked"/>
+                                    android:onClick="onRadioButtonClicked"
+                                    android:buttonTint="@color/colorPrimary"/>
 
                             </RadioGroup>
 
@@ -417,7 +236,8 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="2"
                                 android:text="Sound 1"
-                                android:onClick="onRadioButtonClicked"/>
+                                android:onClick="onRadioButtonClicked"
+                                android:buttonTint="@color/colorPrimary"/>
 
                             <RadioButton
                                 android:id="@+id/happy2"
@@ -425,7 +245,8 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="2"
                                 android:text="Sound 2"
-                                android:onClick="onRadioButtonClicked"/>
+                                android:onClick="onRadioButtonClicked"
+                                android:buttonTint="@color/colorPrimary"/>
 
                             <RadioButton
                                 android:id="@+id/happy3"
@@ -433,7 +254,8 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="2"
                                 android:text="Sound 3"
-                                android:onClick="onRadioButtonClicked"/>
+                                android:onClick="onRadioButtonClicked"
+                                android:buttonTint="@color/colorPrimary"/>
 
                             </RadioGroup>
 

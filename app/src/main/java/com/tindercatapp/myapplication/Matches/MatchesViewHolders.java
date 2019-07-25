@@ -12,7 +12,7 @@ import com.tindercatapp.myapplication.Chat.ChatActivity;
 import com.tindercatapp.myapplication.R;
 
 public class MatchesViewHolders extends RecyclerView.ViewHolder implements View.OnClickListener {
-    public TextView mMatchId, mMatchName;
+    public TextView mMatchId, mMatchName,mMatchAge,mMatchLocation;
     public ImageView mMatchImage;
 
     public MatchesViewHolders(View itemView) {
@@ -21,6 +21,8 @@ public class MatchesViewHolders extends RecyclerView.ViewHolder implements View.
         mMatchId = (TextView) itemView.findViewById(R.id.Matchid);
         mMatchName = (TextView) itemView.findViewById(R.id.MatchName);
         mMatchImage = (ImageView) itemView.findViewById(R.id.MatchImage);
+        mMatchAge = (TextView) itemView.findViewById(R.id.MatchAge);
+        mMatchLocation= (TextView) itemView.findViewById(R.id.MatchLocation);
     }
 
     @Override

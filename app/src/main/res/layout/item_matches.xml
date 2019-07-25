@@ -4,13 +4,14 @@
     android:layout_height="match_parent"
     android:layout_marginTop="10dp"
     android:orientation="horizontal"
-    android:padding="20sp"
+    android:paddingLeft="10sp"
+    android:paddingRight="10sp"
     android:background="@drawable/match_item_border">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/MatchImage"
-        android:layout_width="100sp"
-        android:layout_height="100sp"
+        android:layout_width="120sp"
+        android:layout_height="120sp"
         android:layout_gravity="center_vertical"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
@@ -27,17 +28,35 @@
             android:id="@+id/MatchName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="20sp"
+            android:paddingBottom="10sp"
             android:text="MatchesName"
-            android:textSize="20sp"
+            android:textSize="22sp"
             android:textStyle="bold" />
+
+        <TextView
+        android:id="@+id/MatchAge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="MatchAge"
+        android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/MatchLocation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="MatchLocation"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/Matchid"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="MatchesID" />
+            android:text="MatchesID"
+            android:textSize="18sp"
+            android:visibility="invisible"/>
 
     </LinearLayout>
 

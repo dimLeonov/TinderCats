@@ -1,9 +1,20 @@
 package com.tindercatapp.myapplication;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
+import android.content.ContentResolver;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,6 +24,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 import android.media.MediaPlayer; // added by Natalia 17.7
 import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import com.facebook.Profile;
 import com.facebook.ProfileTracker;
@@ -33,6 +45,7 @@ import com.tindercatapp.myapplication.Utils.PulsatorLayout;
 import com.tindercatapp.myapplication.arrayAdapter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
     private cards cards[];
@@ -57,6 +70,15 @@ public class MainActivity extends AppCompatActivity {
     static float volume;
     static String happySoundDB ="happy1";
     static String nopeSoundDB ="nope1";
+
+    public static final String NOTIFICATION_CHANNEL_ID = "channel_id";
+    public static final String CHANNEL_NAME = "Notification Channel";
+    int importance = NotificationManager.IMPORTANCE_DEFAULT;
+
+    // public static final int NOTIFICATION_ID = 101;
+
+    NotificationChannel notificationChannel;
+    public static NotificationManager notificationManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,7 +135,38 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d("MAINACTIVITY", "mAuth user ID:" + currentUid);
 
-        DatabaseReference userDb = FirebaseDatabase.getInstance().getReference().child("Cats").child(currentUid);
+        DatabaseReference userDb = usersDb.child(currentUid);
+
+        if(notificationManager!=null){
+            notificationManager.cancelAll();
+        }
+
+        //Notification for new match
+        usersDb.child(currentUid).child("connections").child("matches")
+                .addChildEventListener(new ChildEventListener() {
+
+                    @Override
+                    public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s){
+                        sendNotification("Congratulations","You have a new match",MatchesActivity.class);
+                    }
+
+                    @Override
+                    public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                    }
+
+                    @Override
+                    public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {}
+
+
+                    @Override
+                    public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                    }
+                });
+
 
         /* GoogleSignIn preparation */
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -204,6 +257,46 @@ public class MainActivity extends AppCompatActivity {
 
         checkRowItem();
         updateSwipeCard();
+    }
+
+    private void sendNotification(String title, String context, Class intent){
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            notificationChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, CHANNEL_NAME, importance);
+            notificationChannel.enableLights(true);
+            notificationChannel.enableVibration(true);
+            notificationChannel.setLightColor(Color.GREEN);
+            notificationChannel.setVibrationPattern(new long[] {500, 500, 500, 500, 500});
+            notificationChannel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
+        }
+
+        notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        notificationManager.createNotificationChannel(notificationChannel);
+
+        //Notification Channel ID passed as a parameter here will be ignored for all the Android versions below 8.0
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID);////
+        builder.setContentTitle(title);
+        builder.setContentText(context);
+        builder.setSmallIcon(R.drawable.ic_launcher_web);
+
+
+        Intent resultIntent = new Intent(this, intent);
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+        stackBuilder.addParentStack(intent);
+
+        // Adds the Intent that starts the Activity to the top of the stack
+        stackBuilder.addNextIntent(resultIntent);
+        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        builder.setContentIntent(resultPendingIntent);
+        builder.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher_web));
+        Uri sound = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" +getPackageName() + "/" + R.raw.cat_meow_1);
+        builder.setSound(sound);
+
+        // builder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM));
+        Notification notification = builder.build();
+        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);///
+        notificationManagerCompat.notify(new Random().nextInt(100), notification);
     }
 
 
@@ -299,64 +392,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
-    /*
-    private String userSex;
-    private String oppositeUserSex;
-    public void checkUserSex(){
-        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
-        DatabaseReference maleDb = FirebaseDatabase.getInstance().getReference().child("Cats").child("Male");
-        maleDb.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                if (dataSnapshot.getKey().equals(user.getUid())){
-                    userSex = "Male";
-                    oppositeUserSex = "Female";
-                    getOppositeSexUsers();
-                }
-            }
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-            }
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        });
-
-        DatabaseReference femaleDb = FirebaseDatabase.getInstance().getReference().child("Cats").child("Female");
-        femaleDb.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                if (dataSnapshot.getKey().equals(user.getUid())){
-                    userSex = "Female";
-                    oppositeUserSex = "Male";
-                    getOppositeSexUsers();
-                }
-            }
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-            }
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        });
-    }
-    */
 // Added by Amal
     private String userSex;
     private String oppositeUserSex;
@@ -389,37 +424,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-/*
-    public void getOppositeSexUsers(){
-        DatabaseReference oppositeSexDb = FirebaseDatabase.getInstance().getReference().child("Cats").child(oppositeUserSex);
-        oppositeSexDb.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                if (dataSnapshot.exists()){
-                    //rowItems.add(dataSnapshot.child("name").getValue().toString());
-                    cards item = new cards(dataSnapshot.getKey(), dataSnapshot.child("name").toString());
-                    rowItems.add(item);
-                    arrayAdapter.notifyDataSetChanged();
-                }
-            }
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-            }
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        });
-
-    }
-*/
-
     //Added by Amal
     public void getOppositeSexUsers(){
         usersDb.addChildEventListener(new ChildEventListener() {
@@ -431,8 +435,10 @@ public class MainActivity extends AppCompatActivity {
                         int age =0;
                         String location="";
 
-                        if (dataSnapshot.child("profileImageUrl").getValue().toString().contains("firebase")) {
-                            profileImageUrl = dataSnapshot.child("profileImageUrl").getValue().toString();
+                        if(dataSnapshot.hasChild("profileImageUrl")) {
+                            if (dataSnapshot.child("profileImageUrl").getValue().toString().contains("firebase")) {
+                                profileImageUrl = dataSnapshot.child("profileImageUrl").getValue().toString();
+                            }
                         }
 
                         if(dataSnapshot.hasChild("location")){
@@ -489,9 +495,9 @@ public class MainActivity extends AppCompatActivity {
 
     //Added Amal
     public void goToMainPage(View view){
-        Intent intent = getIntent();
-        finish();
-        startActivity(intent);
+        ///Intent intent = getIntent();
+        //finish();
+        //startActivity(intent);
     }
 
     //Added Amal
@@ -522,7 +528,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void navBioPage (View view){
-
 
         Toast.makeText(MainActivity.this,"not working. click on card.",Toast.LENGTH_LONG).show();
 

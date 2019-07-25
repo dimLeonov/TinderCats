@@ -4,11 +4,15 @@ public class MatchesObject {
     private String userId;
     private String name;
     private String profileImageUrl;
+    private int age;
+    private String location;
 
-    public MatchesObject(String userId, String name, String profileImageUrl) {
+    public MatchesObject(String userId, String name, String profileImageUrl,int age,String location) {
         this.userId = userId;
         this.name = name;
         this.profileImageUrl = profileImageUrl;
+        this.age=age;
+        this.location=location;
     }
 
     public void setUserId(String userId) {
@@ -34,5 +38,21 @@ public class MatchesObject {
 
     public void setProfileImageUrl(String profileImageUrl) {
         this.profileImageUrl = profileImageUrl;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 }

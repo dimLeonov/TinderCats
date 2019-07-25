@@ -27,6 +27,7 @@
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
             android:layout_marginTop="30sp"
+            android:layout_gravity="center"
             app:srcCompat="@drawable/ic_launcher_web"
             />
 
@@ -97,12 +98,14 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="0dp"
             android:text="Male"
+            android:buttonTint="@color/colorPrimary"
             />
         <RadioButton
             android:id="@+id/SexRadioFemale"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Female"
+            android:buttonTint="@color/colorPrimary"
             />
     </RadioGroup>
     <EditText

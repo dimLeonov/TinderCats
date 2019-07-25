@@ -49,32 +49,11 @@ public class MatchesActivity extends AppCompatActivity {
 
         getUserMatchId();
 
-        //for(int i=0;i<100;i++){
-        // MatchesObject obj = new MatchesObject(Integer.toString(i));
-        // resultMatches.add(obj);
+        if(MainActivity.notificationManager!=null){
+            MainActivity.notificationManager.cancelAll();
+        }
 
-        //}
-
-
-        // mMatchesAdapter.notifyDataSetChanged();
-
-
-
-   /*
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
-        */
-    }
+          }
 
     public void navMainPage(View view) {
         Intent intent = new Intent(MatchesActivity.this, MainActivity.class);
@@ -100,14 +79,36 @@ public class MatchesActivity extends AppCompatActivity {
                     String userId = dataSnapshot.getKey();
                     String name = "";
                     String profileImageUrl = "";
+                    int age =0;
+                    String location ="";
+
+
                     if (dataSnapshot.child("name").getValue() != null) {
                         name = dataSnapshot.child("name").getValue().toString();
                     }
+
+                    if(dataSnapshot.hasChild("profileImageUrl")){
                     if (dataSnapshot.child("profileImageUrl").getValue() != null) {
                         profileImageUrl = dataSnapshot.child("profileImageUrl").getValue().toString();
+                    }}
+
+                    if(dataSnapshot.hasChild("age")){
+                        if (dataSnapshot.child("age").getValue() != null) {
+                            age = Integer.parseInt(dataSnapshot.child("age").getValue().toString());
+                        }
+
                     }
 
-                    MatchesObject obj = new MatchesObject(userId, name, profileImageUrl);
+                    if(dataSnapshot.hasChild("location")){
+                        if (dataSnapshot.child("location").getValue() != null) {
+                            location = dataSnapshot.child("location").getValue().toString();
+                        }
+                    }
+
+
+
+
+                    MatchesObject obj = new MatchesObject(userId, name, profileImageUrl,age,location);
                     resultMatches.add(obj);
                     mMatchesAdapter.notifyDataSetChanged();
                 }
