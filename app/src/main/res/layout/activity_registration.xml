@@ -77,7 +77,7 @@
         android:layout_below="@id/name"
         android:layout_width="match_parent"
         android:layout_height="35dp"
-        android:inputType="text"
+        android:inputType="textPersonName"
         android:hint=" Location"
         android:textColorHint="@color/grey"
         android:layout_marginTop="15dp"
@@ -98,12 +98,25 @@
         android:layout_marginRight="30dp"
         android:background="@color/white"
         />
+    <EditText
+        android:id="@+id/bio"
+        android:layout_below="@id/age"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:inputType="textMultiLine"
+        android:hint=" Bio"
+        android:textColorHint="@color/grey"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:background="@color/white"
+        />
 
     <RadioGroup
         android:id="@+id/radioGroup"
         android:layout_width="202dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/age"
+        android:layout_below="@+id/bio"
         android:layout_marginTop="15dp"
         android:orientation="horizontal"
         >
@@ -124,7 +137,7 @@
 
     <ImageButton
         android:id="@+id/profileImage"
-        android:layout_below="@id/age"
+        android:layout_below="@id/bio"
         android:layout_width="150dp"
         android:layout_height="80dp"
         android:layout_alignParentRight="true"
@@ -134,7 +147,7 @@
         />
     <TextView
         android:id="@+id/add_image"
-        android:layout_below="@id/age"
+        android:layout_below="@id/bio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
@@ -145,6 +158,8 @@
         android:textSize="17dp"
         android:clickable="false"
         />
+
+
 
     <Button
         android:id="@+id/register"

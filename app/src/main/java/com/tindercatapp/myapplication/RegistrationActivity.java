@@ -27,7 +27,7 @@ import java.util.Map;
 public class RegistrationActivity extends AppCompatActivity {
 
     private Button mRegisterButton;
-    private EditText mEmail, mPassword, mName;
+    private EditText mEmail, mPassword, mName, mLocation,mAge,mBio;
     private RadioGroup mRadioGroup;
     private ImageButton mProfileImage;
 
@@ -58,6 +58,12 @@ public class RegistrationActivity extends AppCompatActivity {
                 final String email = mEmail.getText().toString();
                 final String password = mPassword.getText().toString();
                 final String name = mName.getText().toString();
+                final String location = mLocation.getText().toString();
+                final String age = mAge.getText().toString();
+                final String bio = mBio.getText().toString();
+
+
+
                 final RadioButton radioButton = (RadioButton) findViewById(mRadioGroup.getCheckedRadioButtonId());
 
                 if (radioButton.getText() == null) {
@@ -68,7 +74,7 @@ public class RegistrationActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (!task.isSuccessful()) {
-                            Toast.makeText(RegistrationActivity.this, "sign up error", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(RegistrationActivity.this, "Sign up error!", Toast.LENGTH_SHORT).show();
                         } else {
                             String userId = mAuth.getCurrentUser().getUid();
 
@@ -76,8 +82,9 @@ public class RegistrationActivity extends AppCompatActivity {
                             DatabaseReference currentUserDb = FirebaseDatabase.getInstance().getReference().child("Cats").child(userId);
                             Map userInfo = new HashMap<>();
                             userInfo.put("name", name);
-                            userInfo.put("location", "");
-                            userInfo.put("age", "0");
+                            userInfo.put("location", location);
+                            userInfo.put("age", age);
+                            userInfo.put("bio", bio);
                             userInfo.put("sex", radioButton.getText().toString());
                             userInfo.put("profileImageUrl", "default");
                             currentUserDb.updateChildren(userInfo);
@@ -108,6 +115,9 @@ public class RegistrationActivity extends AppCompatActivity {
         mEmail = findViewById(R.id.email);
         mPassword = findViewById(R.id.password);
         mName = findViewById(R.id.name);
+        mLocation = findViewById(R.id.location);
+        mAge = findViewById(R.id.age);
+        mBio = findViewById(R.id.bio);
         mRadioGroup = findViewById(R.id.radioGroup);
         mProfileImage = (ImageButton) findViewById(R.id.profileImage);
     }
