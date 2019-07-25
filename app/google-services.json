@@ -15,6 +15,30 @@
       },
       "oauth_client": [
         {
+          "client_id": "831360162595-s78r5opvl3s5g0tu8jvr41v0ombho1li.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.tindercatapp.myapplication",
+            "certificate_hash": "c9b5911689b85cb580628c46aa405e6e332002fc"
+          }
+        },
+        {
+          "client_id": "831360162595-4t3k4pt87601gl1u278h70s4b953bdvb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.tindercatapp.myapplication",
+            "certificate_hash": "c95a64838128c9ce4d6f9a83955f40687b5f4235"
+          }
+        },
+        {
+          "client_id": "831360162595-e6hr773d2l96epguidt6m69q90n6spv0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.tindercatapp.myapplication",
+            "certificate_hash": "9a3b08cf978b046640cafca63c97a14d633d5378"
+          }
+        },
+        {
           "client_id": "831360162595-iktl5md3c20eah7locpsn8jfvmk3iufu.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
