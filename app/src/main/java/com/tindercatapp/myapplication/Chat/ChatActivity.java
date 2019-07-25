@@ -3,6 +3,7 @@ package com.tindercatapp.myapplication.Chat;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -10,6 +11,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ScrollView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
@@ -33,6 +35,7 @@ public class ChatActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mChatAdapter;
     private RecyclerView.LayoutManager mChatLayoutManager;
+    public static  NestedScrollView nestedScrollView;
 
     private EditText mSendEditText;
     private Button mSendButton;
@@ -40,6 +43,7 @@ public class ChatActivity extends AppCompatActivity {
     private String currentUserID, matchId, chatId;
 
     DatabaseReference mDatabaseUser, mDatabaseChat;
+    public static Runnable runnable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,12 +77,24 @@ public class ChatActivity extends AppCompatActivity {
         mSendEditText = findViewById(R.id.message);
         mSendButton = findViewById(R.id.send);
 
+        nestedScrollView = findViewById(R.id.nScrollView);
+
         mSendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 sendMessage();
             }
         });
+
+
+        runnable=new Runnable() {
+            @Override
+            public void run() {
+                nestedScrollView.fullScroll(NestedScrollView.FOCUS_DOWN);
+            }
+        };
+        nestedScrollView.post(runnable);
+
     }
 
 
@@ -97,6 +113,7 @@ public class ChatActivity extends AppCompatActivity {
             newMessageDb.setValue(newMessage);
         }
         mSendEditText.setText(null);
+        nestedScrollView.post(runnable);
     }
 
     private void getChatId() {
@@ -141,6 +158,7 @@ public class ChatActivity extends AppCompatActivity {
                         mChatAdapter.notifyDataSetChanged();
                     }
                 }
+
             }
 
             @Override
@@ -163,6 +181,8 @@ public class ChatActivity extends AppCompatActivity {
 
             }
         });
+
+        nestedScrollView.post(runnable);
     }
 
     private ArrayList<ChatObject> resultsChat = new ArrayList<ChatObject>();

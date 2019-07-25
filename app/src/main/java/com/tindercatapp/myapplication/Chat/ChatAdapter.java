@@ -41,7 +41,6 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatViewHolders> {
             holder.mMessage.setGravity(Gravity.END);
             holder.mMessage.setTextColor(Color.parseColor("#7bb338"));
             //holder.mMessage.setBackgroundColor(Color.parseColor("#7bb338"));
-
             //holder.mContainer.setBackgroundColor(Color.parseColor("#FFFFFF"));
         } else {
             holder.mMessage.setGravity(Gravity.START);
@@ -50,6 +49,8 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatViewHolders> {
             //holder.mMessage.setBackgroundColor(Color.parseColor("#2DB4CB"));
             //holder.mContainer.setBackgroundColor(Color.parseColor("#FFFFFF"));
         }
+
+        ChatActivity.nestedScrollView.post(ChatActivity.runnable);
     }
 
     @Override

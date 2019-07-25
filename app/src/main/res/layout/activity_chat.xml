@@ -10,7 +10,9 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/sendLayout">
+        android:layout_above="@+id/sendLayout"
+        android:id="@+id/nScrollView"
+        android:paddingBottom="50sp">
 
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
