@@ -5,14 +5,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Chat.ChatActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/light_grey">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/sendLayout"
         android:id="@+id/nScrollView"
-        android:paddingBottom="50sp">
+        android:paddingBottom="50sp"
+        android:layout_marginRight="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="30dp">
 
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
@@ -28,7 +32,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:background="@color/grey"
+        >
         <EditText
             android:layout_weight="0.8"
             android:layout_width="0dp"
@@ -40,7 +46,8 @@
     android:layout_width="0dp"
     android:layout_height="wrap_content"
     android:text="Send"
-    android:id="@+id/send"/>
+    android:id="@+id/send"
+    android:background="@color/color_bitter"/>
     </LinearLayout>
 
 

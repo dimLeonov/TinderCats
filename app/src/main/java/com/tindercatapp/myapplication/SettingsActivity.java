@@ -26,6 +26,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.tindercatapp.myapplication.Matches.MatchesActivity;
+import com.tindercatapp.myapplication.Utils.Settings;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -154,14 +155,21 @@ public class SettingsActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                System.out.println("Came "+user);
+
                 user.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
+                            Toast.makeText(SettingsActivity.this, "Deleted", Toast.LENGTH_SHORT).show();
+
+
                             usersDb.child(currentUid).removeValue();
-                            Intent intent = new Intent(SettingsActivity.this, ChooseLoginRegistrationActivity.class);
+                            Intent intent = new Intent(SettingsActivity.this, LoginActivity.class);
                             startActivity(intent);
                             finish();
+
+
                         } else {
                             task.getException();
                         }
@@ -170,7 +178,6 @@ public class SettingsActivity extends AppCompatActivity {
 
             }
         });
-
 
     }
 

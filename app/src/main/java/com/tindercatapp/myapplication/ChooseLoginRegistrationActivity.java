@@ -1,8 +1,15 @@
 package com.tindercatapp.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.location.Address;
+import android.location.Criteria;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,6 +18,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -32,7 +41,10 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.common.api.Scope;
+import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -57,9 +69,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class ChooseLoginRegistrationActivity extends AppCompatActivity {
@@ -70,9 +86,11 @@ public class ChooseLoginRegistrationActivity extends AppCompatActivity {
     private DatabaseReference currentUserDb;
 
     private static final int RC_GOOGLE_SIGN_IN = 123;
+    private static final int ACCESS_COARSE_LOCATION = 0;
     private GoogleSignInClient mGoogleSignInClient;
     private com.google.android.gms.common.SignInButton mSignInButton;
     private CallbackManager mCallbackManager;
+    private GoogleMap mMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,11 +122,13 @@ public class ChooseLoginRegistrationActivity extends AppCompatActivity {
             }
         }); /* Facebook onCreate ends here */
 
+
         /* Google Sign In onCreate */
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .requestProfile()
+                .requestScopes(new Scope(Scopes.PLUS_ME))
                 .build();
 
         // Build a GoogleSignInClient with the options specified by gso.
@@ -119,6 +139,15 @@ public class ChooseLoginRegistrationActivity extends AppCompatActivity {
                 googleSignIn();
             }
         }); /* Google Sign In onCreate ends here */
+
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            Log.d("OnCreate", "Location Permission granted");
+//            mMap = new GoogleMap();
+//            mMap.setMyLocationEnabled(true);
+        } else {
+            ActivityCompat.requestPermissions(this,new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+        }
 
     } // onCreate() ends
 
@@ -237,26 +266,6 @@ public class ChooseLoginRegistrationActivity extends AppCompatActivity {
         }
     }
 
-    private void registerUserWithFaceBook (final FirebaseUser user) {
-        currentUserDb = FirebaseDatabase.getInstance().getReference().child("Cats").child(user.getUid());
-        Map <String, Object> userInfo = new HashMap<>();
-        userInfo.put("name", user.getDisplayName());
-
-        try {
-            currentUserDb.updateChildren(userInfo, new DatabaseReference.CompletionListener() {
-                @Override
-                public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
-                    Log.d("TAG", "Name: " + user.getDisplayName() + ", ID: " + user.getUid() + ", Email: " + user.getEmail());
-                    Toast.makeText(ChooseLoginRegistrationActivity.this, "Database updated with Facebook data", Toast.LENGTH_SHORT).show();
-                }
-            });
-        } catch (Exception e) {
-            Log.e("TAG", "Registering to Firebase with Facebook failed: " + e);
-        }
-    } // Registering with Facebook ends
-    /* Facebook Methods end here */
-
-
     /* Google Sign In methods */
     private void googleSignIn() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
@@ -271,9 +280,12 @@ public class ChooseLoginRegistrationActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            Log.i("FIREBASE: ", "Sign In With Google Credentials: success");
+                            Log.d("FIREBASE: ", "Sign In With Google Credentials: success");
                             Log.i("GOOGLEACCOUNT", "Your name:" + account.getGivenName());
-                            Log.i("GOOGLEACCOUNT", "Your scopes:" + account.getGrantedScopes());
+                            Log.d("GOOGLEACCOUNT", "Your granted scopes:" + account.getGrantedScopes());
+                            Log.d("GOOGLEACCOUNT", "Your Requested scopes:" + account.getRequestedScopes());
+
+                            Log.d("GOOGLEACCOUNT", account.toString());
 
                             user = mAuth.getCurrentUser();
                             Log.i("ID", "User ID:" + user.getUid());
@@ -297,10 +309,24 @@ public class ChooseLoginRegistrationActivity extends AppCompatActivity {
                                     } else {
                                         Log.i("NAME", "User has a name assigned. Therefore, this is not users's first Sign In.");
                                     }
+                                    if (!dataSnapshot.hasChild("location")) {
+                                        Log.i("LOCATION", "User has not provided location. Performing API call");
+                                        String city = getLocation();
+
+                                        if (city != null) {
+                                            userInfo.put("location", city);
+                                        } else {
+                                            Log.d("LOCATION", "Could not retrieve city");
+                                        }
+
+                                    } else {
+                                        Log.i("LOCATION", "User has already provided location. Skipping Geo API call.");
+                                    }
                                     if (userInfo.size() < 1 ) {
                                         Log.i("USERINFO", "No new values to add to users account:" + userInfo.size());
                                         return;
                                     } else {
+                                        Log.i("USERINFO", userInfo.size() + " new values to add to DB");
                                         try {
                                             currentUserDb.updateChildren(userInfo, new DatabaseReference.CompletionListener() {
                                                 @Override
@@ -317,6 +343,10 @@ public class ChooseLoginRegistrationActivity extends AppCompatActivity {
                                 public void onCancelled(@NonNull DatabaseError databaseError) {
                                 }
                             }); /* Profile Data check Ends */
+                            Intent intent = new Intent(ChooseLoginRegistrationActivity.this, MainActivity.class);
+                            startActivity(intent);
+                            finish();
+
 
                         } else {
                             Log.w("FIREBASE", "Sign In With Google Credentials: failure. Exception: ", task.getException());
@@ -423,6 +453,81 @@ public class ChooseLoginRegistrationActivity extends AppCompatActivity {
         queue.add(imageRequest);
     }
     /* Facebook/Google pic API ends here */
+
+    private String getLocation() {
+        Log.d("LOCATION", "Method called");
+        String city = null;
+        try{
+            LocationManager locationManager = (LocationManager) this.getSystemService(LOCATION_SERVICE);
+            Log.d("LOCATIONMANAGER", locationManager.toString());
+            Criteria criteria = new Criteria();
+            criteria.setAccuracy(Criteria.ACCURACY_COARSE);
+
+
+            Log.d("LOCATION", "RETRIEVING PROVIDERS:");
+            List<String> providers = locationManager.getProviders(false);
+            for(int i=0; i<providers.size(); i++){
+                Log.d("PROVIDER", + i + ": " + providers.get(i));
+            }
+
+            String provider = locationManager.getBestProvider(criteria, false);
+            if (provider == null) {
+                Log.e("PROVIDER", " NULL");
+                return city;
+            }
+            Log.d("PROVIDER", provider.toString());
+            System.out.println("LOCATION BEST PROVIDER: " + provider);
+            if (ActivityCompat.checkSelfPermission( this, android.Manifest.permission.ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED &&
+                    ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+            {
+                Log.d("LOCATION", "Permissions not granted");
+                // Permission is not granted
+                // Request permission
+                ActivityCompat.requestPermissions(
+                        this,
+                        new String [] { android.Manifest.permission.ACCESS_COARSE_LOCATION },
+                        ACCESS_COARSE_LOCATION);
+            } else {
+                Log.d("LOCATION", "Permissions Granted");
+            }
+
+            Location location = locationManager.getLastKnownLocation(provider);
+            if (location == null) {
+                Log.e("LOCATION", "Could not retrieve Location");
+                return city;
+            }
+            Log.d("LOCATION RETRIEVED", location.toString());
+
+            double latitude = location.getLatitude();
+            double longitude = location.getLongitude();
+
+            Log.d("LOCATION", "latitude:" + latitude);
+            Log.d("LOCATION", "longitude:" + longitude);
+
+            Geocoder geoCoder = new Geocoder(ChooseLoginRegistrationActivity.this, Locale.getDefault());
+            StringBuilder builder = new StringBuilder();
+            try {
+               List <Address> address = geoCoder.getFromLocation(latitude, longitude, 1);
+               String addressLine = address.get(0).getAddressLine(0);
+               Log.d("LOCATION", "address: " + address);
+               Log.d("LOCATION", "address.get(0): " + address.get(0));
+               Log.d("LOCATION", "address.get(0).getAddressLine(0): " + address.get(0).getAddressLine(0));
+                List<String> elephantList = Arrays.asList(addressLine.split(","));
+                city = elephantList.get(2);
+
+               Log.d("LOCATION", "City: " + city);
+            } catch (IOException e) {
+                Log.e("LOCATION", "IOException: " + e.toString());
+            }
+            catch (NullPointerException e) {
+                Log.e("LOCATION", "NullPointerException: " + e.toString());
+            }
+        } catch (Exception e) {
+            Log.e("LOCATION", "Exception: " + e.toString());
+            e.printStackTrace();
+        }
+        return city.trim();
+    }
 
     @Override
     protected void onStart() {

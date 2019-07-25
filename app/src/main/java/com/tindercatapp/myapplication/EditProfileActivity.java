@@ -12,6 +12,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -200,10 +201,30 @@ public class EditProfileActivity extends AppCompatActivity {
         bio = mBioField.getText().toString();
 
         Map userInfo = new HashMap();
-        userInfo.put("name", name);
+        if(name != null && name.length() > 1) {
+            userInfo.put("name", name);
+        } else {
+            Toast.makeText(this, "Please Enter a Valid name", Toast.LENGTH_SHORT);
+        }
+
         userInfo.put("location", location);
-        userInfo.put("sex", sex);
-        userInfo.put("age", age);
+        if (sex != null) {
+            userInfo.put("sex", sex);
+        } else {
+            Toast.makeText(this, "Please Choose your gender", Toast.LENGTH_SHORT);
+        }
+        try {
+            int numberAge = Integer.parseInt(age);
+            if(numberAge > -1 && numberAge < 33) {
+                userInfo.put("age", age);
+            } else {
+                Toast.makeText(this, "Please Enter a cat age between 0 and 32(inc)", Toast.LENGTH_SHORT);
+            }
+        } catch (IllegalStateException e) {
+            Log.d("EDIT", e.toString());
+            Toast.makeText(this, "Please Enter a cat age between 0 and 32(inc)", Toast.LENGTH_SHORT);
+        }
+
         userInfo.put("bio", bio);
         databaseReference.updateChildren(userInfo);
 

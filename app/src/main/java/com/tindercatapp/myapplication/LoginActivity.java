@@ -90,4 +90,9 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
+    public void navChooseLoginRegistration(View view) {
+        Intent intent = new Intent(LoginActivity.this, ChooseLoginRegistrationActivity.class);
+        startActivity(intent);
+        finish();
+    }
 }
