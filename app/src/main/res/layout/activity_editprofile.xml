@@ -19,10 +19,23 @@
         android:background="@color/grey"
         />
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="30dp"
+        >
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/light_grey"
+        android:layout_marginTop="30dp"
+        >
+
     <ImageButton
         android:id="@+id/profileImage"
         android:layout_width="match_parent"
-        android:layout_below="@+id/topPanel"
         android:layout_height="291dp"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
@@ -143,6 +156,15 @@
         android:layout_height="wrap_content"
         android:inputType="textMultiLine"
         />
+        <LinearLayout
+            android:layout_below="@id/bio"
+            android:layout_width="match_parent"
+            android:layout_height="200dp">
+
+        </LinearLayout>
+    </RelativeLayout>
+    </ScrollView>
+
     <LinearLayout
         style="?android:buttonBarStyle"
         android:id="@+id/buttonBarBottom"
@@ -175,5 +197,6 @@
             android:text="confirm"
             />
     </LinearLayout>
+
 
 </RelativeLayout>
