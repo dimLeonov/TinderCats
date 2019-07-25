@@ -147,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s){
-                        sendNotification("Congratulations","You have a new match",MatchesActivity.class);
+                        //sendNotification("Congratulations","You have a new match",MatchesActivity.class);
                     }
 
                     @Override
