@@ -520,6 +520,7 @@ public class ChooseLoginRegistrationActivity extends AppCompatActivity {
 
             double latitude = location.getLatitude();
             double longitude = location.getLongitude();
+
             Log.d("LOCATION", "latitude:" + latitude);
             Log.d("LOCATION", "longitude:" + longitude);
 
@@ -532,7 +533,7 @@ public class ChooseLoginRegistrationActivity extends AppCompatActivity {
                Log.d("LOCATION", "address.get(0): " + address.get(0));
                Log.d("LOCATION", "address.get(0).getAddressLine(0): " + address.get(0).getAddressLine(0));
                 List<String> elephantList = Arrays.asList(addressLine.split(","));
-                city = elephantList.get(2) + ", " + elephantList.get(3);
+                city = elephantList.get(2);
 
                Log.d("LOCATION", "City: " + city);
             } catch (IOException e) {
@@ -545,7 +546,7 @@ public class ChooseLoginRegistrationActivity extends AppCompatActivity {
             Log.e("LOCATION", "Exception: " + e.toString());
             e.printStackTrace();
         }
-        return city;
+        return city.trim();
     }
 
     @Override
