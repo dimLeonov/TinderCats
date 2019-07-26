@@ -135,13 +135,12 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:orientation="horizontal"
+                        android:orientation="vertical"
                         android:paddingLeft="10dp">
 
                         <TextView
                             android:layout_width="344dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="2"
                             android:text="Like Sounds"
                             android:textColor="@color/black"
                             android:textSize="18dp" />
@@ -151,16 +150,16 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
-                            android:layout_weight="5"
-                            android:orientation="vertical"
+                            android:orientation="horizontal"
                             android:paddingLeft="10dp">
 
 
                             <RadioGroup
                                 android:id="@+id/nopeSounds"
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1">
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                >
 
                                 <RadioButton
                                     android:id="@+id/nope1"
@@ -198,15 +197,14 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="134dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:orientation="horizontal"
+                        android:orientation="vertical"
                         android:paddingLeft="10dp">
 
                         <TextView
                             android:layout_width="344dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="2"
                             android:text="Nope Sounds"
                             android:textColor="@color/black"
                             android:textSize="18dp" />
@@ -216,8 +214,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
-                            android:layout_weight="5"
-                            android:orientation="vertical"
+                            android:orientation="horizontal"
                             android:paddingLeft="10dp">
 
 
@@ -225,7 +222,8 @@
                                 android:id="@+id/happySounds"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:layout_weight="1">
+                                android:orientation="horizontal"
+                                >
 
                                 <RadioButton
                                     android:id="@+id/happy1"

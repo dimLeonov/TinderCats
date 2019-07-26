@@ -194,8 +194,9 @@ public class EditProfileActivity extends AppCompatActivity {
         Map userInfo = new HashMap();
         int checkedSex = mSexField.getCheckedRadioButtonId();
         RadioButton radioButton = (RadioButton) mSexField.findViewById(checkedSex);
-        sex = radioButton.getText().toString();
-
+        if (radioButton != null) {
+            sex = radioButton.getText().toString();
+        }
 
 
         if (mAgeField != null) {

@@ -207,7 +207,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     Log.v("TAG", "Current datasnapshot: " + dataSnapshot.getValue());
-                    if (!dataSnapshot.hasChild("sex") || !dataSnapshot.hasChild("profileImageUrl")
+                    if (!dataSnapshot.hasChild("sex")
                             || !dataSnapshot.hasChild("age") || !dataSnapshot.hasChild("name")
                             || !dataSnapshot.hasChild("location")) {
                         Log.w("TAG", "User has missing information. Proceed with prompting to add info.");
