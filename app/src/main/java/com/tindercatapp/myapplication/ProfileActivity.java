@@ -40,6 +40,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     private EditText mNameField, mLocationField, mSexField, mAgeField, mBioField;
     private ImageView mProfileImage;
+    private String currentUid;
     private String userId, name, location, sex, age, bio, profileImageUrl;
 
     @Override
@@ -58,7 +59,9 @@ public class ProfileActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
+
         databaseReference = FirebaseDatabase.getInstance().getReference().child("Cats").child(userId);
+
 
         setUserInfo();
 
@@ -70,19 +73,22 @@ public class ProfileActivity extends AppCompatActivity {
 
         // Build a GoogleSignInClient with the options specified by gso.
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
+
     }
 
     private void setUserInfo() {
+
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists() && dataSnapshot.getChildrenCount() > 0) {
                     Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();
-
-                    if (map.get("name") != null) {
+                    if (map.get("name") != null && (map.get("name").toString()).length() > 1){
                         name = map.get("name").toString();
                         mNameField.setText(name);
                     }
+
                     if (map.get("location") != null) {
                         location = map.get("location").toString();
                         mLocationField.setText(location);

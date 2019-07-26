@@ -124,8 +124,8 @@ public class EditProfileActivity extends AppCompatActivity {
                         });
                     }
                 });
-            }
-            else{
+            } else {
+                Toast.makeText(this, "No image selected?", Toast.LENGTH_SHORT);
                 finish();
             }
 
@@ -150,10 +150,9 @@ public class EditProfileActivity extends AppCompatActivity {
                     }
                     if (map.get("sex") != null) {
                         sex = map.get("sex").toString();
-                        if(sex.contains("Male")){
+                        if (sex.contains("Male")) {
                             radioButtonM.setChecked(true);
-                        }
-                        else{
+                        } else {
                             radioButtonF.setChecked(true);
                         }
 
@@ -192,16 +191,31 @@ public class EditProfileActivity extends AppCompatActivity {
     public void saveUserInformation() {
         name = mNameField.getText().toString();
         location = mLocationField.getText().toString();
-
+        Map userInfo = new HashMap();
         int checkedSex = mSexField.getCheckedRadioButtonId();
         RadioButton radioButton = (RadioButton) mSexField.findViewById(checkedSex);
         sex = radioButton.getText().toString();
 
-        age = mAgeField.getText().toString();
+
+
+        if (mAgeField != null) {
+            age = mAgeField.getText().toString();
+            try {
+                int numberAge = Integer.parseInt(age);
+                if (numberAge > -1 && numberAge < 33) {
+                    userInfo.put("age", age);
+                } else {
+                    Toast.makeText(this, "Please Enter a cat age between 0 and 32(inc)", Toast.LENGTH_SHORT);
+                }
+            } catch (IllegalStateException e) {
+                Log.d("EDIT", e.toString());
+                Toast.makeText(this, "Please Enter a cat age between 0 and 32(inc)", Toast.LENGTH_SHORT);
+            }
+        }
         bio = mBioField.getText().toString();
 
-        Map userInfo = new HashMap();
-        if(name != null && name.length() > 1) {
+
+        if (name != null && name.length() > 1) {
             userInfo.put("name", name);
         } else {
             Toast.makeText(this, "Please Enter a Valid name", Toast.LENGTH_SHORT);
@@ -213,17 +227,7 @@ public class EditProfileActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this, "Please Choose your gender", Toast.LENGTH_SHORT);
         }
-        try {
-            int numberAge = Integer.parseInt(age);
-            if(numberAge > -1 && numberAge < 33) {
-                userInfo.put("age", age);
-            } else {
-                Toast.makeText(this, "Please Enter a cat age between 0 and 32(inc)", Toast.LENGTH_SHORT);
-            }
-        } catch (IllegalStateException e) {
-            Log.d("EDIT", e.toString());
-            Toast.makeText(this, "Please Enter a cat age between 0 and 32(inc)", Toast.LENGTH_SHORT);
-        }
+
 
         userInfo.put("bio", bio);
         databaseReference.updateChildren(userInfo);
@@ -231,10 +235,14 @@ public class EditProfileActivity extends AppCompatActivity {
     }
 
     public void saveProfileEdit(View view) {
+
+
         saveUserInformation();
+
         Intent intent = new Intent(EditProfileActivity.this, ProfileActivity.class);
         startActivity(intent);
         finish();
+
     }
 
     public void navProfilePage(View view) {

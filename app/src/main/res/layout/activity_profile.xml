@@ -13,6 +13,7 @@
         style="?android:buttonBarStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/_10dp"
         android:layout_alignParentTop="true"
         android:background="@color/grey">
 
@@ -53,7 +54,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="40dp"
+        android:gravity="center_horizontal"
         android:background="@color/light_grey">
 
     <ImageView
@@ -61,7 +63,8 @@
         android:layout_width="wrap_content"
         android:layout_height="291dp"
         android:layout_marginLeft="30dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="10dp"
+        android:foregroundGravity="center_horizontal"
         android:layout_marginRight="30dp"
         android:onClick="navBioPage"
         app:srcCompat="@drawable/ic_launcher_web" />

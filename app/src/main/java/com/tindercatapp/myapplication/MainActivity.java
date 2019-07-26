@@ -211,7 +211,13 @@ public class MainActivity extends AppCompatActivity {
                             || !dataSnapshot.hasChild("age") || !dataSnapshot.hasChild("name")
                             || !dataSnapshot.hasChild("location")) {
                         Log.w("TAG", "User has missing information. Proceed with prompting to add info.");
-                        Toast.makeText(MainActivity.this,"You have data missing. Please Update your profile.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this,"Please update your profile.", Toast.LENGTH_SHORT).show();
+
+
+                        Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
+                        startActivity(intent);
+                        finish();
+
                     } else {
                         Log.i("TAG", "Current profile ready for Swiping. Enjoy!");
                     }

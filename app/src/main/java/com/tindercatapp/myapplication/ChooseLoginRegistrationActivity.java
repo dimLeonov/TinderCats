@@ -309,6 +309,12 @@ public class ChooseLoginRegistrationActivity extends AppCompatActivity {
                                     } else {
                                         Log.i("NAME", "User has a name assigned. Therefore, this is not users's first Sign In.");
                                     }
+
+                                    if (!dataSnapshot.hasChild("age")) {
+                                        //if no age field exists, create with no value to prevent null array exceptions
+                                        userInfo.put("age", "0");
+                                    }
+
                                     if (!dataSnapshot.hasChild("location")) {
                                         Log.i("LOCATION", "User has not provided location. Performing API call");
                                         String city = getLocation();

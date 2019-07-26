@@ -145,6 +145,29 @@
             android:buttonTint="@color/colorPrimary"
             />
     </RadioGroup>
+            <ImageButton
+                android:id="@+id/profileImage"
+                android:layout_below="@id/bio"
+                android:layout_width="150dp"
+                android:layout_height="80dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="30dp"
+                android:src="@mipmap/ic_launcher"
+                android:foreground="@color/light_grey"
+                />
+            <TextView
+                android:id="@+id/add_image"
+                android:layout_below="@id/bio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="30dp"
+                android:text="Add photo..."
+                android:textColor="@color/black"
+                android:textSize="17dp"
+                android:clickable="false"
+                />
 
             <Button
                 android:id="@+id/register"
